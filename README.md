@@ -1,0 +1,1525 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bestellung REWE – Sanremo</title>
+
+<style>
+:root{
+  --bg:#f3f4f6; --card:#fff; --text:#0f172a; --muted:#64748b;
+  --line:#e5e7eb; --line2:#cbd5e1; --accent:#111827;
+  --ok:#16a34a; --warn:#f59e0b; --danger:#dc2626;
+  --r:14px; --tap:46px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--text)}
+header{position:sticky;top:0;z-index:10;background:#fff;border-bottom:1px solid var(--line);padding:10px;padding-top:calc(10px + env(safe-area-inset-top))}
+nav{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+nav button{border:1px solid var(--line2);background:#f1f5f9;padding:10px 14px;border-radius:999px;font-weight:900;cursor:pointer;min-height:40px}
+nav button.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+main{max-width:1150px;margin:0 auto;padding:12px}
+section{display:none}
+section.active{display:block}
+
+.grid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:920px){.grid.two{grid-template-columns:1.05fr .95fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+h2{margin:0 0 10px;font-size:16px}
+label{font-size:12px;color:var(--muted);font-weight:900;display:block;margin:10px 0 6px}
+input,select,textarea{width:100%;min-height:var(--tap);padding:12px;border-radius:12px;border:1px solid var(--line2);background:#fff;font-size:15px;outline:none}
+textarea{min-height:90px;resize:vertical}
+.row{display:grid;gap:10px}
+.row.cols{grid-template-columns:1fr}
+@media(min-width:720px){.row.cols{grid-template-columns:1fr 1fr}}
+
+.btn{min-height:var(--tap);padding:12px 14px;border-radius:12px;border:1px solid var(--line2);background:#fff;font-weight:1000;cursor:pointer}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}
+.btn.warn{background:var(--warn);border-color:var(--warn);color:#111}
+.btn.danger{background:var(--danger);border-color:var(--danger);color:#fff}
+.btn.small{min-height:38px;padding:8px 10px;font-size:12px;border-radius:12px}
+
+.flex{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.muted{color:var(--muted);font-size:12px}
+.hr{height:1px;background:var(--line);margin:12px 0}
+
+.scroll{overflow:auto;-webkit-overflow-scrolling:touch;border-radius:12px}
+.maxH{max-height:520px}
+@media(max-width:520px){.maxH{max-height:52vh}}
+
+table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+thead th{background:#f8fafc;color:#334155;text-align:left;font-size:12px;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--line);padding:10px}
+tbody td{padding:10px;border-bottom:1px solid var(--line);font-size:13px;vertical-align:top}
+tbody tr:last-child td{border-bottom:none}
+.right{text-align:right}
+
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border:1px solid var(--line2);border-radius:999px;background:#fff;font-size:12px;font-weight:1000}
+.chip{display:inline-flex;padding:4px 8px;border:1px solid var(--line2);border-radius:999px;font-size:11px;font-weight:1000;background:#fff;margin:2px 6px 0 0}
+
+/* XL */
+.xlGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.xlTile{border:2px solid var(--line2);border-radius:16px;background:#fff;padding:14px}
+.xlFlavor{font-weight:1100;font-size:18px}
+.xlBig{font-size:54px;font-weight:1200;letter-spacing:-1px;margin-top:10px}
+.xlMeta{color:var(--muted);font-weight:900;font-size:12px;margin-top:6px}
+.xlActions{display:flex;gap:10px;margin-top:12px}
+.xlBtn{flex:1;min-height:70px;border-radius:14px;border:2px solid var(--line2);background:#fff;font-weight:1100;font-size:18px;cursor:pointer}
+.xlBtn.plus{background:var(--ok);border-color:var(--ok);color:#fff}
+
+/* Label */
+.labelBox{border:1px dashed var(--line2);border-radius:12px;padding:12px;background:#fff}
+.labelTitle{font-weight:1200;font-size:16px}
+.labelSmall{font-size:11px;color:#0f172a}
+.labelTiny{font-size:10px;color:#111827}
+.labelLine{font-size:11px;line-height:1.25;margin-top:6px}
+.warnLine{border:1px solid rgba(245,158,11,.55);background:rgba(245,158,11,.12);padding:6px;border-radius:10px;font-size:10px;font-weight:900;margin-top:8px}
+
+/* Print */
+@media print{
+  header,.no-print{display:none!important}
+  body{background:#fff;color:#000}
+}
+</style>
+</head>
+
+<body>
+<header class="no-print">
+  <nav>
+    <button class="active" data-tab="order" onclick="UI.tab('order')">Bestellung REWE</button>
+    <button data-tab="prod" onclick="UI.tab('prod')">Produktion</button>
+    <button data-tab="xl" onclick="UI.tab('xl')">Produktion XL</button>
+    <button data-tab="recipes" onclick="UI.tab('recipes')">Rezepte (LMIV)</button>
+    <button data-tab="labels" onclick="UI.tab('labels')">Etiketten</button>
+    <button data-tab="stats" onclick="UI.tab('stats')">Statistik</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ORDER -->
+  <section id="tab-order" class="active">
+    <div class="grid two">
+
+      <div class="card">
+        <h2>Bestellung</h2>
+
+        <div class="row cols">
+          <div>
+            <label>Datum</label>
+            <input type="date" id="oDate">
+          </div>
+          <div>
+            <label>Kunde</label>
+            <input id="oCustomer" value="REWE">
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row cols">
+          <div>
+            <label>Größe</label>
+            <select id="oSize">
+              <option value="750g">750 g</option>
+              <option value="170g">170 g</option>
+            </select>
+          </div>
+          <div>
+            <label>Sorte</label>
+            <select id="oFlavor"></select>
+          </div>
+        </div>
+
+        <label>Menge (0–100)</label>
+        <select id="oQty"></select>
+
+        <div class="flex" style="margin-top:12px;">
+          <button class="btn primary" id="oAdd">+ Position</button>
+          <button class="btn" id="oClear">Leeren</button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="scroll maxH" style="border:1px solid var(--line);">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:110px;">Größe</th>
+                <th>Sorte</th>
+                <th class="right" style="width:120px;">Menge</th>
+                <th class="right" style="width:90px;">Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="oLines"></tbody>
+          </table>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <span class="pill" id="oPillFlavors">Sorten: 0</span>
+          <span class="pill" id="oPill750">750g: 0</span>
+          <span class="pill" id="oPill170">170g: 0</span>
+          <span class="pill" id="oPillKg">KG: 0.00</span>
+          <span class="pill" id="oPillBuckets">Baldes: 0.00 (~0)</span>
+        </div>
+
+        <label style="margin-top:12px;">Notizen (optional)</label>
+        <textarea id="oNotes" placeholder="z.B. bitte bis 09:00 liefern..."></textarea>
+
+        <div class="flex" style="margin-top:12px;">
+          <button class="btn ok" id="oSave">Speichern</button>
+          <span class="muted" id="oHint"></span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Produktion – Überblick (Datum)</h2>
+
+        <div class="row cols">
+          <div>
+            <label>Datum</label>
+            <input type="date" id="pDate">
+          </div>
+          <div class="flex" style="align-items:flex-end;">
+            <button class="btn primary" id="pRefresh">Aktualisieren</button>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <span class="pill" id="pPill750">750g: 0</span>
+          <span class="pill" id="pPill170">170g: 0</span>
+          <span class="pill" id="pPillKg">KG: 0.00</span>
+          <span class="pill" id="pPillBuckets">Baldes: 0.00 (~0)</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="scroll maxH" style="border:1px solid var(--line);">
+          <table>
+            <thead>
+              <tr>
+                <th>Sorte</th>
+                <th class="right">750g</th>
+                <th class="right">170g</th>
+                <th class="right">KG</th>
+                <th class="right">Baldes</th>
+                <th class="right">Baldes (fazer)</th>
+              </tr>
+            </thead>
+            <tbody id="pBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROD -->
+  <section id="tab-prod">
+    <div class="card">
+      <h2>Produktion</h2>
+
+      <div class="row cols">
+        <div>
+          <label>Datum</label>
+          <input type="date" id="prodDate">
+        </div>
+        <div class="flex" style="align-items:flex-end;">
+          <button class="btn primary" id="prodRefresh">Aktualisieren</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="flex">
+        <span class="pill" id="prodPill750">750g: 0</span>
+        <span class="pill" id="prodPill170">170g: 0</span>
+        <span class="pill" id="prodPillKg">KG: 0.00</span>
+        <span class="pill" id="prodPillBuckets">Baldes: 0.00 (~0)</span>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="scroll maxH" style="border:1px solid var(--line);">
+        <table>
+          <thead>
+            <tr>
+              <th>Sorte</th>
+              <th class="right">750g</th>
+              <th class="right">170g</th>
+              <th class="right">KG</th>
+              <th class="right">Baldes</th>
+              <th class="right">Baldes (fazer)</th>
+            </tr>
+          </thead>
+          <tbody id="prodBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- XL -->
+  <section id="tab-xl">
+    <div class="card">
+      <h2>Produktion XL (Luvas)</h2>
+
+      <div class="row cols">
+        <div>
+          <label>Datum</label>
+          <input type="date" id="xlDate">
+        </div>
+        <div class="flex" style="align-items:flex-end;">
+          <button class="btn primary" id="xlRefresh">Anzeigen</button>
+          <button class="btn danger" id="xlReset">Reset (dia)</button>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="flex">
+        <span class="pill" id="xlPillKg">KG: 0.00</span>
+        <span class="pill" id="xlPillBuckets">Baldes: 0.00 (~0)</span>
+        <span class="pill" id="xlPillDone">Feitos: 0</span>
+        <span class="pill" id="xlPillLeft">Faltam: 0</span>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="xlGrid" id="xlGrid"></div>
+    </div>
+  </section>
+
+  <!-- RECIPES -->
+  <section id="tab-recipes">
+    <div class="grid two">
+
+      <div class="card">
+        <h2>Rezept pro Sorte (LMIV)</h2>
+
+        <div class="row cols">
+          <div>
+            <label>Sorte</label>
+            <select id="rFlavor"></select>
+          </div>
+          <div>
+            <label>Produktbezeichnung</label>
+            <input id="rDenom" placeholder="z.B. Milcheis / Sorbet">
+          </div>
+        </div>
+
+        <label>Aufbewahrung (Etikett)</label>
+        <input id="rStorage" placeholder="z.B. Bei -18°C lagern. Nach dem Auftauen nicht wieder einfrieren.">
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <button class="btn primary" id="rAddLine">+ Zutat</button>
+          <button class="btn" id="rClear">Leeren</button>
+          <button class="btn ok" id="rSave">Rezept speichern</button>
+          <span class="muted" id="rHint"></span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="scroll maxH" style="border:1px solid var(--line);">
+          <table>
+            <thead>
+              <tr>
+                <th>Zutat</th>
+                <th class="right" style="width:190px;">Menge (g)</th>
+                <th class="right" style="width:90px;">Aktion</th>
+              </tr>
+            </thead>
+            <tbody id="rBody"></tbody>
+          </table>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <span class="pill" id="rPillTotal">Gesamt: 0 g</span>
+          <span class="pill" id="rPillStatus">Nährwerte: OK</span>
+          <span class="pill" id="rPillAzo">AZO: nein</span>
+        </div>
+
+        <div class="hr"></div>
+        <div id="rPreview"></div>
+      </div>
+
+      <div class="card">
+        <h2>Zutaten-Datenbank</h2>
+        <div class="muted">Werte pro <b>100 g</b>. Allergene nach LMIV.</div>
+
+        <div class="hr"></div>
+
+        <div class="row cols">
+          <div>
+            <label>Name (Deutsch)</label>
+            <input id="iName" placeholder="z.B. Vollmilch 3,5%">
+          </div>
+          <div>
+            <label>Kann Spuren enthalten (optional)</label>
+            <input id="iTraces" placeholder="z.B. EI, SOJA, SCHALENFRÜCHTE">
+          </div>
+        </div>
+
+        <label>Allergene (14) – auswählen</label>
+        <div id="iAllBox" class="scroll" style="border:1px solid var(--line2);padding:10px;border-radius:12px;max-height:170px;"></div>
+
+        <div class="row cols">
+          <div>
+            <label>Zusatzstoff-Klasse (optional)</label>
+            <select id="iClass">
+              <option value="">—</option>
+              <option value="Farbstoff">Farbstoff</option>
+              <option value="Stabilisator">Stabilisator</option>
+              <option value="Emulgator">Emulgator</option>
+              <option value="Konservierungsstoff">Konservierungsstoff</option>
+              <option value="Säuerungsmittel">Säuerungsmittel</option>
+              <option value="Aroma">Aroma</option>
+            </select>
+          </div>
+          <div>
+            <label>E-Nummer / Zusatzstoff-Name (optional)</label>
+            <input id="iE" placeholder="z.B. E471 / E129 / Beta-Carotin">
+          </div>
+        </div>
+
+        <div class="row cols">
+          <div>
+            <label>AZO-Warnhinweis? (Auto)</label>
+            <select id="iAzo">
+              <option value="auto">Auto</option>
+              <option value="no">Nein</option>
+              <option value="yes">Ja</option>
+            </select>
+          </div>
+          <div>
+            <label>Datenquelle / Notiz (optional)</label>
+            <input id="iSource" placeholder="z.B. Etikett Foto / Lieferant Spec">
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="row cols">
+          <div><label>Energie (kJ)</label><input id="nKj" type="number" step="0.1" value="0"></div>
+          <div><label>Energie (kcal)</label><input id="nKcal" type="number" step="0.1" value="0"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Fett (g)</label><input id="nFat" type="number" step="0.1" value="0"></div>
+          <div><label>davon gesättigte Fettsäuren (g)</label><input id="nSat" type="number" step="0.1" value="0"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Kohlenhydrate (g)</label><input id="nCarb" type="number" step="0.1" value="0"></div>
+          <div><label>davon Zucker (g)</label><input id="nSug" type="number" step="0.1" value="0"></div>
+        </div>
+        <div class="row cols">
+          <div><label>Eiweiß (g)</label><input id="nPro" type="number" step="0.1" value="0"></div>
+          <div><label>Salz (g)</label><input id="nSalt" type="number" step="0.001" value="0"></div>
+        </div>
+
+        <div class="flex" style="margin-top:12px;">
+          <button class="btn ok" id="iSave">Zutat speichern</button>
+          <button class="btn" id="iReset">Leeren</button>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="scroll maxH" style="border:1px solid var(--line);padding:10px;">
+          <div id="iList"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- LABELS -->
+  <section id="tab-labels">
+    <div class="grid two">
+      <div class="card">
+        <h2>Etiketten</h2>
+
+        <div class="row cols">
+          <div>
+            <label>Sorte</label>
+            <select id="lFlavor"></select>
+          </div>
+          <div>
+            <label>Nettofüllmenge</label>
+            <select id="lSize">
+              <option value="170">170 g</option>
+              <option value="750">750 g</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row cols">
+          <div>
+            <label>MHD</label>
+            <input id="lMhd" placeholder="z.B. 01.06.2026">
+          </div>
+          <div>
+            <label>Charge / Los</label>
+            <input id="lLot" placeholder="z.B. 25-01">
+          </div>
+        </div>
+
+        <label>Zusatz-Hinweise (optional)</label>
+        <input id="lExtra" placeholder="optional">
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <button class="btn primary" id="lBuild">Vorschau aktualisieren</button>
+          <button class="btn ok" id="lPrint">🖨️ Drucken</button>
+          <span class="muted" id="lHint"></span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="muted">
+          Etikett zieht Daten aus <b>Rezepte (LMIV)</b>. Statistik zählt <b>nur</b> Druck.
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Vorschau</h2>
+        <div id="labelPreview" class="labelBox"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section id="tab-stats">
+    <div class="grid two">
+      <div class="card">
+        <h2>Statistik (nur Druck)</h2>
+
+        <div class="row cols">
+          <div>
+            <label>Jahr</label>
+            <select id="sYear"></select>
+          </div>
+          <div>
+            <label>Monat</label>
+            <select id="sMonth"></select>
+          </div>
+        </div>
+
+        <div class="row cols">
+          <div>
+            <label>Sorte (optional)</label>
+            <select id="sFlavor"></select>
+          </div>
+          <div class="flex" style="align-items:flex-end;">
+            <button class="btn primary" id="sRefresh">Aktualisieren</button>
+            <button class="btn" id="sPrint">🖨️ Drucken</button>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="flex">
+          <span class="pill" id="sPill170">170g: 0</span>
+          <span class="pill" id="sPill750">750g: 0</span>
+          <span class="pill" id="sPillKg">KG: 0.00</span>
+          <span class="pill" id="sPillBuckets">Baldes: 0.00 (~0)</span>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="muted" id="sHint"></div>
+      </div>
+
+      <div class="card">
+        <h2>Pro Sorte</h2>
+        <div class="scroll maxH" style="border:1px solid var(--line);">
+          <table>
+            <thead>
+              <tr>
+                <th>Sorte</th>
+                <th class="right">170g</th>
+                <th class="right">750g</th>
+                <th class="right">KG</th>
+                <th class="right">Baldes</th>
+              </tr>
+            </thead>
+            <tbody id="sBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+/* PARTE 2 vai aqui em baixo (colar já a seguir) */
+(() => {
+  // ====== SETTINGS
+  const DB_KEY = "SANREMO_FINAL_V1";
+  const PROG_KEY = "SANREMO_XL_PROGRESS_FINAL_V1";
+  const KG_750 = 0.75, KG_170 = 0.17, BUCKET_KG = 6;
+
+  const DEFAULT_FLAVORS = [
+    "Stracciatella","Amarena Kirsch","Vanille","Spaghetti","Toffifee","Cookies",
+    "Weiß Schokolade Pistazien","Erdbeer","Joghurt Orange","Kinder Buenos",
+    "Kinder Riegel","Joghurete Schokolade","Mango","Hanutta"
+  ];
+
+  const ALLERGENS_14 = [
+    "GLUTEN","KREBSTIERE","EI","FISCH","ERDNÜSSE","SOJA","MILCH","SCHALENFRÜCHTE",
+    "SELLERIE","SENF","SESAM","SULFITE","LUPINEN","WEICHTIERE"
+  ];
+
+  const AZO_SET = new Set(["E102","E104","E110","E122","E124","E129"]);
+  const AZO_WARNING_DE = "Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen.";
+
+  const COMPANY = {
+    name: "Eiscafé Sanremo",
+    city: "57319 Bad Berleburg",
+    phone: "0176 72809926",
+    email: "paulo.sanremo@web.de"
+  };
+
+  // ====== HELPERS
+  const $ = (s)=>document.querySelector(s);
+  const $$ = (s)=>Array.from(document.querySelectorAll(s));
+  const num = (x)=>{ const n=Number(x); return isFinite(n)?n:0; };
+  const uid = ()=> Math.random().toString(16).slice(2) + Date.now().toString(16);
+  const esc = (s)=> String(s).replace(/[&<>"']/g,c=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+  const fmt1 = (x)=> (Math.round(num(x)*10)/10).toFixed(1);
+  const fmtSalt = (x)=> { const v=num(x); return v<0.01 ? (Math.round(v*1000)/1000).toFixed(3) : (Math.round(v*100)/100).toFixed(2); };
+
+  function setTodayIfEmpty(el){
+    if(!el || el.value) return;
+    const d=new Date(); const tzOff=d.getTimezoneOffset()*60000;
+    el.value=new Date(Date.now()-tzOff).toISOString().slice(0,10);
+  }
+  function qtyOptions(sel=0){
+    let out="";
+    for(let i=0;i<=100;i++) out += `<option value="${i}" ${i===sel?"selected":""}>${i}</option>`;
+    return out;
+  }
+  function normalizeE(e){
+    const m=String(e||"").toUpperCase().replace(/\s+/g,"").match(/^E(\d{3,4}[A-Z]?)$/);
+    return m?("E"+m[1]):"";
+  }
+  function parseComma(text){
+    return (text||"").split(",").map(x=>x.trim()).filter(Boolean).map(x=>x.toUpperCase());
+  }
+
+  // ====== STORAGE
+  function loadDB(){
+    try{
+      const raw=localStorage.getItem(DB_KEY);
+      if(raw){ const db=JSON.parse(raw); if(db && typeof db==="object") return db; }
+    }catch(e){}
+    return { flavors:[...DEFAULT_FLAVORS], orders:[], ingredients:[], recipes:{}, prints:[] };
+  }
+  function saveDB(db){ localStorage.setItem(DB_KEY, JSON.stringify(db)); }
+
+  function loadProg(){ try{return JSON.parse(localStorage.getItem(PROG_KEY)||"{}");}catch(e){return {}} }
+  function saveProg(p){ localStorage.setItem(PROG_KEY, JSON.stringify(p)); }
+  function getProg(date){ const all=loadProg(); return all[date]||{}; }
+  function setProg(date, obj){ const all=loadProg(); all[date]=obj; saveProg(all); }
+  function resetProg(date){ const all=loadProg(); delete all[date]; saveProg(all); }
+
+  let db = loadDB();
+  db.flavors = Array.isArray(db.flavors)&&db.flavors.length ? db.flavors : [...DEFAULT_FLAVORS];
+  db.orders = Array.isArray(db.orders) ? db.orders : [];
+  db.ingredients = Array.isArray(db.ingredients) ? db.ingredients : [];
+  db.recipes = db.recipes && typeof db.recipes==="object" ? db.recipes : {};
+  db.prints = Array.isArray(db.prints) ? db.prints : [];
+  saveDB(db);
+
+  // ====== TABS
+  window.UI = {
+    tab(name){
+      $$("nav button[data-tab]").forEach(b=>b.classList.toggle("active", b.dataset.tab===name));
+      $$("main section[id^='tab-']").forEach(s=>s.classList.remove("active"));
+      $("#tab-"+name).classList.add("active");
+      if(name==="order") refreshOrderAndOverview();
+      if(name==="prod") refreshProduction();
+      if(name==="xl") renderXL();
+      if(name==="recipes") renderRecipesUI();
+      if(name==="labels") renderLabelsUI();
+      if(name==="stats") renderStatsUI();
+    }
+  };
+
+  // ====== FLAVORS SELECTS
+  function renderFlavorSelects(){
+    const opts = db.flavors.map(f=>`<option value="${esc(f)}">${esc(f)}</option>`).join("");
+    $("#oFlavor").innerHTML = opts;
+    $("#rFlavor").innerHTML = opts;
+    $("#lFlavor").innerHTML = opts;
+
+    // stats flavor: include "Todos"
+    $("#sFlavor").innerHTML = `<option value="">Alle</option>` + opts;
+  }
+
+  // ====== ORDERS (draft)
+  let draftLines = []; // {size, flavor, qty}
+
+  function renderDraftLines(){
+    $("#oLines").innerHTML = draftLines.map((l,idx)=>`
+      <tr>
+        <td>${esc(l.size)}</td>
+        <td>${esc(l.flavor)}</td>
+        <td class="right"><b>${l.qty}</b></td>
+        <td class="right"><button class="btn small danger" data-del-line="${idx}">X</button></td>
+      </tr>
+    `).join("") || `<tr><td colspan="4" class="muted">Noch keine Positionen.</td></tr>`;
+
+    $$("[data-del-line]").forEach(b=>b.onclick=()=>{
+      const i=Number(b.getAttribute("data-del-line"));
+      draftLines.splice(i,1);
+      renderDraftLines();
+      refreshDraftPills();
+    });
+
+    refreshDraftPills();
+  }
+
+  function refreshDraftPills(){
+    const flavors=new Set();
+    let t750=0,t170=0;
+    draftLines.forEach(l=>{
+      if(l.qty>0) flavors.add(l.flavor);
+      if(l.size==="750g") t750+=l.qty;
+      if(l.size==="170g") t170+=l.qty;
+    });
+    const kg=t750*KG_750 + t170*KG_170;
+    const bExact=kg/BUCKET_KG;
+    $("#oPillFlavors").textContent=`Sorten: ${flavors.size}`;
+    $("#oPill750").textContent=`750g: ${t750}`;
+    $("#oPill170").textContent=`170g: ${t170}`;
+    $("#oPillKg").textContent=`KG: ${kg.toFixed(2)}`;
+    $("#oPillBuckets").textContent=`Baldes: ${bExact.toFixed(2)} (~${Math.ceil(bExact)})`;
+  }
+
+  function ordersByDate(date){ return db.orders.filter(o=>o.date===date); }
+
+  function calcProductionForDate(date){
+    const list=ordersByDate(date);
+    const map=new Map();
+    let t750=0,t170=0;
+
+    list.forEach(o=>{
+      o.lines.forEach(l=>{
+        if(!map.has(l.flavor)) map.set(l.flavor,{f:l.flavor,g750:0,g170:0});
+        const r=map.get(l.flavor);
+        if(l.size==="750g"){ r.g750+=l.qty; t750+=l.qty; }
+        if(l.size==="170g"){ r.g170+=l.qty; t170+=l.qty; }
+      });
+    });
+
+    const rows=[...map.values()].map(r=>{
+      const kg=(r.g750*KG_750)+(r.g170*KG_170);
+      const bExact=kg/BUCKET_KG;
+      return {...r,kg:Math.round(kg*100)/100,bExact:Math.round(bExact*100)/100,bMake:Math.ceil(bExact),total:r.g750+r.g170};
+    }).sort((a,b)=>(b.kg-a.kg)||(b.total-a.total)||a.f.localeCompare(b.f));
+
+    const totalKg=rows.reduce((s,r)=>s+r.kg,0);
+    const totalBExact=totalKg/BUCKET_KG;
+
+    return { rows, t750,t170, totalKg:Math.round(totalKg*100)/100, totalBExact:Math.round(totalBExact*100)/100, totalBMake:Math.ceil(totalBExact) };
+  }
+
+  function refreshOverview(){
+    const date=$("#pDate").value;
+    const prod=calcProductionForDate(date);
+
+    $("#pPill750").textContent=`750g: ${prod.t750}`;
+    $("#pPill170").textContent=`170g: ${prod.t170}`;
+    $("#pPillKg").textContent=`KG: ${prod.totalKg.toFixed(2)}`;
+    $("#pPillBuckets").textContent=`Baldes: ${prod.totalBExact.toFixed(2)} (~${prod.totalBMake})`;
+
+    $("#pBody").innerHTML = prod.rows.map(r=>`
+      <tr>
+        <td>${esc(r.f)}</td>
+        <td class="right">${r.g750}</td>
+        <td class="right">${r.g170}</td>
+        <td class="right">${r.kg.toFixed(2)}</td>
+        <td class="right">${r.bExact.toFixed(2)}</td>
+        <td class="right"><b>${r.bMake}</b></td>
+      </tr>
+    `).join("") || `<tr><td colspan="6" class="muted">Keine Bestellungen für dieses Datum.</td></tr>`;
+  }
+
+  function refreshProduction(){
+    const date=$("#prodDate").value;
+    const prod=calcProductionForDate(date);
+
+    $("#prodPill750").textContent=`750g: ${prod.t750}`;
+    $("#prodPill170").textContent=`170g: ${prod.t170}`;
+    $("#prodPillKg").textContent=`KG: ${prod.totalKg.toFixed(2)}`;
+    $("#prodPillBuckets").textContent=`Baldes: ${prod.totalBExact.toFixed(2)} (~${prod.totalBMake})`;
+
+    $("#prodBody").innerHTML = prod.rows.map(r=>`
+      <tr>
+        <td>${esc(r.f)}</td>
+        <td class="right">${r.g750}</td>
+        <td class="right">${r.g170}</td>
+        <td class="right">${r.kg.toFixed(2)}</td>
+        <td class="right">${r.bExact.toFixed(2)}</td>
+        <td class="right"><b>${r.bMake}</b></td>
+      </tr>
+    `).join("") || `<tr><td colspan="6" class="muted">Keine Bestellungen für dieses Datum.</td></tr>`;
+  }
+
+  function renderXL(){
+    const date=$("#xlDate").value;
+    const prod=calcProductionForDate(date);
+    const progress=getProg(date);
+
+    let totalToMake=0,totalDone=0;
+    const rows=prod.rows.filter(r=>r.bMake>0);
+
+    $("#xlGrid").innerHTML = rows.map(r=>{
+      const done=Math.max(0,Math.min(r.bMake,num(progress[r.f]||0)));
+      const left=Math.max(0,r.bMake-done);
+      totalToMake+=r.bMake; totalDone+=done;
+      return `
+        <div class="xlTile">
+          <div class="xlFlavor">${esc(r.f)}</div>
+          <div class="xlBig">${left}</div>
+          <div class="xlMeta">KG: <b>${r.kg.toFixed(2)}</b> • Fazer: <b>${r.bMake}</b> • Feitos: <b>${done}</b></div>
+          <div class="xlActions">
+            <button class="xlBtn" data-minus="${esc(r.f)}">-1</button>
+            <button class="xlBtn plus" data-plus="${esc(r.f)}">+1</button>
+          </div>
+        </div>
+      `;
+    }).join("") || `<div class="muted">Keine Bestellungen für dieses Datum.</div>`;
+
+    const leftAll=Math.max(0,totalToMake-totalDone);
+    $("#xlPillKg").textContent=`KG: ${prod.totalKg.toFixed(2)}`;
+    $("#xlPillBuckets").textContent=`Baldes: ${prod.totalBExact.toFixed(2)} (~${prod.totalBMake})`;
+    $("#xlPillDone").textContent=`Feitos: ${totalDone}`;
+    $("#xlPillLeft").textContent=`Faltam: ${leftAll}`;
+
+    $$("[data-plus]").forEach(b=>b.onclick=()=>{
+      const f=b.getAttribute("data-plus");
+      const p=getProg(date);
+      const row=rows.find(x=>x.f===f);
+      const max=row?row.bMake:0;
+      if(num(p[f])>=max) return;
+      p[f]=num(p[f])+1;
+      setProg(date,p);
+      renderXL();
+    });
+    $$("[data-minus]").forEach(b=>b.onclick=()=>{
+      const f=b.getAttribute("data-minus");
+      const p=getProg(date);
+      p[f]=Math.max(0,num(p[f])-1);
+      setProg(date,p);
+      renderXL();
+    });
+  }
+
+  // ====== RECIPES LMIV
+  function renderAllergenCheckboxes(){
+    $("#iAllBox").innerHTML = ALLERGENS_14.map(a=>`
+      <label style="display:flex;gap:10px;align-items:center;margin:6px 0;font-weight:900;color:var(--text);">
+        <input type="checkbox" class="iAll" value="${a}" style="width:18px;height:18px;min-height:auto;">
+        <span>${a}</span>
+      </label>
+    `).join("");
+  }
+  function getAllergenChecks(){ return Array.from(document.querySelectorAll(".iAll")).filter(ch=>ch.checked).map(ch=>ch.value); }
+  function setAllergenChecks(list){
+    const set=new Set((list||[]).map(x=>String(x).toUpperCase().trim()));
+    Array.from(document.querySelectorAll(".iAll")).forEach(ch=>ch.checked=set.has(ch.value));
+  }
+  function hasAnyNutrition(ing){
+    const n=ing?.n||{};
+    return (num(n.kj)+num(n.kcal)+num(n.fat)+num(n.sat)+num(n.carb)+num(n.sug)+num(n.pro)+num(n.salt))>0;
+  }
+
+  function resetIngredientForm(){
+    $("#iName").value=""; $("#iTraces").value=""; $("#iClass").value=""; $("#iE").value="";
+    $("#iAzo").value="auto"; $("#iSource").value=""; setAllergenChecks([]);
+    $("#nKj").value=0; $("#nKcal").value=0; $("#nFat").value=0; $("#nSat").value=0;
+    $("#nCarb").value=0; $("#nSug").value=0; $("#nPro").value=0; $("#nSalt").value=0;
+    $("#iSave").removeAttribute("data-edit-id");
+    $("#iSave").textContent="Zutat speichern";
+  }
+
+  function renderIngredientsList(){
+    const box=$("#iList");
+    if(!db.ingredients.length){ box.innerHTML=`<div class="muted">Noch keine Zutaten gespeichert.</div>`; return; }
+    box.innerHTML = db.ingredients.map(i=>{
+      const chips=[];
+      (i.allergens||[]).forEach(a=>chips.push(`<span class="chip">${esc(a)}</span>`));
+      if(i.traces?.length) chips.push(`<span class="chip">Spuren: ${esc(i.traces.join(", "))}</span>`);
+      if(i.addClass) chips.push(`<span class="chip">${esc(i.addClass)}${i.addE?": "+esc(i.addE):""}</span>`);
+      if(i.azo) chips.push(`<span class="chip">AZO</span>`);
+      if(i.source) chips.push(`<span class="chip">Quelle</span>`);
+      return `
+        <div class="card" style="border:1px dashed var(--line2);margin-bottom:10px;">
+          <div class="flex" style="justify-content:space-between;align-items:flex-start;">
+            <div style="min-width:240px;">
+              <div style="font-weight:1100;">${esc(i.name)}</div>
+              <div>${chips.join("") || "<span class='muted'>—</span>"}</div>
+              <div class="muted" style="margin-top:6px;">
+                kJ ${num(i.n?.kj).toFixed(1)} • kcal ${num(i.n?.kcal).toFixed(1)} •
+                Fett ${num(i.n?.fat).toFixed(1)} • ges. ${num(i.n?.sat).toFixed(1)} •
+                KH ${num(i.n?.carb).toFixed(1)} • Zucker ${num(i.n?.sug).toFixed(1)} •
+                Eiweiß ${num(i.n?.pro).toFixed(1)} • Salz ${num(i.n?.salt).toFixed(3)}
+              </div>
+              ${i.source?`<div class="muted" style="margin-top:6px;"><b>Quelle:</b> ${esc(i.source)}</div>`:""}
+            </div>
+            <div class="flex">
+              <button class="btn small" data-edit-ing="${i.id}">Edit</button>
+              <button class="btn small danger" data-del-ing="${i.id}">Löschen</button>
+            </div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    $$("[data-del-ing]").forEach(b=>b.onclick=()=>{
+      const id=b.getAttribute("data-del-ing");
+      const used = Object.values(db.recipes||{}).some(r => (r.lines||[]).some(l=>l.ingId===id));
+      if(used && !confirm("Diese Zutat wird in Rezepten verwendet. Trotzdem löschen?")) return;
+      db.ingredients=db.ingredients.filter(x=>x.id!==id);
+      saveDB(db);
+      renderIngredientsList();
+      renderRecipeLines();
+      renderRecipePreview();
+      buildLabelPreview();
+    });
+
+    $$("[data-edit-ing]").forEach(b=>b.onclick=()=>{
+      const id=b.getAttribute("data-edit-ing");
+      const i=db.ingredients.find(x=>x.id===id);
+      if(!i) return;
+      $("#iName").value=i.name||"";
+      $("#iTraces").value=(i.traces||[]).join(", ");
+      $("#iClass").value=i.addClass||"";
+      $("#iE").value=i.addE||"";
+      $("#iAzo").value=i.azo ? "yes" : "auto";
+      $("#iSource").value=i.source||"";
+      setAllergenChecks(i.allergens||[]);
+      $("#nKj").value=num(i.n?.kj); $("#nKcal").value=num(i.n?.kcal);
+      $("#nFat").value=num(i.n?.fat); $("#nSat").value=num(i.n?.sat);
+      $("#nCarb").value=num(i.n?.carb); $("#nSug").value=num(i.n?.sug);
+      $("#nPro").value=num(i.n?.pro); $("#nSalt").value=num(i.n?.salt);
+      $("#iSave").setAttribute("data-edit-id", id);
+      $("#iSave").textContent="Änderungen speichern";
+    });
+  }
+
+  $("#iReset").onclick=()=>resetIngredientForm();
+
+  $("#iSave").onclick=()=>{
+    const name=$("#iName").value.trim();
+    if(!name) return;
+
+    const allergens=getAllergenChecks();
+    const traces=parseComma($("#iTraces").value||"");
+    const addClass=$("#iClass").value||"";
+    const addE=$("#iE").value.trim();
+    const azoMode=$("#iAzo").value;
+    const eNorm=normalizeE(addE);
+    const azoAuto = (!!eNorm && AZO_SET.has(eNorm));
+    const azo = (azoMode==="yes") ? true : (azoMode==="no") ? false : azoAuto;
+
+    const obj={
+      id: uid(),
+      name,
+      allergens,
+      traces,
+      addClass,
+      addE,
+      azo,
+      source: $("#iSource").value.trim(),
+      n:{
+        kj:num($("#nKj").value), kcal:num($("#nKcal").value),
+        fat:num($("#nFat").value), sat:num($("#nSat").value),
+        carb:num($("#nCarb").value), sug:num($("#nSug").value),
+        pro:num($("#nPro").value), salt:num($("#nSalt").value)
+      }
+    };
+
+    const editId=$("#iSave").getAttribute("data-edit-id");
+    if(editId){
+      const idx=db.ingredients.findIndex(x=>x.id===editId);
+      if(idx>=0){ obj.id=editId; db.ingredients[idx]=obj; }
+    }else{
+      db.ingredients.push(obj);
+    }
+    saveDB(db);
+
+    resetIngredientForm();
+    renderIngredientsList();
+    renderRecipeLines();
+    renderRecipePreview();
+    buildLabelPreview();
+  };
+
+  // Recipe editor
+  let rLines=[]; // {ingId, grams}
+
+  function rAddLine(ingId=null, grams=0){
+    const first=db.ingredients[0]?.id || "";
+    rLines.push({ ingId: ingId || first, grams:num(grams) });
+    renderRecipeLines();
+  }
+
+  function renderRecipeLines(){
+    const tb=$("#rBody");
+    tb.innerHTML="";
+
+    if(!db.ingredients.length){
+      tb.innerHTML = `<tr><td colspan="3" class="muted">Bitte zuerst Zutaten speichern.</td></tr>`;
+      $("#rPreview").innerHTML = `<div class="muted">Keine Zutaten vorhanden.</div>`;
+      return;
+    }
+
+    rLines.forEach((ln,idx)=>{
+      const tr=document.createElement("tr");
+      const ingSel=document.createElement("select");
+      ingSel.innerHTML = db.ingredients.map(i=>`<option value="${i.id}">${esc(i.name)}</option>`).join("");
+      ingSel.value = ln.ingId;
+      ingSel.onchange=()=>{ ln.ingId=ingSel.value; renderRecipePreview(); buildLabelPreview(); };
+
+      const g=document.createElement("input");
+      g.type="number"; g.step="1"; g.min="0"; g.value=String(num(ln.grams));
+      g.oninput=()=>{ ln.grams=num(g.value); renderRecipePreview(); buildLabelPreview(); };
+
+      const del=document.createElement("button");
+      del.className="btn small danger";
+      del.textContent="X";
+      del.onclick=()=>{ rLines.splice(idx,1); renderRecipeLines(); buildLabelPreview(); };
+
+      tr.innerHTML=`<td></td><td class="right"></td><td class="right"></td>`;
+      tr.children[0].appendChild(ingSel);
+      tr.children[1].appendChild(g);
+      tr.children[2].appendChild(del);
+      tb.appendChild(tr);
+    });
+
+    if(!rLines.length) rAddLine();
+    renderRecipePreview();
+  }
+
+  function calcRecipeForFlavor(flavor){
+    const saved=db.recipes[flavor];
+    if(!saved) return null;
+
+    const lines=(saved.lines||[]).filter(l=>l.ingId && num(l.grams)>0).map(l=>({ingId:l.ingId, grams:num(l.grams)}));
+    const totalG=lines.reduce((s,l)=>s+l.grams,0);
+
+    const totals={kj:0,kcal:0,fat:0,sat:0,carb:0,sug:0,pro:0,salt:0};
+    const tracesSet=new Set();
+    const additives=[];
+    let azo=false;
+
+    const items = lines.map(l=>{
+      const ing=db.ingredients.find(x=>x.id===l.ingId);
+      return ing ? {ing, grams:l.grams} : null;
+    }).filter(Boolean);
+
+    items.forEach(({ing,grams})=>{
+      const factor=grams/100;
+      totals.kj += factor*num(ing.n?.kj);
+      totals.kcal += factor*num(ing.n?.kcal);
+      totals.fat += factor*num(ing.n?.fat);
+      totals.sat += factor*num(ing.n?.sat);
+      totals.carb += factor*num(ing.n?.carb);
+      totals.sug += factor*num(ing.n?.sug);
+      totals.pro += factor*num(ing.n?.pro);
+      totals.salt += factor*num(ing.n?.salt);
+
+      (ing.traces||[]).forEach(t=>tracesSet.add(t));
+
+      const eNorm=normalizeE(ing.addE);
+      if(ing.azo || (eNorm && AZO_SET.has(eNorm))) azo=true;
+
+      if(ing.addClass){
+        additives.push( ing.addE ? `${ing.addClass}: ${ing.addE}` : `${ing.addClass}` );
+      }
+    });
+
+    const per100 = (k)=> totalG>0 ? (totals[k]/totalG*100) : 0;
+    const per100g = { kj: per100("kj"), kcal: per100("kcal"), fat: per100("fat"), sat: per100("sat"), carb: per100("carb"), sug: per100("sug"), pro: per100("pro"), salt: per100("salt") };
+
+    const sorted=[...items].sort((a,b)=>b.grams-a.grams);
+    const zutatenText = sorted.map(({ing})=>{
+      const all=(ing.allergens||[]).length ? ` (<b>${esc((ing.allergens||[]).join(", "))}</b>)` : "";
+      return `${esc(ing.name)}${all}`;
+    }).join(", ");
+
+    const additivesUnique=[...new Set(additives.filter(Boolean))];
+    const missingNutrition = sorted.filter(x=>!hasAnyNutrition(x.ing)).map(x=>x.ing.name);
+
+    return { flavor, denom:(saved.denom||"Milcheis").trim(), storage:(saved.storage||"").trim(), totalG, per100g, zutatenText, traces:[...tracesSet], additives:additivesUnique, azo, missingNutrition };
+  }
+
+  function renderRecipePreview(){
+    const flavor=$("#rFlavor").value || "";
+    const denom=($("#rDenom").value||"Milcheis").trim();
+    const storage=($("#rStorage").value||"").trim();
+
+    // preview uses temp recipe (not necessarily saved)
+    const temp = { denom, storage, lines: rLines.map(l=>({ingId:l.ingId, grams:num(l.grams)})) };
+    const backup = db.recipes[flavor] ? JSON.parse(JSON.stringify(db.recipes[flavor])) : null;
+    db.recipes[flavor]=temp;
+    const r=calcRecipeForFlavor(flavor);
+    if(backup) db.recipes[flavor]=backup; else delete db.recipes[flavor];
+
+    if(!r){ $("#rPreview").innerHTML=`<div class="muted">Bitte Zutaten + Gramm eintragen.</div>`; return; }
+
+    $("#rPillTotal").textContent=`Gesamt: ${Math.round(r.totalG)} g`;
+    $("#rPillAzo").textContent=`AZO: ${r.azo ? "JA" : "nein"}`;
+    if(r.missingNutrition.length){
+      $("#rPillStatus").textContent=`Nährwerte: FEHLT (${r.missingNutrition.length})`;
+      $("#rPillStatus").style.borderColor="rgba(245,158,11,.55)";
+    }else{
+      $("#rPillStatus").textContent="Nährwerte: OK";
+      $("#rPillStatus").style.borderColor="rgba(22,163,74,.35)";
+    }
+
+    const warn = r.azo ? `<div class="pill" style="border-color:rgba(245,158,11,.55)">⚠ Hinweis: ${esc(AZO_WARNING_DE)}</div>` : `<div class="pill" style="border-color:rgba(22,163,74,.35)">Kein Southampton-Farbstoff erkannt</div>`;
+    const spuren = r.traces.length ? `<div class="muted" style="margin-top:8px;"><b>Kann Spuren enthalten:</b> ${esc(r.traces.join(", "))}</div>` : "";
+    const add = r.additives.length ? `<div class="muted" style="margin-top:8px;"><b>Zusatzstoffe:</b> ${r.additives.map(esc).join(", ")}</div>` : "";
+    const stor = storage?`<div class="muted" style="margin-top:8px;"><b>Aufbewahrung:</b> ${esc(storage)}</div>`:"";
+
+    $("#rPreview").innerHTML = `
+      <div class="card" style="border:1px dashed var(--line2);">
+        <div class="flex" style="justify-content:space-between;align-items:flex-start;">
+          <div>
+            <div style="font-weight:1100;">Vorschau (Etikett-Text)</div>
+            <div class="muted">${esc(denom)} • ${esc(flavor||"—")}</div>
+          </div>
+          ${warn}
+        </div>
+
+        <div class="hr"></div>
+
+        <div style="font-weight:1100;">Zutaten:</div>
+        <div style="font-size:13px;line-height:1.3;">${r.zutatenText || "<span class='muted'>—</span>"}</div>
+        ${spuren}
+        ${add}
+        ${stor}
+
+        <div class="hr"></div>
+
+        <div style="font-weight:1100;">Nährwerte je 100 g:</div>
+        <div class="scroll" style="border:1px solid var(--line);margin-top:8px;">
+          <table>
+            <tbody>
+              <tr><td>Energie</td><td class="right"><b>${Math.round(r.per100g.kj)} kJ</b> / <b>${Math.round(r.per100g.kcal)} kcal</b></td></tr>
+              <tr><td>Fett</td><td class="right">${fmt1(r.per100g.fat)} g</td></tr>
+              <tr><td class="muted">davon gesättigte Fettsäuren</td><td class="right">${fmt1(r.per100g.sat)} g</td></tr>
+              <tr><td>Kohlenhydrate</td><td class="right">${fmt1(r.per100g.carb)} g</td></tr>
+              <tr><td class="muted">davon Zucker</td><td class="right">${fmt1(r.per100g.sug)} g</td></tr>
+              <tr><td>Eiweiß</td><td class="right">${fmt1(r.per100g.pro)} g</td></tr>
+              <tr><td>Salz</td><td class="right">${fmtSalt(r.per100g.salt)} g</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  function loadRecipeToForm(){
+    const key=$("#rFlavor").value || "";
+    const saved=db.recipes[key];
+
+    if(saved){
+      $("#rDenom").value = saved.denom || "Milcheis";
+      $("#rStorage").value = saved.storage || "Bei -18°C lagern. Nach dem Auftauen nicht wieder einfrieren.";
+      rLines = (saved.lines||[]).map(x=>({ingId:x.ingId, grams:num(x.grams)}));
+      if(!rLines.length) rAddLine();
+    }else{
+      $("#rDenom").value = "Milcheis";
+      $("#rStorage").value = "Bei -18°C lagern. Nach dem Auftauen nicht wieder einfrieren.";
+      rLines = [];
+      rAddLine();
+    }
+    renderRecipeLines();
+  }
+
+  $("#rAddLine").onclick=()=>rAddLine();
+  $("#rClear").onclick=()=>{ rLines=[]; rAddLine(); };
+  $("#rSave").onclick=()=>{
+    const key=$("#rFlavor").value || "";
+    if(!key) return;
+    db.recipes[key] = {
+      denom: ($("#rDenom").value||"Milcheis").trim(),
+      storage: ($("#rStorage").value||"").trim(),
+      lines: rLines.map(l=>({ingId:l.ingId, grams:num(l.grams)}))
+    };
+    saveDB(db);
+    $("#rHint").textContent="Gespeichert ✅";
+    setTimeout(()=>$("#rHint").textContent="",1200);
+    buildLabelPreview();
+  };
+  $("#rFlavor").onchange=()=>{ loadRecipeToForm(); buildLabelPreview(); };
+  $("#rDenom").oninput=()=>{ renderRecipePreview(); buildLabelPreview(); };
+  $("#rStorage").oninput=()=>{ renderRecipePreview(); buildLabelPreview(); };
+
+  function renderRecipesUI(){
+    renderAllergenCheckboxes();
+    renderIngredientsList();
+    loadRecipeToForm();
+  }
+
+  // ====== LABELS + PRINT RECORD (STATISTIK)
+  function labelHTML(data, sizeG, mhd, lot, extra){
+    const net = `${sizeG} g`;
+    const warn = data.azo ? `<div class="warnLine">⚠ ${esc(AZO_WARNING_DE)}</div>` : "";
+    const spuren = data.traces.length ? `<div class="labelLine"><b>Kann Spuren enthalten:</b> ${esc(data.traces.join(", "))}</div>` : "";
+    const add = data.additives.length ? `<div class="labelLine"><b>Zusatzstoffe:</b> ${data.additives.map(esc).join(", ")}</div>` : "";
+    const storage = data.storage ? `<div class="labelLine"><b>Aufbewahrung:</b> ${esc(data.storage)}</div>` : "";
+    const extraLine = extra ? `<div class="labelLine"><b>Hinweis:</b> ${esc(extra)}</div>` : "";
+
+    return `
+      <div style="font-family:Arial,system-ui;color:#000;">
+        <div class="labelTitle">${esc(data.denom)} – ${esc(data.flavor)}</div>
+        <div class="labelSmall"><b>Nettofüllmenge:</b> ${esc(net)}</div>
+
+        <div class="labelLine"><b>Zutaten:</b> ${data.zutatenText || "—"}</div>
+        ${spuren}
+        ${add}
+        ${warn}
+        ${extraLine}
+
+        <div class="labelLine"><b>Nährwerte je 100 g:</b></div>
+        <div class="labelTiny">
+          Energie ${Math.round(data.per100g.kj)} kJ / ${Math.round(data.per100g.kcal)} kcal •
+          Fett ${fmt1(data.per100g.fat)} g • ges. ${fmt1(data.per100g.sat)} g •
+          KH ${fmt1(data.per100g.carb)} g • Zucker ${fmt1(data.per100g.sug)} g •
+          Eiweiß ${fmt1(data.per100g.pro)} g • Salz ${fmtSalt(data.per100g.salt)} g
+        </div>
+
+        ${storage}
+
+        <div class="labelLine"><b>MHD:</b> ${esc(mhd||"—")} &nbsp; <b>Los/Charge:</b> ${esc(lot||"—")}</div>
+        <div class="labelTiny">
+          Hergestellt für: <b>${esc(COMPANY.name)}</b>, ${esc(COMPANY.city)} • Tel. ${esc(COMPANY.phone)} • ${esc(COMPANY.email)}
+        </div>
+      </div>
+    `;
+  }
+
+  function buildLabelPreview(){
+    const flavor=$("#lFlavor").value || "";
+    const sizeG = num($("#lSize").value||170);
+    const mhd=$("#lMhd").value.trim();
+    const lot=$("#lLot").value.trim();
+    const extra=$("#lExtra").value.trim();
+
+    const data = calcRecipeForFlavor(flavor);
+    if(!data){
+      $("#labelPreview").innerHTML = `<div class="muted"><b>⚠ Kein Rezept gespeichert</b> für <b>${esc(flavor)}</b>.<br>Bitte unter <b>Rezepte (LMIV)</b> speichern.</div>`;
+      return null;
+    }
+
+    const topWarn = data.missingNutrition.length
+      ? `<div class="muted"><b>⚠ Achtung:</b> Nährwerte fehlen bei ${esc(data.missingNutrition.join(", "))}.</div><div class="hr"></div>`
+      : "";
+
+    $("#labelPreview").innerHTML = topWarn + labelHTML(data,sizeG,mhd,lot,extra);
+    return {data,sizeG,mhd,lot,extra};
+  }
+
+  function recordPrint(flavor, sizeG){
+    const now=new Date();
+    const tzOff=now.getTimezoneOffset()*60000;
+    const dateISO=new Date(Date.now()-tzOff).toISOString().slice(0,10);
+
+    const kg = (sizeG===750) ? KG_750 : KG_170;
+
+    db.prints.push({
+      id: uid(),
+      ts: now.toISOString(),
+      date: dateISO,
+      flavor,
+      sizeG,
+      qty: 1,
+      kg
+    });
+    saveDB(db);
+  }
+
+  function printLabel(){
+    const pack = buildLabelPreview();
+    if(!pack) return;
+
+    // record Statistik only when user prints
+    recordPrint(pack.data.flavor, pack.sizeG);
+
+    const html = `
+      <html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Etikett</title>
+      <style>
+        body{font-family:Arial,system-ui;margin:0;padding:12px;color:#000}
+        .box{border:1px solid #000;padding:10px}
+        .labelTitle{font-weight:900;font-size:14px}
+        .labelSmall{font-size:11px}
+        .labelLine{font-size:11px;line-height:1.25;margin-top:6px}
+        .labelTiny{font-size:10px;line-height:1.25;margin-top:6px}
+        .warnLine{border:1px solid #b45309;background:#ffedd5;padding:6px;border-radius:10px;font-size:10px;font-weight:900;margin-top:8px}
+        @media print{ body{padding:0} .box{border:none} }
+      </style></head>
+      <body>
+        <div class="box">${labelHTML(pack.data, pack.sizeG, pack.mhd, pack.lot, pack.extra)}</div>
+        <script>window.onload=()=>{window.print();};<\/script>
+      </body></html>
+    `;
+
+    const w=window.open("","_blank");
+    if(!w){ $("#lHint").textContent="Popup blockiert. Bitte Popups erlauben."; return; }
+    w.document.open(); w.document.write(html); w.document.close();
+    $("#lHint").textContent="Druck gestartet ✅";
+    setTimeout(()=>$("#lHint").textContent="",1200);
+  }
+
+  function renderLabelsUI(){ buildLabelPreview(); }
+
+  $("#lBuild").onclick=()=>buildLabelPreview();
+  $("#lPrint").onclick=()=>{ printLabel(); renderStatsUI(); };
+  $("#lFlavor").onchange=()=>buildLabelPreview();
+  $("#lSize").onchange=()=>buildLabelPreview();
+  $("#lMhd").oninput=()=>buildLabelPreview();
+  $("#lLot").oninput=()=>buildLabelPreview();
+  $("#lExtra").oninput=()=>buildLabelPreview();
+
+  // ====== STATISTIK (nur Druck)
+  function monthOptions(){
+    const m=["Alle","01","02","03","04","05","06","07","08","09","10","11","12"];
+    return m.map((x,i)=>`<option value="${i===0?"":String(i).padStart(2,"0")}">${x}</option>`).join("");
+  }
+  function yearOptions(){
+    const years=new Set(db.prints.map(p=>p.date?.slice(0,4)).filter(Boolean));
+    const now=new Date(); years.add(String(now.getFullYear()));
+    const arr=[...years].sort((a,b)=>b.localeCompare(a));
+    return arr.map(y=>`<option value="${y}">${y}</option>`).join("");
+  }
+
+  function calcStats(year, month, flavor){
+    const filtered = db.prints.filter(p=>{
+      if(!p.date) return false;
+      if(year && p.date.slice(0,4)!==year) return false;
+      if(month && p.date.slice(5,7)!==month) return false;
+      if(flavor && p.flavor!==flavor) return false;
+      return true;
+    });
+
+    const map=new Map();
+    let t170=0,t750=0,totalKg=0;
+
+    filtered.forEach(p=>{
+      const f=p.flavor||"—";
+      if(!map.has(f)) map.set(f,{f, c170:0, c750:0, kg:0});
+      const r=map.get(f);
+      if(p.sizeG===170){ r.c170 += p.qty||1; t170 += p.qty||1; }
+      if(p.sizeG===750){ r.c750 += p.qty||1; t750 += p.qty||1; }
+      r.kg += (p.kg||0)*(p.qty||1);
+      totalKg += (p.kg||0)*(p.qty||1);
+    });
+
+    const rows=[...map.values()].map(r=>{
+      const bExact=r.kg/BUCKET_KG;
+      return {...r, kg:Math.round(r.kg*100)/100, bExact:Math.round(bExact*100)/100, bMake:Math.ceil(bExact)};
+    }).sort((a,b)=>(b.kg-a.kg)||a.f.localeCompare(b.f));
+
+    const totalBExact=totalKg/BUCKET_KG;
+    return {
+      rows,
+      t170,t750,
+      totalKg:Math.round(totalKg*100)/100,
+      totalBExact:Math.round(totalBExact*100)/100,
+      totalBMake:Math.ceil(totalBExact),
+      count: filtered.length
+    };
+  }
+
+  function renderStatsUI(){
+    // init selectors
+    $("#sYear").innerHTML = yearOptions();
+    $("#sMonth").innerHTML = monthOptions();
+
+    // default: current year, all months
+    const now=new Date();
+    const y=String(now.getFullYear());
+    if(!$("#sYear").value) $("#sYear").value=y;
+
+    // flavors list already set
+    renderStats();
+  }
+
+  function renderStats(){
+    const year=$("#sYear").value;
+    const month=$("#sMonth").value;
+    const flavor=$("#sFlavor").value;
+
+    const st=calcStats(year, month, flavor);
+
+    $("#sPill170").textContent=`170g: ${st.t170}`;
+    $("#sPill750").textContent=`750g: ${st.t750}`;
+    $("#sPillKg").textContent=`KG: ${st.totalKg.toFixed(2)}`;
+    $("#sPillBuckets").textContent=`Baldes: ${st.totalBExact.toFixed(2)} (~${st.totalBMake})`;
+
+    $("#sHint").textContent = `Einträge (Druck): ${st.count}`;
+
+    $("#sBody").innerHTML = st.rows.map(r=>`
+      <tr>
+        <td>${esc(r.f)}</td>
+        <td class="right">${r.c170}</td>
+        <td class="right">${r.c750}</td>
+        <td class="right">${r.kg.toFixed(2)}</td>
+        <td class="right"><b>${r.bMake}</b></td>
+      </tr>
+    `).join("") || `<tr><td colspan="5" class="muted">Keine Daten.</td></tr>`;
+  }
+
+  $("#sRefresh").onclick=()=>renderStats();
+  $("#sYear").onchange=()=>renderStats();
+  $("#sMonth").onchange=()=>renderStats();
+  $("#sFlavor").onchange=()=>renderStats();
+
+  $("#sPrint").onclick=()=>{
+    const year=$("#sYear").value;
+    const month=$("#sMonth").value;
+    const flavor=$("#sFlavor").value;
+    const st=calcStats(year, month, flavor);
+
+    const title = `Statistik ${year}${month?("-"+month):""}${flavor?(" – "+flavor):""}`;
+
+    const rows = st.rows.map(r=>`
+      <tr>
+        <td style="border:1px solid #000;padding:6px;">${esc(r.f)}</td>
+        <td style="border:1px solid #000;padding:6px;text-align:right;">${r.c170}</td>
+        <td style="border:1px solid #000;padding:6px;text-align:right;">${r.c750}</td>
+        <td style="border:1px solid #000;padding:6px;text-align:right;">${r.kg.toFixed(2)}</td>
+        <td style="border:1px solid #000;padding:6px;text-align:right;">${r.bMake}</td>
+      </tr>
+    `).join("");
+
+    const html=`
+      <html><head><meta charset="utf-8"><title>${esc(title)}</title>
+      <style>
+        body{font-family:Arial,system-ui;margin:0;padding:14px}
+        h1{font-size:16px;margin:0 0 8px}
+        .meta{font-size:12px;margin:0 0 10px}
+        table{width:100%;border-collapse:collapse;font-size:12px}
+      </style></head>
+      <body>
+        <h1>${esc(title)}</h1>
+        <div class="meta">
+          170g: <b>${st.t170}</b> • 750g: <b>${st.t750}</b> • KG: <b>${st.totalKg.toFixed(2)}</b> • Baldes (~6kg): <b>${st.totalBMake}</b>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th style="border:1px solid #000;padding:6px;text-align:left;">Sorte</th>
+              <th style="border:1px solid #000;padding:6px;text-align:right;">170g</th>
+              <th style="border:1px solid #000;padding:6px;text-align:right;">750g</th>
+              <th style="border:1px solid #000;padding:6px;text-align:right;">KG</th>
+              <th style="border:1px solid #000;padding:6px;text-align:right;">Baldes</th>
+            </tr>
+          </thead>
+          <tbody>${rows || ""}</tbody>
+        </table>
+        <script>window.onload=()=>{window.print();};<\/script>
+      </body></html>
+    `;
+    const w=window.open("","_blank");
+    if(!w){ $("#sHint").textContent="Popup blockiert. Bitte Popups erlauben."; return; }
+    w.document.open(); w.document.write(html); w.document.close();
+  };
+
+  // ====== ORDER WIRES
+  $("#oQty").innerHTML = qtyOptions(0);
+
+  $("#oAdd").onclick=()=>{
+    const size=$("#oSize").value;
+    const flavor=$("#oFlavor").value;
+    const qty=num($("#oQty").value);
+    if(!flavor || qty<=0) return;
+    draftLines.push({size, flavor, qty});
+    renderDraftLines();
+  };
+
+  $("#oClear").onclick=()=>{
+    draftLines=[];
+    $("#oNotes").value="";
+    renderDraftLines();
+  };
+
+  $("#oSave").onclick=()=>{
+    const date=$("#oDate").value;
+    const customer=$("#oCustomer").value.trim() || "REWE";
+    const notes=$("#oNotes").value.trim();
+    const lines=draftLines.filter(l=>l.qty>0);
+    if(!date || !lines.length){
+      $("#oHint").textContent="Bitte Datum + mindestens 1 Position.";
+      return;
+    }
+    db.orders.push({id:uid(), date, customer, notes, lines});
+    saveDB(db);
+    draftLines=[];
+    $("#oNotes").value="";
+    $("#oHint").textContent="Gespeichert ✅";
+    setTimeout(()=>$("#oHint").textContent="",1200);
+    renderDraftLines();
+    refreshOrderAndOverview();
+  };
+
+  function refreshOrderAndOverview(){
+    const d=$("#oDate").value;
+    if($("#pDate").value!==d) $("#pDate").value=d;
+    if($("#prodDate").value!==d) $("#prodDate").value=d;
+    if($("#xlDate").value!==d) $("#xlDate").value=d;
+    refreshOverview();
+  }
+
+  $("#pRefresh").onclick=()=>refreshOverview();
+  $("#prodRefresh").onclick=()=>refreshProduction();
+  $("#xlRefresh").onclick=()=>renderXL();
+  $("#xlReset").onclick=()=>{
+    const date=$("#xlDate").value;
+    if(!date) return;
+    if(!confirm("Reset do progresso XL deste dia?")) return;
+    resetProg(date);
+    renderXL();
+  };
+
+  $("#oDate").onchange=()=>refreshOrderAndOverview();
+  $("#pDate").onchange=()=>refreshOverview();
+  $("#prodDate").onchange=()=>refreshProduction();
+  $("#xlDate").onchange=()=>renderXL();
+
+  // ====== INIT
+  setTodayIfEmpty($("#oDate"));
+  setTodayIfEmpty($("#pDate"));
+  setTodayIfEmpty($("#prodDate"));
+  setTodayIfEmpty($("#xlDate"));
+
+  renderFlavorSelects();
+  renderDraftLines();
+  refreshOrderAndOverview();
+  renderAllergenCheckboxes();
+  renderStatsUI();
+
+  // also load first recipe form lazily when opening recipes; but make sure preview safe
+  loadRecipeToForm();
+  renderRecipePreview();
+  buildLabelPreview();
+
+})();
+</script>
+</body>
+</html>
