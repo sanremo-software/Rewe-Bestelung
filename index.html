@@ -32,9 +32,7 @@
       backdrop-filter: blur(10px);
       background: linear-gradient(180deg, rgba(7,10,20,.92) 0%, rgba(7,10,20,.65) 70%, transparent 100%);
     }
-    .brand{
-      display:flex; gap:12px; align-items:center;
-    }
+    .brand{display:flex; gap:12px; align-items:center;}
     .logo{
       width:44px; height:44px; border-radius:14px;
       background: conic-gradient(from 200deg, #33d17a, #4dd4ff, #9b7bff, #33d17a);
@@ -64,9 +62,7 @@
       border-color: rgba(255,107,107,.35);
     }
 
-    .tabs{
-      display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;
-    }
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;}
     .tab{
       padding:10px 12px; border-radius:999px; cursor:pointer; user-select:none;
       border:1px solid rgba(255,255,255,.10);
@@ -93,15 +89,14 @@
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border:1px solid rgba(255,255,255,.10);
-      border-radius: var(--r);
-      padding: var(--pad);
+      border-radius: 18px;
+      padding: 14px;
       box-shadow: var(--shadow);
     }
     .card h2{margin:0 0 10px; font-size:14px}
     .mut{color:var(--mut)}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
     .row > *{flex:1}
-    .row.tight > *{flex:0}
     label{display:block; font-size:12px; color:var(--mut); margin:0 0 6px}
     input, select, textarea{
       width:100%; padding:11px 12px;
@@ -163,14 +158,9 @@
     .table tr:last-child td{border-bottom:none}
     .mono{font-family:var(--mono)}
 
-    .labelCard{
-      position:sticky; top:92px;
-    }
-    @media (max-width:980px){
-      .labelCard{position:relative; top:auto}
-    }
+    .labelCard{position:sticky; top:92px;}
+    @media (max-width:980px){ .labelCard{position:relative; top:auto} }
 
-    /* Label preview */
     .labelWrap{
       display:flex; justify-content:center; align-items:center;
       padding:10px; border-radius:16px;
@@ -194,12 +184,8 @@
       display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;
       font-size:9.5px;
     }
-    .label table{
-      width:100%; border-collapse:collapse; font-size:9.5px;
-    }
-    .label td, .label th{
-      border:1px solid #000; padding:3px 4px;
-    }
+    .label table{width:100%; border-collapse:collapse; font-size:9.5px;}
+    .label td, .label th{border:1px solid #000; padding:3px 4px;}
     .label th{text-align:left}
     .lFooter{margin-top:6px; font-size:9px; line-height:1.2}
     .lWarn{margin-top:6px; font-size:9px; font-weight:800}
@@ -211,6 +197,22 @@
       display:flex; align-items:center; justify-content:center;
       overflow:hidden;
     }
+
+    /* EAN barcode block */
+    .lEAN{
+      position:absolute; left:8px; bottom:8px;
+      background:#fff;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      padding:2px 4px;
+      border-radius:2px;
+    }
+    .lEAN svg{display:block}
+    .lEAN .eanText{
+      font-size:9px; letter-spacing:1px;
+      margin-top:1px;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
     .hint{
       padding:10px 12px; border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
@@ -228,7 +230,6 @@
       font-size:13px; display:none; z-index:999;
       max-width: min(720px, 92vw);
     }
-
     .hidden{display:none !important;}
   </style>
 </head>
@@ -318,8 +319,8 @@
 
           <div class="hr"></div>
           <div class="hint">
-            <b>Tipp:</b> Für Pasten/Variegato/Stoffe nutze immer die Werte vom Lieferantenetikett (pro 100 g).
-            Wenn du noch keine Werte hast, lass 0 – du kannst später korrigieren.
+            <b>Frucht/Sorbet:</b> Viele Früchte sind in der Bibliothek (Frucht + Wasser).<br/>
+            <b>Tipp:</b> Wenn du Fruchtpüree/Fruchtzubereitung vom Lieferanten hast, trage dessen Zutaten/Nährwerte ein.
           </div>
           <div class="hr"></div>
 
@@ -452,8 +453,8 @@
 
           <div class="row">
             <div class="hint">
-              <b>Automatik:</b> Die Zutatenliste wird aus den Rezept-Zutaten gebaut (absteigend nach Menge).
-              Allergene und Zusatzstoffe werden automatisch gesammelt.
+              <b>Automatik:</b> Zutatenliste wird nach Menge sortiert. Allergene/Zusatzstoffe werden gesammelt.
+              <br/><b>EAN:</b> Für 170 g = <b>4170000057765</b> • Für 750 g = <b>4170000057949</b> (für alle Sorten).
             </div>
           </div>
 
@@ -506,6 +507,17 @@
 
           <div class="row">
             <div>
+              <label>EAN 170 g (fix)</label>
+              <input id="s_ean170" placeholder="13-stellig" />
+            </div>
+            <div>
+              <label>EAN 750 g (fix)</label>
+              <input id="s_ean750" placeholder="13-stellig" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
               <label>Fußzeile (optional)</label>
               <input id="s_footer" placeholder="Nach dem Auftauen nicht wieder einfrieren." />
             </div>
@@ -517,8 +529,7 @@
           <div class="hr"></div>
 
           <div class="hint">
-            <b>Hinweis:</b> Für Supermarkt-Ware sind korrekte Daten Pflicht. Wenn ein Lieferant Zusatzstoffe/Farbstoffe hat,
-            trag sie in der Zutat ein (E-Nummern / Hinweistext). Das Etikett übernimmt es automatisch.
+            <b>Hinweis:</b> Später kann man EAN pro Sorte hinzufügen (wenn große Ketten das verlangen). Aktuell: 1 EAN pro Größe.
           </div>
         </div>
 
@@ -552,6 +563,7 @@
           <div class="labelWrap">
             <div class="label" id="labelPreview">
               <div class="labelInner" id="labelInner"></div>
+              <div class="lEAN hidden" id="labelEAN"></div>
               <div class="lQR hidden" id="labelQR"></div>
             </div>
           </div>
@@ -559,7 +571,7 @@
           <div class="hr"></div>
 
           <div class="hint" id="labelHint">
-            Druck: „Etikett drucken“ → wähle im Druckdialog die Brother QL-810W. Falls nötig „Skalierung: 100%“.
+            Druck: „Etikett drucken“ → Brother QL-810W → Skalierung 100% / Rand 0.
           </div>
         </div>
       </div>
@@ -570,7 +582,7 @@
 
 <script>
 /* -------------------- DATA MODEL -------------------- */
-const STORAGE_KEY = "sanremo_lmiv_gelato_v1";
+const STORAGE_KEY = "sanremo_lmiv_gelato_v2";
 
 const DEFAULT_STATE = {
   settings: {
@@ -580,7 +592,9 @@ const DEFAULT_STATE = {
     company: "Eiscafé Sanremo",
     addr: "57319 Bad Berleburg, Deutschland",
     phone: "0176 72809926",
-    email: "paulo.sanremo@web.de"
+    email: "paulo.sanremo@web.de",
+    ean170: "4170000057765",
+    ean750: "4170000057949"
   },
   ingredients: [],
   recipes: [],
@@ -594,7 +608,7 @@ const DEFAULT_STATE = {
       lot: "",
       mhd: "",
       qr: "",
-      items: [] // {ingId, qty, unit}
+      items: []
     }
   }
 };
@@ -608,7 +622,6 @@ function loadState(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(!raw) return structuredClone(DEFAULT_STATE);
     const s = JSON.parse(raw);
-    // basic merge
     return {
       ...structuredClone(DEFAULT_STATE),
       ...s,
@@ -620,15 +633,15 @@ function loadState(){
     return structuredClone(DEFAULT_STATE);
   }
 }
-function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
-
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 let state = loadState();
 
-/* -------------------- PRELOAD: SOME COMMON GELATO ITEMS -------------------- */
+/* -------------------- SEED DATA (BASIS + FRÜCHTE) -------------------- */
 function ensureSeed(){
-  if(state.ingredients && state.ingredients.length>0) return;
+  if(state.ingredients && state.ingredients.length>0) {
+    seedFruitsIfMissing();
+    return;
+  }
 
   const seed = [
     {
@@ -710,31 +723,42 @@ function ensureSeed(){
       ingredientsText:"Wasser.",
       note:"",
       n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
-    },
-    {
-      id:"i_pistachio_paste",
-      name:"Pistazienpaste",
-      cat:"Pasten & Nüsse",
-      allergens:"SCHALENFRÜCHTE, PISTAZIEN",
-      additives:"",
-      ingredientsText:"Pistazien (SCHALENFRÜCHTE).",
-      note:"",
-      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
-    },
-    {
-      id:"i_variegato_amarena",
-      name:"Variegato Amarena",
-      cat:"Variegato / Saucen",
-      allergens:"MANDELN",
-      additives:"E129",
-      ingredientsText:"Zucker, Amarene, Glukosesirup, Wasser, Verdickungsmittel, Säuerungsmittel, Aroma.",
-      note:"Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen.",
-      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
     }
   ];
+
   state.ingredients = seed;
+  seedFruitsIfMissing();
   saveState();
 }
+
+function seedFruitsIfMissing(){
+  const fruits = [
+    "Erdbeere","Himbeere","Brombeere","Heidelbeere","Blaubeere","Johannisbeere","Kirsche","Sauerkirsche",
+    "Banane","Mango","Maracuja","Ananas","Pfirsich","Aprikose","Nektarine","Birne","Apfel","Kiwi",
+    "Zitrone","Limette","Orange","Mandarine","Grapefruit",
+    "Melone","Wassermelone",
+    "Granatapfel","Feige","Traube","Pflaume",
+    "Kokos","Guave","Papaya","Lychee","Passionsfrucht",
+    "Rhabarber","Holunder","Mirabelle","Cranberry"
+  ];
+  const existing = new Set((state.ingredients||[]).map(i=>i.id));
+  for(const f of fruits){
+    const id = "fruit_" + f.toLowerCase().replace(/[^a-z0-9äöüß]+/gi,"_");
+    if(existing.has(id)) continue;
+    state.ingredients.push({
+      id,
+      name:`Frucht: ${f}`,
+      cat:"Frucht / Püree",
+      allergens:"",
+      additives:"",
+      ingredientsText:`${f} (Frucht), Wasser.`,
+      note:"Fruchtbasis (Sorbet): Frucht + Wasser. Zucker/Glukose separat im Rezept.",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    });
+  }
+  state.ingredients.sort(sortByName);
+}
+
 ensureSeed();
 
 /* -------------------- UI HELPERS -------------------- */
@@ -752,14 +776,9 @@ function round(x, d=1){
   return Math.round((num(x)+Number.EPSILON)*p)/p;
 }
 function normalizeList(str){
-  return (str||"")
-    .split(",")
-    .map(s=>s.trim())
-    .filter(Boolean);
+  return (str||"").split(",").map(s=>s.trim()).filter(Boolean);
 }
-function uniq(arr){
-  return Array.from(new Set(arr.filter(Boolean)));
-}
+function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))); }
 function catList(){
   const base = [
     "Alle",
@@ -773,7 +792,6 @@ function catList(){
     "Frucht / Püree",
     "Sonstiges"
   ];
-  // add any custom cats
   const extra = uniq(state.ingredients.map(i=>i.cat).filter(c=>c && !base.includes(c)));
   return base.concat(extra);
 }
@@ -802,7 +820,6 @@ function fillCatSelects(){
   filter.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
   if(!$("ingCat").value) $("ingCat").value = "Sonstiges";
 }
-
 function resetIngForm(){
   state.current.editingIngId = null;
   $("ingName").value="";
@@ -817,7 +834,6 @@ function resetIngForm(){
   $("n_protein").value=0; $("n_salt").value=0;
   $("n_fiber").value=0;
 }
-
 function loadIngToForm(ing){
   state.current.editingIngId = ing.id;
   $("ingName").value=ing.name||"";
@@ -836,7 +852,6 @@ function loadIngToForm(ing){
   $("n_salt").value=num(ing.n?.salt);
   $("n_fiber").value=num(ing.n?.fiber);
 }
-
 function saveIngredient(){
   const ing = {
     id: state.current.editingIngId || uid("ing"),
@@ -858,10 +873,7 @@ function saveIngredient(){
       fiber: num($("n_fiber").value)
     }
   };
-  if(!ing.name){
-    toast("Bitte Namen eingeben.");
-    return;
-  }
+  if(!ing.name){ toast("Bitte Namen eingeben."); return; }
   const idx = state.ingredients.findIndex(x=>x.id===ing.id);
   if(idx>=0) state.ingredients[idx]=ing;
   else state.ingredients.push(ing);
@@ -873,11 +885,9 @@ function saveIngredient(){
   renderLabel();
   toast("Gespeichert ✅");
 }
-
 function deleteIngredient(id){
   if(!confirm("Zutat löschen?")) return;
   state.ingredients = state.ingredients.filter(x=>x.id!==id);
-  // remove from recipe items too
   state.current.recipe.items = state.current.recipe.items.filter(it=>it.ingId!==id);
   state.recipes.forEach(r=>r.items = (r.items||[]).filter(it=>it.ingId!==id));
   saveState();
@@ -885,7 +895,6 @@ function deleteIngredient(id){
   renderAll();
   toast("Gelöscht.");
 }
-
 function renderIngredients(){
   fillCatSelects();
   const q = $("ingSearch").value.trim().toLowerCase();
@@ -929,7 +938,6 @@ function renderIngredients(){
     `;
   }).join("");
 }
-
 window.__editIng = (id)=>{
   const ing = state.ingredients.find(x=>x.id===id);
   if(!ing) return;
@@ -939,26 +947,20 @@ window.__editIng = (id)=>{
 window.__delIng = (id)=>deleteIngredient(id);
 
 $("btnSaveIng").addEventListener("click", saveIngredient);
-$("btnResetIng").addEventListener("click", ()=>{
-  resetIngForm();
-  toast("Neu.");
-});
+$("btnResetIng").addEventListener("click", ()=>{ resetIngForm(); toast("Neu."); });
 $("ingSearch").addEventListener("input", renderIngredients);
 $("ingFilterCat").addEventListener("change", renderIngredients);
 
-/* -------------------- RECIPES UI -------------------- */
+/* -------------------- CONTINUA NA PARTE 2/3 -------------------- */
+  /* -------------------- RECIPES UI -------------------- */
 function fillPickers(){
-  // ingredient picker
   const sel = $("r_pick");
   const list = [...state.ingredients].sort(sortByName);
   sel.innerHTML = list.map(i=>`<option value="${i.id}">${escapeHtml(i.name)} — ${escapeHtml(i.cat||"")}</option>`).join("");
 
-  // recipe picker
   const rp = $("recipePicker");
   const rList = [...state.recipes].sort((a,b)=>(a.name||"").localeCompare((b.name||""),"de"));
   rp.innerHTML = `<option value="">— wählen —</option>` + rList.map(r=>`<option value="${r.id}">${escapeHtml(r.name)}</option>`).join("");
-
-  // category selects already handled
 }
 
 function setRecipeFromCurrent(){
@@ -988,7 +990,6 @@ function addToRecipe(){
   renderRecipeTable();
   renderLabel();
 }
-
 $("btnAddToRecipe").addEventListener("click", addToRecipe);
 
 function removeRecipeItem(idx){
@@ -998,6 +999,16 @@ function removeRecipeItem(idx){
   renderLabel();
 }
 window.__rmItem = (idx)=>removeRecipeItem(idx);
+
+function compactNote(ing){
+  const adds = normalizeList(ing.additives).slice(0,6).join(", ");
+  const alls = normalizeList(ing.allergens).slice(0,6).join(", ");
+  const parts = [];
+  if(alls) parts.push("Allergene: "+alls);
+  if(adds) parts.push("Zusatz: "+adds);
+  if(ing.note) parts.push(ing.note);
+  return parts.join(" · ");
+}
 
 function renderRecipeTable(){
   const tb = $("recipeTable").querySelector("tbody");
@@ -1021,27 +1032,9 @@ function renderRecipeTable(){
   }).join("");
 }
 
-function compactNote(ing){
-  const adds = normalizeList(ing.additives).slice(0,6).join(", ");
-  const alls = normalizeList(ing.allergens).slice(0,6).join(", ");
-  const parts = [];
-  if(alls) parts.push("Allergene: "+alls);
-  if(adds) parts.push("Zusatz: "+adds);
-  if(ing.note) parts.push(ing.note);
-  return parts.join(" · ");
-}
-
 function newRecipe(){
   state.current.editingRecipeId = null;
-  state.current.recipe = {
-    name:"",
-    netto:"170",
-    netto_custom:"",
-    lot:"",
-    mhd:"",
-    qr:"",
-    items:[]
-  };
+  state.current.recipe = { name:"", netto:"170", netto_custom:"", lot:"", mhd:"", qr:"", items:[] };
   saveState();
   setRecipeFromCurrent();
   renderRecipeTable();
@@ -1062,10 +1055,7 @@ function saveRecipe(){
   if(!r.name){ toast("Rezeptname fehlt."); return; }
   if((r.items||[]).length===0){ toast("Rezept hat keine Zutaten."); return; }
 
-  const rec = {
-    id: state.current.editingRecipeId || uid("rec"),
-    ...structuredClone(r)
-  };
+  const rec = { id: state.current.editingRecipeId || uid("rec"), ...structuredClone(r) };
 
   const idx = state.recipes.findIndex(x=>x.id===rec.id);
   if(idx>=0) state.recipes[idx]=rec;
@@ -1097,7 +1087,6 @@ $("btnLoadRecipe").addEventListener("click", ()=>{
 
 ["r_name","r_netto_custom","r_lot","r_mhd","r_qr"].forEach(id=>{
   $(id).addEventListener("input", ()=>{
-    // live update current
     state.current.recipe.name = $("r_name").value;
     state.current.recipe.netto_custom = $("r_netto_custom").value;
     state.current.recipe.lot = $("r_lot").value;
@@ -1116,6 +1105,8 @@ function loadSettings(){
   $("s_addr").value = state.settings.addr || "";
   $("s_phone").value = state.settings.phone || "";
   $("s_email").value = state.settings.email || "";
+  $("s_ean170").value = state.settings.ean170 || "";
+  $("s_ean750").value = state.settings.ean750 || "";
 }
 function saveSettings(){
   state.settings.vbz = $("s_vbz").value.trim();
@@ -1125,6 +1116,8 @@ function saveSettings(){
   state.settings.addr = $("s_addr").value.trim();
   state.settings.phone = $("s_phone").value.trim();
   state.settings.email = $("s_email").value.trim();
+  state.settings.ean170 = ($("s_ean170").value||"").trim();
+  state.settings.ean750 = ($("s_ean750").value||"").trim();
   saveState();
   renderLabel();
   toast("Gespeichert ✅");
@@ -1139,7 +1132,6 @@ $("fontScale").addEventListener("change", renderLabel);
 function hasAzoWarning(additivesStr){
   const adds = normalizeList(additivesStr).map(x=>x.toUpperCase());
   const set = new Set(adds.map(a=>a.replace(/\s/g,"")));
-  // common azo dyes that trigger EU warning: E102,E104,E110,E122,E124,E129
   const azo = ["E102","E104","E110","E122","E124","E129"];
   return azo.some(a=>set.has(a));
 }
@@ -1157,7 +1149,8 @@ function recipeTotals(){
     const ing = state.ingredients.find(x=>x.id===it.ingId);
     if(!ing) continue;
 
-    const qtyG = (it.unit==="ml") ? it.qty : it.qty; // simplistic: treat ml as g (ok for quick)
+    // Quick conversion: treat ml ~ g (ok for Wasser/Milch). If you want densities later, we can add.
+    const qtyG = it.qty;
     totalG += qtyG;
 
     const n = ing.n || {};
@@ -1200,9 +1193,7 @@ function recipeTotals(){
 }
 
 function ingredientListText(){
-  // build ingredients list: use ing.ingredientsText if provided; otherwise ing.name
   const items = [...(state.current.recipe.items||[])];
-  // sort by qty desc
   items.sort((a,b)=>num(b.qty)-num(a.qty));
 
   const parts = [];
@@ -1210,11 +1201,17 @@ function ingredientListText(){
     const ing = state.ingredients.find(x=>x.id===it.ingId);
     if(!ing) continue;
     let txt = (ing.ingredientsText && ing.ingredientsText.trim()) ? ing.ingredientsText.trim() : ing.name;
-    // ensure ends with dot? we keep as-is.
     parts.push(txt);
   }
-  // flatten: join with ", " but avoid double commas
   return parts.join(", ").replace(/\s+,/g,",").replace(/,\s+,/g,", ");
+}
+
+function getSelectedEAN(){
+  const r = state.current.recipe;
+  const netto = r.netto;
+  if(netto==="170") return (state.settings.ean170||"").trim();
+  if(netto==="750") return (state.settings.ean750||"").trim();
+  return ""; // for custom/1000 -> no barcode by default
 }
 
 function renderLabel(){
@@ -1222,10 +1219,8 @@ function renderLabel(){
   const mode = $("layoutMode").value;
   const fs = num($("fontScale").value);
 
-  // set label size in pixels for preview
-  // Use 6px per mm approx for preview (not print). Print uses mm in @page.
   const mmToPx = 6;
-  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // landscape label
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62};
   const pxW = Math.round(dims.w*mmToPx);
   const pxH = Math.round(dims.h*mmToPx);
 
@@ -1234,6 +1229,7 @@ function renderLabel(){
   label.style.height = pxH+"px";
   label.style.transform = `scale(${fs})`;
   label.style.transformOrigin = "center";
+  label.style.margin = "0 auto"; // stronger centering in preview
 
   const r = state.current.recipe;
   const totals = recipeTotals();
@@ -1248,13 +1244,11 @@ function renderLabel(){
   const adds = totals.additives.length ? totals.additives.join(", ") : "—";
   const warn = totals.warn;
 
-  // nutrition per 100g recipe
   const n = totals.per100;
 
   const companyLine = `${state.settings.company||""} · ${state.settings.addr||""}`;
   const contactLine = `${state.settings.phone||""}${state.settings.email?(" · "+state.settings.email):""}`;
 
-  // label layout
   const title = escapeHtml(r.name || "Gelato");
   const sub1 = `<div class="lSub"><b>${escapeHtml(vbz)}</b> · Netto: <b>${escapeHtml(nettoText)}</b></div>`;
   const sub2 = `<div class="lSub">${escapeHtml(state.settings.storage||"")}</div>`;
@@ -1309,10 +1303,9 @@ function renderLabel(){
       </div>
     </div>
   `;
-
   $("labelInner").innerHTML = html;
 
-  // QR
+  // QR (simple, will be replaced by real QR in Part 3 if you want)
   const qr = $("labelQR");
   const qrLink = (r.qr||"").trim();
   if(qrLink){
@@ -1322,6 +1315,24 @@ function renderLabel(){
     qr.classList.add("hidden");
     qr.innerHTML = "";
   }
+
+  // EAN Barcode
+  const ean = $("labelEAN");
+  const eanVal = getSelectedEAN();
+  if(isValidEAN13(eanVal)){
+    ean.classList.remove("hidden");
+    // size depends on label size
+    const isSmall = (size==="38x90");
+    const w = isSmall ? 150 : 190;
+    const h = isSmall ? 42 : 54;
+    ean.innerHTML = `
+      ${makeEAN13SVG(eanVal, w, h)}
+      <div class="eanText">${escapeHtml(eanVal)}</div>
+    `;
+  }else{
+    ean.classList.add("hidden");
+    ean.innerHTML = "";
+  }
 }
 
 function fmtNutri(n){
@@ -1329,9 +1340,87 @@ function fmtNutri(n){
   return `${round(n.kj,0)}kJ/${round(n.kcal,0)}kcal · F ${round(n.fat,1)} · KH ${round(n.carb,1)} · Z ${round(n.sugar,1)} · E ${round(n.protein,1)} · S ${round(n.salt,2)}`;
 }
 
-/* -------------------- PRINT LABEL (REAL SIZE) -------------------- */
+/* -------------------- EAN-13 BARCODE (REAL) -------------------- */
+function isValidEAN13(code){
+  const s = String(code||"").replace(/\D/g,"");
+  if(s.length!==13) return false;
+  const digits = s.split("").map(d=>parseInt(d,10));
+  let sum = 0;
+  for(let i=0;i<12;i++){
+    sum += digits[i] * (i%2===0 ? 1 : 3);
+  }
+  const check = (10 - (sum % 10)) % 10;
+  return check === digits[12];
+}
+
+function makeEAN13SVG(code, width=190, height=54){
+  const s = String(code).replace(/\D/g,"");
+  const A = {
+    "0":"0001101","1":"0011001","2":"0010011","3":"0111101","4":"0100011",
+    "5":"0110001","6":"0101111","7":"0111011","8":"0110111","9":"0001011"
+  };
+  const B = {
+    "0":"0100111","1":"0110011","2":"0011011","3":"0100001","4":"0011101",
+    "5":"0111001","6":"0000101","7":"0010001","8":"0001001","9":"0010111"
+  };
+  const C = {
+    "0":"1110010","1":"1100110","2":"1101100","3":"1000010","4":"1011100",
+    "5":"1001110","6":"1010000","7":"1000100","8":"1001000","9":"1110100"
+  };
+  const parity = {
+    "0":"AAAAAA","1":"AABABB","2":"AABBAB","3":"AABBBA","4":"ABAABB",
+    "5":"ABBAAB","6":"ABBBAA","7":"ABABAB","8":"ABABBA","9":"ABBABA"
+  };
+
+  const first = s[0];
+  const left = s.slice(1,7);
+  const right = s.slice(7,13);
+
+  let bits = "";
+  bits += "101"; // start guard
+  const p = parity[first];
+  for(let i=0;i<6;i++){
+    const d = left[i];
+    bits += (p[i]==="A") ? A[d] : B[d];
+  }
+  bits += "01010"; // middle guard
+  for(let i=0;i<6;i++){
+    const d = right[i];
+    bits += C[d];
+  }
+  bits += "101"; // end guard
+
+  const modules = bits.length; // 95
+  const quiet = 10; // modules
+  const totalModules = modules + quiet*2;
+  const moduleW = width / totalModules;
+
+  const barTop = 2;
+  const barH = height - 14; // room for digits below (we print digits as text outside, so just spare)
+  const guardExtra = 6;
+
+  let x = quiet * moduleW;
+  let rects = [];
+  for(let i=0;i<bits.length;i++){
+    const bit = bits[i]==="1";
+    const isGuard = (i<3) || (i>=45 && i<50) || (i>=92);
+    const h = isGuard ? (barH + guardExtra) : barH;
+    if(bit){
+      rects.push(`<rect x="${x.toFixed(3)}" y="${barTop}" width="${moduleW.toFixed(3)}" height="${h}" fill="#000" />`);
+    }
+    x += moduleW;
+  }
+
+  return `
+  <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" shape-rendering="crispEdges">
+    <rect width="${width}" height="${height}" fill="#fff"/>
+    ${rects.join("")}
+  </svg>`;
+}
+
+/* -------------------- CONTINUA NA PARTE 3/3 -------------------- */
+  /* -------------------- PRINT LABEL (REAL SIZE) -------------------- */
 $("btnPrint").addEventListener("click", ()=>{
-  // ensure latest values
   state.current.recipe.name = $("r_name").value;
   state.current.recipe.netto = $("r_netto").value;
   state.current.recipe.netto_custom = $("r_netto_custom").value;
@@ -1344,7 +1433,7 @@ $("btnPrint").addEventListener("click", ()=>{
   const mode = $("layoutMode").value;
   const fs = num($("fontScale").value);
 
-  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // mm, landscape
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // mm (landscape)
   const html = $("labelPreview").outerHTML;
 
   const w = window.open("", "_blank");
@@ -1366,7 +1455,10 @@ $("btnPrint").addEventListener("click", ()=>{
           transform: scale(${fs});
           transform-origin: top left;
         }
+
+        /* IMPORTANT: centered inner padding in mm to avoid “not centered” feeling */
         .labelInner{padding:2.6mm 2.6mm 2mm}
+
         .lTitle{font-weight:900; font-size:${mode==="compact"?12.3:13.2}pt}
         .lSub{font-size:8.2pt; margin-top:1mm}
         .lSmall{font-size:7.2pt; margin-top:1.3mm; line-height:1.25}
@@ -1378,6 +1470,8 @@ $("btnPrint").addEventListener("click", ()=>{
         .lFooter{margin-top:1.4mm; font-size:6.8pt; line-height:1.2}
         .lWarn{margin-top:1.4mm; font-size:7pt; font-weight:800}
         .lQR{position:absolute; right:2mm; bottom:2mm; width:16mm; height:16mm; border:0.3mm solid #000; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+        .lEAN{position:absolute; left:2mm; bottom:2mm; padding:0.4mm 0.6mm; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+        .lEAN .eanText{font-size:7pt; letter-spacing:0.8pt; margin-top:0.6mm}
         svg{width:100%; height:100%}
       </style>
     </head><body>
@@ -1400,7 +1494,6 @@ $("btnExport").addEventListener("click", ()=>{
   setTimeout(()=>URL.revokeObjectURL(url), 500);
   toast("Backup exportiert.");
 });
-
 $("btnImport").addEventListener("click", ()=> $("fileImport").click());
 $("fileImport").addEventListener("change", async (e)=>{
   const f = e.target.files?.[0];
@@ -1408,7 +1501,6 @@ $("fileImport").addEventListener("change", async (e)=>{
   try{
     const txt = await f.text();
     const obj = JSON.parse(txt);
-    // quick validate
     if(!obj || typeof obj!=="object") throw new Error("Invalid");
     state = {
       ...structuredClone(DEFAULT_STATE),
@@ -1416,6 +1508,8 @@ $("fileImport").addEventListener("change", async (e)=>{
       settings: {...structuredClone(DEFAULT_STATE.settings), ...(obj.settings||{})},
       current: {...structuredClone(DEFAULT_STATE.current), ...(obj.current||{})}
     };
+    // guarantee fruits exist
+    seedFruitsIfMissing();
     saveState();
     fillCatSelects();
     fillPickers();
@@ -1432,20 +1526,17 @@ $("fileImport").addEventListener("change", async (e)=>{
 });
 
 /* -------------------- SIMPLE QR (SVG) -------------------- */
-/* Lightweight pseudo QR (not full spec). Works for quick scanning in many cases, but not guaranteed.
-   If you need 100% reliable QR, tell me and I replace this with a proper QR library (still single file). */
+/* NOTE: This is a lightweight QR-like code. If you want 100% QR standard, tell me and I replace with a real QR lib. */
 function makeSimpleQR(text){
-  // create a deterministic pattern from hash
   const s = String(text);
   let h = 2166136261;
   for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
-  const size = 29; // modules
-  const mod = 5; // px (for preview only)
+  const size = 29;
+  const mod = 5;
   const w = size*mod;
   let cells = [];
   function rnd(){ h ^= h<<13; h ^= h>>>17; h ^= h<<5; return (h>>>0)/4294967295; }
 
-  // basic finder patterns
   function isFinder(x,y){
     const fp = (ox,oy)=>{
       const dx=x-ox, dy=y-oy;
@@ -1463,11 +1554,9 @@ function makeSimpleQR(text){
       let on = false;
       if(isFinder(x,y)){ on = true; }
       else{
-        // data-ish
         const r = rnd();
         on = r>0.55;
       }
-      // quiet zone handled by container
       cells.push(on ? `<rect x="${x*mod}" y="${y*mod}" width="${mod}" height="${mod}" fill="#000"/>` : "");
     }
   }
@@ -1498,13 +1587,19 @@ function renderAll(){
   fillPickers();
   loadSettings();
 
-  // if no MHD set, default +6 Monate
+  // Default MHD +6 Monate
   if(!state.current.recipe.mhd){
     const d = new Date();
     d.setMonth(d.getMonth()+6);
     state.current.recipe.mhd = d.toISOString().slice(0,10);
     saveState();
   }
+
+  // if settings missing EANs, set defaults you gave
+  if(!state.settings.ean170) state.settings.ean170 = "4170000057765";
+  if(!state.settings.ean750) state.settings.ean750 = "4170000057949";
+  saveState();
+
   setRecipeFromCurrent();
   renderAll();
   resetIngForm();
