@@ -41,7 +41,7 @@
     .title h1{margin:0; font-size:16px; letter-spacing:.2px}
     .title .sub{margin:2px 0 0; color:var(--mut); font-size:12px}
     .actions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
-    button, .btn{
+    button{
       border:1px solid rgba(255,255,255,.08);
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
       color:var(--txt); padding:10px 12px; border-radius:14px;
@@ -49,18 +49,9 @@
       font-weight:650; font-size:13px;
     }
     button:hover{border-color: rgba(77,212,255,.35)}
-    .btnPrimary{
-      background: linear-gradient(180deg, rgba(77,212,255,.26), rgba(77,212,255,.12));
-      border-color: rgba(77,212,255,.35);
-    }
-    .btnOk{
-      background: linear-gradient(180deg, rgba(51,209,122,.26), rgba(51,209,122,.12));
-      border-color: rgba(51,209,122,.35);
-    }
-    .btnBad{
-      background: linear-gradient(180deg, rgba(255,107,107,.26), rgba(255,107,107,.12));
-      border-color: rgba(255,107,107,.35);
-    }
+    .btnPrimary{background: linear-gradient(180deg, rgba(77,212,255,.26), rgba(77,212,255,.12)); border-color: rgba(77,212,255,.35);}
+    .btnOk{background: linear-gradient(180deg, rgba(51,209,122,.26), rgba(51,209,122,.12)); border-color: rgba(51,209,122,.35);}
+    .btnBad{background: linear-gradient(180deg, rgba(255,107,107,.26), rgba(255,107,107,.12)); border-color: rgba(255,107,107,.35);}
 
     .tabs{display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;}
     .tab{
@@ -70,17 +61,9 @@
       background: rgba(255,255,255,.04);
       font-weight:700; font-size:13px;
     }
-    .tab.active{
-      color:var(--txt);
-      border-color: rgba(77,212,255,.45);
-      background: rgba(77,212,255,.12);
-    }
+    .tab.active{color:var(--txt); border-color: rgba(77,212,255,.45); background: rgba(77,212,255,.12);}
 
-    .grid{
-      display:grid; gap:14px;
-      grid-template-columns: 1.05fr .95fr;
-      align-items:start;
-    }
+    .grid{display:grid; gap:14px; grid-template-columns: 1.05fr .95fr; align-items:start;}
     @media (max-width: 980px){
       .grid{grid-template-columns:1fr}
       .actions{justify-content:flex-start}
@@ -89,8 +72,8 @@
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       border:1px solid rgba(255,255,255,.10);
-      border-radius: 18px;
-      padding: 14px;
+      border-radius: var(--r);
+      padding: var(--pad);
       box-shadow: var(--shadow);
     }
     .card h2{margin:0 0 10px; font-size:14px}
@@ -109,10 +92,7 @@
     textarea{min-height:90px; resize:vertical}
     input:focus, select:focus, textarea:focus{border-color: rgba(77,212,255,.5)}
     .hr{height:1px; background: rgba(255,255,255,.08); margin:12px 0}
-    .list{
-      display:flex; flex-direction:column; gap:10px;
-      max-height: 520px; overflow:auto; padding-right:4px;
-    }
+    .list{display:flex; flex-direction:column; gap:10px; max-height: 520px; overflow:auto; padding-right:4px;}
     .item{
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
@@ -159,8 +139,11 @@
     .mono{font-family:var(--mono)}
 
     .labelCard{position:sticky; top:92px;}
-    @media (max-width:980px){ .labelCard{position:relative; top:auto} }
+    @media (max-width:980px){
+      .labelCard{position:relative; top:auto}
+    }
 
+    /* Label preview */
     .labelWrap{
       display:flex; justify-content:center; align-items:center;
       padding:10px; border-radius:16px;
@@ -175,44 +158,51 @@
       overflow:hidden;
       position:relative;
       font-family: Arial, Helvetica, sans-serif;
+      display:flex; align-items:center; justify-content:center; /* echte Zentrierung */
     }
-    .labelInner{padding:10px 10px 8px}
+    .labelInner{
+      width:100%;
+      height:100%;
+      padding:10px 10px 8px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
+      gap:4px;
+    }
     .label .lTitle{font-weight:900; font-size:14px; letter-spacing:.2px}
     .label .lSub{font-size:10.5px; margin-top:2px}
-    .label .lSmall{font-size:9.5px; margin-top:6px; line-height:1.25}
-    .label .lGrid{
-      display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;
-      font-size:9.5px;
-    }
-    .label table{width:100%; border-collapse:collapse; font-size:9.5px;}
-    .label td, .label th{border:1px solid #000; padding:3px 4px;}
+    .label .lSmall{font-size:9.5px; margin-top:4px; line-height:1.25}
+    .label table{width:100%; border-collapse:collapse; font-size:9.2px;}
+    .label td, .label th{border:1px solid #000; padding:2.5px 3px;}
     .label th{text-align:left}
-    .lFooter{margin-top:6px; font-size:9px; line-height:1.2}
-    .lWarn{margin-top:6px; font-size:9px; font-weight:800}
+    .lFooter{margin-top:4px; font-size:9px; line-height:1.2}
+    .lWarn{margin-top:4px; font-size:9px; font-weight:800}
+
+    /* Safe bottom area: Barcode + QR nie über Text */
+    .labelBottomBar{
+      margin-top:auto; /* drückt nach unten */
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:8px;
+      padding-top:4px;
+    }
+    .lBarcode{
+      width:62%;
+      min-width:120px;
+      border:1px solid #000;
+      padding:3px 4px;
+    }
+    .lBarcode svg{width:100%; height:28px; display:block}
+    .lBarcode .eanText{font-size:9px; text-align:center; margin-top:2px}
     .lQR{
-      position:absolute; right:8px; bottom:8px;
       width:52px; height:52px;
       background:#fff;
       border:1px solid #000;
       display:flex; align-items:center; justify-content:center;
       overflow:hidden;
+      flex:0 0 52px;
     }
-
-    /* EAN barcode block */
-    .lEAN{
-      position:absolute; left:8px; bottom:8px;
-      background:#fff;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      padding:2px 4px;
-      border-radius:2px;
-    }
-    .lEAN svg{display:block}
-    .lEAN .eanText{
-      font-size:9px; letter-spacing:1px;
-      margin-top:1px;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
     .hint{
       padding:10px 12px; border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
@@ -220,7 +210,6 @@
       color:var(--mut);
       font-size:12px;
     }
-
     .toast{
       position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
       background: rgba(17,26,51,.92);
@@ -236,7 +225,6 @@
 
 <body>
   <div class="wrap">
-
     <div class="top">
       <div class="brand">
         <div class="logo"></div>
@@ -319,8 +307,8 @@
 
           <div class="hr"></div>
           <div class="hint">
-            <b>Frucht/Sorbet:</b> Viele Früchte sind in der Bibliothek (Frucht + Wasser).<br/>
-            <b>Tipp:</b> Wenn du Fruchtpüree/Fruchtzubereitung vom Lieferanten hast, trage dessen Zutaten/Nährwerte ein.
+            <b>Tipp:</b> Für Pasten/Variegato/Pulver nutze die Werte vom Lieferantenetikett (pro 100 g).
+            (Wenn du noch keine Werte hast: 0 – später korrigieren.)
           </div>
           <div class="hr"></div>
 
@@ -362,10 +350,10 @@
           <div class="row">
             <div>
               <label>Rezeptname / Sorte</label>
-              <input id="r_name" placeholder="z.B. Pistazie, Stracciatella, Amarena Kirsch..." />
+              <input id="r_name" placeholder="z.B. Erdbeere, Zitrone, Mango, Pistazie..." />
             </div>
             <div>
-              <label>Nettofüllmenge (für Etikett)</label>
+              <label>Nettofüllmenge (für Barcode)</label>
               <select id="r_netto">
                 <option value="170">170 g</option>
                 <option value="750">750 g</option>
@@ -453,8 +441,8 @@
 
           <div class="row">
             <div class="hint">
-              <b>Automatik:</b> Zutatenliste wird nach Menge sortiert. Allergene/Zusatzstoffe werden gesammelt.
-              <br/><b>EAN:</b> Für 170 g = <b>4170000057765</b> • Für 750 g = <b>4170000057949</b> (für alle Sorten).
+              <b>Automatik:</b> Zutatenliste wird aus den Rezept-Zutaten gebaut (absteigend nach Menge).
+              Allergene & Zusatzstoffe werden automatisch gesammelt. <b>Frucht/Wasser = immer Fruchteis</b>.
             </div>
           </div>
 
@@ -474,12 +462,12 @@
 
           <div class="row">
             <div>
-              <label>Verkehrsbezeichnung (Standard)</label>
-              <input id="s_vbz" placeholder="Speiseeis" />
-            </div>
-            <div>
               <label>Aufbewahrung (Standard)</label>
               <input id="s_storage" placeholder="Tiefgekühlt bei -18°C lagern." />
+            </div>
+            <div>
+              <label>Fußzeile (optional)</label>
+              <input id="s_footer" placeholder="Nach dem Auftauen nicht wieder einfrieren." />
             </div>
           </div>
 
@@ -505,21 +493,23 @@
             </div>
           </div>
 
+          <div class="hr"></div>
+
+          <h2>EAN / Barcode (fix für alle Sorten)</h2>
           <div class="row">
             <div>
-              <label>EAN 170 g (fix)</label>
-              <input id="s_ean170" placeholder="13-stellig" />
+              <label>EAN für 170 g</label>
+              <input id="s_ean170" placeholder="4170000057765" />
             </div>
             <div>
-              <label>EAN 750 g (fix)</label>
-              <input id="s_ean750" placeholder="13-stellig" />
+              <label>EAN für 750 g</label>
+              <input id="s_ean750" placeholder="4170000057949" />
             </div>
           </div>
-
           <div class="row">
             <div>
-              <label>Fußzeile (optional)</label>
-              <input id="s_footer" placeholder="Nach dem Auftauen nicht wieder einfrieren." />
+              <label>EAN für 1000 g (optional)</label>
+              <input id="s_ean1000" placeholder="" />
             </div>
             <div style="display:flex; gap:8px; align-items:flex-end; justify-content:flex-end">
               <button class="btnOk" id="btnSaveSettings">Speichern</button>
@@ -529,10 +519,10 @@
           <div class="hr"></div>
 
           <div class="hint">
-            <b>Hinweis:</b> Später kann man EAN pro Sorte hinzufügen (wenn große Ketten das verlangen). Aktuell: 1 EAN pro Größe.
+            <b>Regel fix:</b> Alle Sorbets/Wasser-Frucht = <b>Fruchteis</b> (immer). Milchprodukte = Speiseeis.
+            (Wenn du irgendwann “Milch” in einem Frucht-Rezept nutzt, sag kurz Bescheid – dann machen wir eine Option.)
           </div>
         </div>
-
       </div>
 
       <!-- RIGHT -->
@@ -563,8 +553,6 @@
           <div class="labelWrap">
             <div class="label" id="labelPreview">
               <div class="labelInner" id="labelInner"></div>
-              <div class="lEAN hidden" id="labelEAN"></div>
-              <div class="lQR hidden" id="labelQR"></div>
             </div>
           </div>
 
@@ -586,7 +574,6 @@ const STORAGE_KEY = "sanremo_lmiv_gelato_v2";
 
 const DEFAULT_STATE = {
   settings: {
-    vbz: "Speiseeis",
     storage: "Tiefgekühlt bei -18°C lagern.",
     footer: "Nach dem Auftauen nicht wieder einfrieren.",
     company: "Eiscafé Sanremo",
@@ -594,7 +581,8 @@ const DEFAULT_STATE = {
     phone: "0176 72809926",
     email: "paulo.sanremo@web.de",
     ean170: "4170000057765",
-    ean750: "4170000057949"
+    ean750: "4170000057949",
+    ean1000: ""
   },
   ingredients: [],
   recipes: [],
@@ -608,7 +596,7 @@ const DEFAULT_STATE = {
       lot: "",
       mhd: "",
       qr: "",
-      items: []
+      items: [] // {ingId, qty, unit}
     }
   }
 };
@@ -634,35 +622,22 @@ function loadState(){
   }
 }
 function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
 let state = loadState();
 
-/* -------------------- SEED DATA (BASIS + FRÜCHTE) -------------------- */
+/* -------------------- PRELOAD (seed) -------------------- */
 function ensureSeed(){
-  if(state.ingredients && state.ingredients.length>0) {
-    seedFruitsIfMissing();
-    return;
-  }
-
+  if(state.ingredients && state.ingredients.length>0) return;
   const seed = [
     {
-      id:"i_milk_uht_35",
-      name:"H-Vollmilch 3,5% (UHT)",
-      cat:"Milch & Sahne",
-      allergens:"MILCH",
+      id:"i_water",
+      name:"Wasser",
+      cat:"Sonstiges",
+      allergens:"",
       additives:"",
-      ingredientsText:"Vollmilch (MILCH).",
+      ingredientsText:"Wasser",
       note:"",
-      n:{kj:0,kcal:0,fat:3.5,sat:2.2,carb:4.8,sugar:4.8,protein:3.4,salt:0.10,fiber:0}
-    },
-    {
-      id:"i_cream_33",
-      name:"Schlagsahne 33% Fett",
-      cat:"Milch & Sahne",
-      allergens:"MILCH",
-      additives:"",
-      ingredientsText:"Schlagsahne (MILCH).",
-      note:"",
-      n:{kj:0,kcal:0,fat:33,sat:22,carb:3.3,sugar:3.3,protein:2.4,salt:0.08,fiber:0}
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
     },
     {
       id:"i_sugar",
@@ -670,7 +645,7 @@ function ensureSeed(){
       cat:"Zucker & Süßung",
       allergens:"",
       additives:"",
-      ingredientsText:"Zucker.",
+      ingredientsText:"Zucker",
       note:"",
       n:{kj:1700,kcal:400,fat:0,sat:0,carb:100,sugar:100,protein:0,salt:0,fiber:0}
     },
@@ -680,7 +655,7 @@ function ensureSeed(){
       cat:"Zucker & Süßung",
       allergens:"",
       additives:"",
-      ingredientsText:"Dextrose.",
+      ingredientsText:"Dextrose",
       note:"",
       n:{kj:1700,kcal:400,fat:0,sat:0,carb:100,sugar:100,protein:0,salt:0,fiber:0}
     },
@@ -690,19 +665,9 @@ function ensureSeed(){
       cat:"Zucker & Süßung",
       allergens:"",
       additives:"",
-      ingredientsText:"Glukosepulver.",
+      ingredientsText:"Glukosepulver",
       note:"",
       n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
-    },
-    {
-      id:"i_skim_milk_powder",
-      name:"Magermilchpulver",
-      cat:"Pulver & Stabilisierung",
-      allergens:"MILCH",
-      additives:"",
-      ingredientsText:"Magermilchpulver (MILCH).",
-      note:"",
-      n:{kj:0,kcal:0,fat:1,sat:0.7,carb:52,sugar:52,protein:36,salt:0.5,fiber:0}
     },
     {
       id:"i_inulin",
@@ -710,55 +675,76 @@ function ensureSeed(){
       cat:"Pulver & Stabilisierung",
       allergens:"",
       additives:"",
-      ingredientsText:"Inulin.",
+      ingredientsText:"Inulin",
       note:"",
       n:{kj:850,kcal:200,fat:0,sat:0,carb:8,sugar:8,protein:0,salt:0,fiber:90}
     },
     {
-      id:"i_water",
-      name:"Wasser",
-      cat:"Sonstiges",
+      id:"i_milk_uht_35",
+      name:"H-Vollmilch 3,5% (UHT)",
+      cat:"Milch & Sahne",
+      allergens:"MILCH",
+      additives:"",
+      ingredientsText:"Vollmilch (MILCH)",
+      note:"",
+      n:{kj:0,kcal:0,fat:3.5,sat:2.2,carb:4.8,sugar:4.8,protein:3.4,salt:0.10,fiber:0}
+    },
+    {
+      id:"i_cream_33",
+      name:"Schlagsahne 33% Fett",
+      cat:"Milch & Sahne",
+      allergens:"MILCH",
+      additives:"",
+      ingredientsText:"Schlagsahne (MILCH)",
+      note:"",
+      n:{kj:0,kcal:0,fat:33,sat:22,carb:3.3,sugar:3.3,protein:2.4,salt:0.08,fiber:0}
+    },
+    /* ✅ Frucht-Pulver / Basen (du kannst später Werte eintragen) */
+    {
+      id:"i_supergel_mix_d",
+      name:"SUPERGEL MIX 'D' (Pulver)",
+      cat:"Frucht / Püree",
+      allergens:"SOJA",
+      additives:"E473, E472b, E477, E466",
+      ingredientsText:"Dextrose, Glukosesirup, pflanzliches Fett (Kokos), Verdickungsmittel (Carboxymethylcellulose, Tara-Gummi, Guarkernmehl), Emulgatoren (E473, E472b, E477), Maltodextrin, SOJAMEHL, Erbsenprotein, SOJAeiweiß",
+      note:"",
+      n:{kj:0,kcal:0,fat:10,sat:9.4,carb:81,sugar:50,protein:0.7,salt:0.58,fiber:0}
+    },
+    {
+      id:"i_lemon_piu",
+      name:"LEMON PIÙ (Pulver)",
+      cat:"Frucht / Püree",
+      allergens:"",
+      additives:"E466, E410, E412, E401, E1422, E477, E471",
+      ingredientsText:"Dextrose, Zitronensaftpulver, Säuerungsmittel (Zitronensäure), Glukosesirup (getrocknet), Verdickungsmittel (E466, E410, E412, E401, E1422), Reisstärke, Emulgatoren (E477, E471), pflanzliche Proteine, Salz, Aromen",
+      note:"",
+      n:{kj:1324,kcal:313,fat:3.5,sat:3.4,carb:69,sugar:29,protein:1.2,salt:0.3,fiber:0}
+    },
+    /* Früchte (Beispiele) */
+    {
+      id:"i_erdbeere",
+      name:"Erdbeeren (Frucht)",
+      cat:"Frucht / Püree",
       allergens:"",
       additives:"",
-      ingredientsText:"Wasser.",
+      ingredientsText:"Erdbeeren (Frucht)",
+      note:"",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_zitrone_saft",
+      name:"Zitronensaft",
+      cat:"Frucht / Püree",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Zitronensaft",
       note:"",
       n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
     }
   ];
-
   state.ingredients = seed;
-  seedFruitsIfMissing();
   saveState();
 }
-
-function seedFruitsIfMissing(){
-  const fruits = [
-    "Erdbeere","Himbeere","Brombeere","Heidelbeere","Blaubeere","Johannisbeere","Kirsche","Sauerkirsche",
-    "Banane","Mango","Maracuja","Ananas","Pfirsich","Aprikose","Nektarine","Birne","Apfel","Kiwi",
-    "Zitrone","Limette","Orange","Mandarine","Grapefruit",
-    "Melone","Wassermelone",
-    "Granatapfel","Feige","Traube","Pflaume",
-    "Kokos","Guave","Papaya","Lychee","Passionsfrucht",
-    "Rhabarber","Holunder","Mirabelle","Cranberry"
-  ];
-  const existing = new Set((state.ingredients||[]).map(i=>i.id));
-  for(const f of fruits){
-    const id = "fruit_" + f.toLowerCase().replace(/[^a-z0-9äöüß]+/gi,"_");
-    if(existing.has(id)) continue;
-    state.ingredients.push({
-      id,
-      name:`Frucht: ${f}`,
-      cat:"Frucht / Püree",
-      allergens:"",
-      additives:"",
-      ingredientsText:`${f} (Frucht), Wasser.`,
-      note:"Fruchtbasis (Sorbet): Frucht + Wasser. Zucker/Glukose separat im Rezept.",
-      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
-    });
-  }
-  state.ingredients.sort(sortByName);
-}
-
 ensureSeed();
 
 /* -------------------- UI HELPERS -------------------- */
@@ -776,9 +762,14 @@ function round(x, d=1){
   return Math.round((num(x)+Number.EPSILON)*p)/p;
 }
 function normalizeList(str){
-  return (str||"").split(",").map(s=>s.trim()).filter(Boolean);
+  return (str||"")
+    .split(",")
+    .map(s=>s.trim())
+    .filter(Boolean);
 }
 function uniq(arr){ return Array.from(new Set(arr.filter(Boolean))); }
+function sortByName(a,b){ return (a.name||"").localeCompare((b.name||""), "de"); }
+
 function catList(){
   const base = [
     "Alle",
@@ -795,7 +786,10 @@ function catList(){
   const extra = uniq(state.ingredients.map(i=>i.cat).filter(c=>c && !base.includes(c)));
   return base.concat(extra);
 }
-function sortByName(a,b){ return (a.name||"").localeCompare((b.name||""), "de"); }
+
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+}
 
 /* -------------------- TAB NAV -------------------- */
 function setTab(tab){
@@ -811,15 +805,14 @@ $("tabs").addEventListener("click",(e)=>{
   setTab(t.dataset.tab);
 });
 
-/* -------------------- INGREDIENTS UI -------------------- */
+/* -------------------- INGREDIENTS -------------------- */
 function fillCatSelects(){
   const cats = catList();
-  const ingCat = $("ingCat");
-  const filter = $("ingFilterCat");
-  ingCat.innerHTML = cats.filter(c=>c!=="Alle").map(c=>`<option>${escapeHtml(c)}</option>`).join("");
-  filter.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  $("ingCat").innerHTML = cats.filter(c=>c!=="Alle").map(c=>`<option>${escapeHtml(c)}</option>`).join("");
+  $("ingFilterCat").innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
   if(!$("ingCat").value) $("ingCat").value = "Sonstiges";
 }
+
 function resetIngForm(){
   state.current.editingIngId = null;
   $("ingName").value="";
@@ -834,6 +827,7 @@ function resetIngForm(){
   $("n_protein").value=0; $("n_salt").value=0;
   $("n_fiber").value=0;
 }
+
 function loadIngToForm(ing){
   state.current.editingIngId = ing.id;
   $("ingName").value=ing.name||"";
@@ -852,6 +846,19 @@ function loadIngToForm(ing){
   $("n_salt").value=num(ing.n?.salt);
   $("n_fiber").value=num(ing.n?.fiber);
 }
+
+function hasAzoWarning(additivesStr){
+  const adds = normalizeList(additivesStr).map(x=>x.toUpperCase().replace(/\s/g,""));
+  const set = new Set(adds);
+  const azo = ["E102","E104","E110","E122","E124","E129"];
+  return azo.some(a=>set.has(a));
+}
+
+function fmtNutri(n){
+  if(!n) return "—";
+  return `${round(n.kj,0)}kJ/${round(n.kcal,0)}kcal · F ${round(n.fat,1)} · KH ${round(n.carb,1)} · Z ${round(n.sugar,1)} · E ${round(n.protein,1)} · S ${round(n.salt,2)}`;
+}
+
 function saveIngredient(){
   const ing = {
     id: state.current.editingIngId || uid("ing"),
@@ -874,9 +881,9 @@ function saveIngredient(){
     }
   };
   if(!ing.name){ toast("Bitte Namen eingeben."); return; }
+
   const idx = state.ingredients.findIndex(x=>x.id===ing.id);
-  if(idx>=0) state.ingredients[idx]=ing;
-  else state.ingredients.push(ing);
+  if(idx>=0) state.ingredients[idx]=ing; else state.ingredients.push(ing);
   state.ingredients.sort(sortByName);
   saveState();
   fillCatSelects();
@@ -885,6 +892,7 @@ function saveIngredient(){
   renderLabel();
   toast("Gespeichert ✅");
 }
+
 function deleteIngredient(id){
   if(!confirm("Zutat löschen?")) return;
   state.ingredients = state.ingredients.filter(x=>x.id!==id);
@@ -895,6 +903,7 @@ function deleteIngredient(id){
   renderAll();
   toast("Gelöscht.");
 }
+
 function renderIngredients(){
   fillCatSelects();
   const q = $("ingSearch").value.trim().toLowerCase();
@@ -908,16 +917,12 @@ function renderIngredients(){
     return hay.includes(q);
   });
 
-  if(items.length===0){
-    list.innerHTML = `<div class="hint">Keine Treffer.</div>`;
-    return;
-  }
+  if(items.length===0){ list.innerHTML = `<div class="hint">Keine Treffer.</div>`; return; }
 
   list.innerHTML = items.map(i=>{
     const alls = normalizeList(i.allergens).slice(0,4);
     const adds = normalizeList(i.additives).slice(0,4);
     const warn = hasAzoWarning(i.additives) || /kann aktivität/i.test(i.note||"");
-
     return `
       <div class="item">
         <div class="meta">
@@ -938,6 +943,7 @@ function renderIngredients(){
     `;
   }).join("");
 }
+
 window.__editIng = (id)=>{
   const ing = state.ingredients.find(x=>x.id===id);
   if(!ing) return;
@@ -951,8 +957,7 @@ $("btnResetIng").addEventListener("click", ()=>{ resetIngForm(); toast("Neu."); 
 $("ingSearch").addEventListener("input", renderIngredients);
 $("ingFilterCat").addEventListener("change", renderIngredients);
 
-/* -------------------- CONTINUA NA PARTE 2/3 -------------------- */
-  /* -------------------- RECIPES UI -------------------- */
+/* -------------------- RECIPES -------------------- */
 function fillPickers(){
   const sel = $("r_pick");
   const list = [...state.ingredients].sort(sortByName);
@@ -1058,8 +1063,7 @@ function saveRecipe(){
   const rec = { id: state.current.editingRecipeId || uid("rec"), ...structuredClone(r) };
 
   const idx = state.recipes.findIndex(x=>x.id===rec.id);
-  if(idx>=0) state.recipes[idx]=rec;
-  else state.recipes.push(rec);
+  if(idx>=0) state.recipes[idx]=rec; else state.recipes.push(rec);
 
   state.current.editingRecipeId = rec.id;
   saveState();
@@ -1098,7 +1102,6 @@ $("btnLoadRecipe").addEventListener("click", ()=>{
 
 /* -------------------- SETTINGS -------------------- */
 function loadSettings(){
-  $("s_vbz").value = state.settings.vbz || "";
   $("s_storage").value = state.settings.storage || "";
   $("s_footer").value = state.settings.footer || "";
   $("s_company").value = state.settings.company || "";
@@ -1107,17 +1110,18 @@ function loadSettings(){
   $("s_email").value = state.settings.email || "";
   $("s_ean170").value = state.settings.ean170 || "";
   $("s_ean750").value = state.settings.ean750 || "";
+  $("s_ean1000").value = state.settings.ean1000 || "";
 }
 function saveSettings(){
-  state.settings.vbz = $("s_vbz").value.trim();
   state.settings.storage = $("s_storage").value.trim();
   state.settings.footer = $("s_footer").value.trim();
   state.settings.company = $("s_company").value.trim();
   state.settings.addr = $("s_addr").value.trim();
   state.settings.phone = $("s_phone").value.trim();
   state.settings.email = $("s_email").value.trim();
-  state.settings.ean170 = ($("s_ean170").value||"").trim();
-  state.settings.ean750 = ($("s_ean750").value||"").trim();
+  state.settings.ean170 = $("s_ean170").value.trim();
+  state.settings.ean750 = $("s_ean750").value.trim();
+  state.settings.ean1000 = $("s_ean1000").value.trim();
   saveState();
   renderLabel();
   toast("Gespeichert ✅");
@@ -1129,13 +1133,6 @@ $("labelSize").addEventListener("change", renderLabel);
 $("layoutMode").addEventListener("change", renderLabel);
 $("fontScale").addEventListener("change", renderLabel);
 
-function hasAzoWarning(additivesStr){
-  const adds = normalizeList(additivesStr).map(x=>x.toUpperCase());
-  const set = new Set(adds.map(a=>a.replace(/\s/g,"")));
-  const azo = ["E102","E104","E110","E122","E124","E129"];
-  return azo.some(a=>set.has(a));
-}
-
 function recipeTotals(){
   const items = state.current.recipe.items || [];
   let totalG = 0;
@@ -1143,14 +1140,12 @@ function recipeTotals(){
   const allergens = [];
   const additives = [];
   let warn = false;
-  let extraNotes = [];
 
   for(const it of items){
     const ing = state.ingredients.find(x=>x.id===it.ingId);
     if(!ing) continue;
 
-    // Quick conversion: treat ml ~ g (ok for Wasser/Milch). If you want densities later, we can add.
-    const qtyG = it.qty;
+    const qtyG = it.qty; // ml ~ g (für Schnell)
     totalG += qtyG;
 
     const n = ing.n || {};
@@ -1167,7 +1162,6 @@ function recipeTotals(){
     normalizeList(ing.allergens).forEach(a=>allergens.push(a));
     normalizeList(ing.additives).forEach(a=>additives.push(a));
     if(hasAzoWarning(ing.additives) || /kann aktivität/i.test(ing.note||"")) warn = true;
-    if(ing.note) extraNotes.push(ing.note);
   }
 
   const per100 = (totalG>0) ? {
@@ -1187,11 +1181,37 @@ function recipeTotals(){
     per100,
     allergens: uniq(allergens.map(a=>a.toUpperCase())),
     additives: uniq(additives.map(a=>a.toUpperCase())),
-    warn,
-    notes: uniq(extraNotes)
+    warn
   };
 }
 
+/* ✅ Fruchteis-Regel (fix): sobald Rezept Wasser/Frucht enthält und keine MILCH -> Fruchteis
+   Du hast bestätigt: "immer Fruchteis" für Wasser-Frucht */
+function detectProductName(){
+  const items = state.current.recipe.items || [];
+  let hasMilk = false;
+  let hasFruitOrWater = false;
+
+  for(const it of items){
+    const ing = state.ingredients.find(x=>x.id===it.ingId);
+    if(!ing) continue;
+
+    const alls = normalizeList(ing.allergens).map(a=>a.toUpperCase());
+    if(alls.includes("MILCH")) hasMilk = true;
+
+    const cat = (ing.cat||"").toLowerCase();
+    const nm = (ing.name||"").toLowerCase();
+    if(cat.includes("frucht") || nm.includes("frucht") || nm.includes("erdbeer") || nm.includes("zitrone") || nm.includes("mango") || nm.includes("himbeer") || nm.includes("maracuja") || nm.includes("limette")) {
+      hasFruitOrWater = true;
+    }
+    if(nm.includes("wasser")) hasFruitOrWater = true;
+  }
+
+  if(hasFruitOrWater && !hasMilk) return "Fruchteis";
+  return "Speiseeis";
+}
+
+/* Zutatenliste bauen + Wasser doppelt entfernen */
 function ingredientListText(){
   const items = [...(state.current.recipe.items||[])];
   items.sort((a,b)=>num(b.qty)-num(a.qty));
@@ -1200,27 +1220,159 @@ function ingredientListText(){
   for(const it of items){
     const ing = state.ingredients.find(x=>x.id===it.ingId);
     if(!ing) continue;
-    let txt = (ing.ingredientsText && ing.ingredientsText.trim()) ? ing.ingredientsText.trim() : ing.name;
-    parts.push(txt);
+    let txt = (ing.ingredientsText && ing.ingredientsText.trim()) ? ing.ingredientsText.trim() : (ing.name||"");
+    txt = txt.replace(/\.$/,"").trim();
+    if(txt) parts.push(txt);
   }
-  return parts.join(", ").replace(/\s+,/g,",").replace(/,\s+,/g,", ");
+
+  // split to tokens, clean duplicates like Wasser
+  const tokens = parts
+    .join(", ")
+    .split(",")
+    .map(s=>s.trim())
+    .filter(Boolean);
+
+  const out = [];
+  const seen = new Set();
+  for(const t of tokens){
+    const key = t.toLowerCase();
+    // nur Wasser 1x
+    if(key==="wasser"){
+      if(seen.has("wasser")) continue;
+      seen.add("wasser");
+      out.push("Wasser");
+      continue;
+    }
+    out.push(t);
+  }
+  return out.join(", ") + (out.length? ".":"");
 }
 
-function getSelectedEAN(){
+/* Barcode-EAN je Netto */
+function getEANForNetto(){
   const r = state.current.recipe;
-  const netto = r.netto;
-  if(netto==="170") return (state.settings.ean170||"").trim();
-  if(netto==="750") return (state.settings.ean750||"").trim();
-  return ""; // for custom/1000 -> no barcode by default
+  if(r.netto==="170") return (state.settings.ean170||"").trim();
+  if(r.netto==="750") return (state.settings.ean750||"").trim();
+  if(r.netto==="1000") return (state.settings.ean1000||"").trim();
+  return "";
 }
 
+/* -------------------- EAN-13 BARCODE (SVG) -------------------- */
+function ean13Checksum(d12){
+  let sum = 0;
+  for(let i=0;i<12;i++){
+    const n = parseInt(d12[i],10);
+    sum += (i%2===0) ? n : n*3;
+  }
+  return (10 - (sum % 10)) % 10;
+}
+function makeEAN13SVG(input){
+  let digits = String(input||"").replace(/\D/g,"");
+  if(digits.length===12) digits += String(ean13Checksum(digits));
+  if(digits.length!==13) return "";
+
+  const L = {
+    "0":"0001101","1":"0011001","2":"0010011","3":"0111101","4":"0100011",
+    "5":"0110001","6":"0101111","7":"0111011","8":"0110111","9":"0001011"
+  };
+  const G = {
+    "0":"0100111","1":"0110011","2":"0011011","3":"0100001","4":"0011101",
+    "5":"0111001","6":"0000101","7":"0010001","8":"0001001","9":"0010111"
+  };
+  const R = {
+    "0":"1110010","1":"1100110","2":"1101100","3":"1000010","4":"1011100",
+    "5":"1001110","6":"1010000","7":"1000100","8":"1001000","9":"1110100"
+  };
+  const PARITY = {
+    "0":"LLLLLL","1":"LLGLGG","2":"LLGGLG","3":"LLGGGL","4":"LGLLGG",
+    "5":"LGGLLG","6":"LGGGLL","7":"LGLGLG","8":"LGLGGL","9":"LGGLGL"
+  };
+
+  const first = digits[0];
+  const left = digits.slice(1,7);
+  const right = digits.slice(7,13);
+  const pat = PARITY[first];
+
+  let bits = "101"; // start
+  for(let i=0;i<6;i++){
+    const d = left[i];
+    bits += (pat[i]==="L") ? L[d] : G[d];
+  }
+  bits += "01010"; // middle
+  for(let i=0;i<6;i++){
+    const d = right[i];
+    bits += R[d];
+  }
+  bits += "101"; // end
+
+  // draw
+  const moduleW = 1;
+  const h = 40;         // total height
+  const barH = 34;      // bars height
+  const quiet = 10;     // quiet zone px
+  const w = bits.length*moduleW + quiet*2;
+
+  let x = quiet;
+  let rects = [];
+  for(let i=0;i<bits.length;i++){
+    const b = bits[i];
+    if(b==="1"){
+      const isGuard = (i<3) || (i>=45 && i<50) || (i>=92);
+      const hh = isGuard ? h : barH;
+      rects.push(`<rect x="${x}" y="0" width="${moduleW}" height="${hh}" fill="#000"/>`);
+    }
+    x += moduleW;
+  }
+
+  return `<svg viewBox="0 0 ${w} ${h}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    <rect width="${w}" height="${h}" fill="#fff"/>
+    ${rects.join("")}
+  </svg>`;
+}
+
+/* -------------------- SIMPLE QR (optional) -------------------- */
+function makeSimpleQR(text){
+  const s = String(text);
+  let h = 2166136261;
+  for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const size = 29;
+  const mod = 5;
+  const w = size*mod;
+  let cells = [];
+  function rnd(){ h ^= h<<13; h ^= h>>>17; h ^= h<<5; return (h>>>0)/4294967295; }
+  function isFinder(x,y){
+    const fp = (ox,oy)=>{
+      const dx=x-ox, dy=y-oy;
+      if(dx<0||dy<0||dx>6||dy>6) return false;
+      const onEdge = dx===0||dy===0||dx===6||dy===6;
+      const inner = dx>=2&&dx<=4&&dy>=2&&dy<=4;
+      const midEdge = dx===1||dy===1||dx===5||dy===5;
+      return onEdge || inner || !midEdge;
+    };
+    return fp(0,0)||fp(size-7,0)||fp(0,size-7);
+  }
+  for(let y=0;y<size;y++){
+    for(let x=0;x<size;x++){
+      let on = false;
+      if(isFinder(x,y)){ on = true; }
+      else{ on = rnd()>0.55; }
+      cells.push(on ? `<rect x="${x*mod}" y="${y*mod}" width="${mod}" height="${mod}" fill="#000"/>` : "");
+    }
+  }
+  return `<svg viewBox="0 0 ${w} ${w}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    <rect width="${w}" height="${w}" fill="#fff"/>
+    ${cells.join("")}
+  </svg>`;
+}
+
+/* -------------------- RENDER LABEL -------------------- */
 function renderLabel(){
   const size = $("labelSize").value;
   const mode = $("layoutMode").value;
   const fs = num($("fontScale").value);
 
   const mmToPx = 6;
-  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62};
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // landscape label
   const pxW = Math.round(dims.w*mmToPx);
   const pxH = Math.round(dims.h*mmToPx);
 
@@ -1229,11 +1381,11 @@ function renderLabel(){
   label.style.height = pxH+"px";
   label.style.transform = `scale(${fs})`;
   label.style.transformOrigin = "center";
-  label.style.margin = "0 auto"; // stronger centering in preview
 
   const r = state.current.recipe;
   const totals = recipeTotals();
-  const vbz = state.settings.vbz || "Speiseeis";
+
+  const vbz = detectProductName(); // ✅ Fruchteis automatisch
 
   const nettoText = (r.netto==="custom" && r.netto_custom.trim())
     ? r.netto_custom.trim()
@@ -1250,6 +1402,7 @@ function renderLabel(){
   const contactLine = `${state.settings.phone||""}${state.settings.email?(" · "+state.settings.email):""}`;
 
   const title = escapeHtml(r.name || "Gelato");
+
   const sub1 = `<div class="lSub"><b>${escapeHtml(vbz)}</b> · Netto: <b>${escapeHtml(nettoText)}</b></div>`;
   const sub2 = `<div class="lSub">${escapeHtml(state.settings.storage||"")}</div>`;
 
@@ -1272,10 +1425,7 @@ function renderLabel(){
     </table>
   `;
 
-  const lotMhd = `
-    <div class="lSmall"><b>Charge/Lot:</b> ${escapeHtml(r.lot || "—")} &nbsp; <b>MHD:</b> ${escapeHtml(r.mhd || "—")}</div>
-  `;
-
+  const lotMhd = `<div class="lSmall"><b>Charge/Lot:</b> ${escapeHtml(r.lot || "—")} &nbsp; <b>MHD:</b> ${escapeHtml(r.mhd || "—")}</div>`;
   const footer = `
     <div class="lFooter">
       <div><b>Hersteller:</b> ${escapeHtml(companyLine)}</div>
@@ -1285,141 +1435,38 @@ function renderLabel(){
   `;
 
   const warnLine = warn ? `<div class="lWarn">Hinweis: Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen.</div>` : "";
-
   const compact = (mode==="compact");
+
+  const ean = getEANForNetto();
+  const barcodeSVG = ean ? makeEAN13SVG(ean) : "";
+
+  const qrLink = (r.qr||"").trim();
+  const qrSVG = qrLink ? makeSimpleQR(qrLink) : "";
 
   const html = `
     <div class="lTitle" style="font-size:${compact?13:14}px">${title}</div>
     ${sub1}
     ${compact ? "" : sub2}
     ${ingredientsBlock}
-    <div class="lGrid">
-      <div>${nutriTable}</div>
-      <div>
-        ${lotMhd}
-        ${compact ? sub2 : ""}
-        ${warnLine}
-        ${footer}
+    ${nutriTable}
+    ${lotMhd}
+    ${compact ? sub2 : ""}
+    ${warnLine}
+    ${footer}
+
+    <div class="labelBottomBar">
+      <div class="lBarcode ${barcodeSVG?"" :"hidden"}">
+        ${barcodeSVG}
+        <div class="eanText">${escapeHtml(ean||"")}</div>
       </div>
+      <div class="lQR ${qrSVG?"" :"hidden"}">${qrSVG}</div>
     </div>
   `;
+
   $("labelInner").innerHTML = html;
-
-  // QR (simple, will be replaced by real QR in Part 3 if you want)
-  const qr = $("labelQR");
-  const qrLink = (r.qr||"").trim();
-  if(qrLink){
-    qr.classList.remove("hidden");
-    qr.innerHTML = makeSimpleQR(qrLink);
-  }else{
-    qr.classList.add("hidden");
-    qr.innerHTML = "";
-  }
-
-  // EAN Barcode
-  const ean = $("labelEAN");
-  const eanVal = getSelectedEAN();
-  if(isValidEAN13(eanVal)){
-    ean.classList.remove("hidden");
-    // size depends on label size
-    const isSmall = (size==="38x90");
-    const w = isSmall ? 150 : 190;
-    const h = isSmall ? 42 : 54;
-    ean.innerHTML = `
-      ${makeEAN13SVG(eanVal, w, h)}
-      <div class="eanText">${escapeHtml(eanVal)}</div>
-    `;
-  }else{
-    ean.classList.add("hidden");
-    ean.innerHTML = "";
-  }
 }
 
-function fmtNutri(n){
-  if(!n) return "—";
-  return `${round(n.kj,0)}kJ/${round(n.kcal,0)}kcal · F ${round(n.fat,1)} · KH ${round(n.carb,1)} · Z ${round(n.sugar,1)} · E ${round(n.protein,1)} · S ${round(n.salt,2)}`;
-}
-
-/* -------------------- EAN-13 BARCODE (REAL) -------------------- */
-function isValidEAN13(code){
-  const s = String(code||"").replace(/\D/g,"");
-  if(s.length!==13) return false;
-  const digits = s.split("").map(d=>parseInt(d,10));
-  let sum = 0;
-  for(let i=0;i<12;i++){
-    sum += digits[i] * (i%2===0 ? 1 : 3);
-  }
-  const check = (10 - (sum % 10)) % 10;
-  return check === digits[12];
-}
-
-function makeEAN13SVG(code, width=190, height=54){
-  const s = String(code).replace(/\D/g,"");
-  const A = {
-    "0":"0001101","1":"0011001","2":"0010011","3":"0111101","4":"0100011",
-    "5":"0110001","6":"0101111","7":"0111011","8":"0110111","9":"0001011"
-  };
-  const B = {
-    "0":"0100111","1":"0110011","2":"0011011","3":"0100001","4":"0011101",
-    "5":"0111001","6":"0000101","7":"0010001","8":"0001001","9":"0010111"
-  };
-  const C = {
-    "0":"1110010","1":"1100110","2":"1101100","3":"1000010","4":"1011100",
-    "5":"1001110","6":"1010000","7":"1000100","8":"1001000","9":"1110100"
-  };
-  const parity = {
-    "0":"AAAAAA","1":"AABABB","2":"AABBAB","3":"AABBBA","4":"ABAABB",
-    "5":"ABBAAB","6":"ABBBAA","7":"ABABAB","8":"ABABBA","9":"ABBABA"
-  };
-
-  const first = s[0];
-  const left = s.slice(1,7);
-  const right = s.slice(7,13);
-
-  let bits = "";
-  bits += "101"; // start guard
-  const p = parity[first];
-  for(let i=0;i<6;i++){
-    const d = left[i];
-    bits += (p[i]==="A") ? A[d] : B[d];
-  }
-  bits += "01010"; // middle guard
-  for(let i=0;i<6;i++){
-    const d = right[i];
-    bits += C[d];
-  }
-  bits += "101"; // end guard
-
-  const modules = bits.length; // 95
-  const quiet = 10; // modules
-  const totalModules = modules + quiet*2;
-  const moduleW = width / totalModules;
-
-  const barTop = 2;
-  const barH = height - 14; // room for digits below (we print digits as text outside, so just spare)
-  const guardExtra = 6;
-
-  let x = quiet * moduleW;
-  let rects = [];
-  for(let i=0;i<bits.length;i++){
-    const bit = bits[i]==="1";
-    const isGuard = (i<3) || (i>=45 && i<50) || (i>=92);
-    const h = isGuard ? (barH + guardExtra) : barH;
-    if(bit){
-      rects.push(`<rect x="${x.toFixed(3)}" y="${barTop}" width="${moduleW.toFixed(3)}" height="${h}" fill="#000" />`);
-    }
-    x += moduleW;
-  }
-
-  return `
-  <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" shape-rendering="crispEdges">
-    <rect width="${width}" height="${height}" fill="#fff"/>
-    ${rects.join("")}
-  </svg>`;
-}
-
-/* -------------------- CONTINUA NA PARTE 3/3 -------------------- */
-  /* -------------------- PRINT LABEL (REAL SIZE) -------------------- */
+/* -------------------- PRINT LABEL (REAL SIZE) -------------------- */
 $("btnPrint").addEventListener("click", ()=>{
   state.current.recipe.name = $("r_name").value;
   state.current.recipe.netto = $("r_netto").value;
@@ -1433,8 +1480,8 @@ $("btnPrint").addEventListener("click", ()=>{
   const mode = $("layoutMode").value;
   const fs = num($("fontScale").value);
 
-  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // mm (landscape)
-  const html = $("labelPreview").outerHTML;
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // mm, landscape
+  const content = $("labelInner").innerHTML;
 
   const w = window.open("", "_blank");
   if(!w){ toast("Popup blockiert? Bitte erlauben."); return; }
@@ -1450,39 +1497,44 @@ $("btnPrint").addEventListener("click", ()=>{
         html,body{margin:0; padding:0; background:#fff;}
         .label{
           width:${dims.w}mm; height:${dims.h}mm;
-          background:#fff; color:#000; overflow:hidden; position:relative;
+          background:#fff; color:#000; overflow:hidden;
           font-family: Arial, Helvetica, sans-serif;
+          display:flex; align-items:center; justify-content:center;
           transform: scale(${fs});
           transform-origin: top left;
         }
-
-        /* IMPORTANT: centered inner padding in mm to avoid “not centered” feeling */
-        .labelInner{padding:2.6mm 2.6mm 2mm}
-
+        .labelInner{
+          width:100%;
+          height:100%;
+          padding:2.4mm 2.4mm 2.0mm;
+          display:flex; flex-direction:column;
+          gap:0.9mm;
+        }
         .lTitle{font-weight:900; font-size:${mode==="compact"?12.3:13.2}pt}
-        .lSub{font-size:8.2pt; margin-top:1mm}
-        .lSmall{font-size:7.2pt; margin-top:1.3mm; line-height:1.25}
-        .lGrid{display:grid; grid-template-columns: 1fr 1fr; gap:2.2mm; margin-top:1.6mm; font-size:7.2pt}
+        .lSub{font-size:8.2pt; margin-top:0.4mm}
+        .lSmall{font-size:7.2pt; line-height:1.22}
         table{width:100%; border-collapse:collapse; font-size:7.2pt}
-        th,td{border:0.3mm solid #000; padding:0.6mm 0.8mm}
+        th,td{border:0.25mm solid #000; padding:0.5mm 0.7mm}
         th{text-align:left}
         .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
-        .lFooter{margin-top:1.4mm; font-size:6.8pt; line-height:1.2}
-        .lWarn{margin-top:1.4mm; font-size:7pt; font-weight:800}
-        .lQR{position:absolute; right:2mm; bottom:2mm; width:16mm; height:16mm; border:0.3mm solid #000; display:flex; align-items:center; justify-content:center; overflow:hidden;}
-        .lEAN{position:absolute; left:2mm; bottom:2mm; padding:0.4mm 0.6mm; display:flex; flex-direction:column; align-items:center; justify-content:center;}
-        .lEAN .eanText{font-size:7pt; letter-spacing:0.8pt; margin-top:0.6mm}
-        svg{width:100%; height:100%}
+        .lFooter{font-size:6.8pt; line-height:1.18}
+        .lWarn{font-size:7pt; font-weight:800}
+        .labelBottomBar{margin-top:auto; display:flex; gap:2mm; align-items:flex-end; justify-content:space-between;}
+        .lBarcode{width:62%; border:0.25mm solid #000; padding:0.6mm 0.8mm;}
+        .lBarcode svg{width:100%; height:10mm; display:block}
+        .eanText{font-size:7.5pt; text-align:center; margin-top:0.6mm}
+        .lQR{width:16mm; height:16mm; border:0.25mm solid #000; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+        .lQR svg{width:100%; height:100%}
       </style>
     </head><body>
-      ${html}
+      <div class="label"><div class="labelInner">${content}</div></div>
       <script>window.onload=()=>{ window.print(); }<\/script>
     </body></html>
   `);
   w.document.close();
 });
 
-/* -------------------- BACKUP IMPORT/EXPORT -------------------- */
+/* -------------------- BACKUP -------------------- */
 $("btnExport").addEventListener("click", ()=>{
   const data = JSON.stringify(state, null, 2);
   const blob = new Blob([data], {type:"application/json"});
@@ -1508,13 +1560,8 @@ $("fileImport").addEventListener("change", async (e)=>{
       settings: {...structuredClone(DEFAULT_STATE.settings), ...(obj.settings||{})},
       current: {...structuredClone(DEFAULT_STATE.current), ...(obj.current||{})}
     };
-    // guarantee fruits exist
-    seedFruitsIfMissing();
     saveState();
-    fillCatSelects();
-    fillPickers();
-    loadSettings();
-    setRecipeFromCurrent();
+    fillCatSelects(); fillPickers(); loadSettings(); setRecipeFromCurrent();
     renderAll();
     toast("Backup importiert ✅");
   }catch(err){
@@ -1524,52 +1571,6 @@ $("fileImport").addEventListener("change", async (e)=>{
     $("fileImport").value = "";
   }
 });
-
-/* -------------------- SIMPLE QR (SVG) -------------------- */
-/* NOTE: This is a lightweight QR-like code. If you want 100% QR standard, tell me and I replace with a real QR lib. */
-function makeSimpleQR(text){
-  const s = String(text);
-  let h = 2166136261;
-  for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
-  const size = 29;
-  const mod = 5;
-  const w = size*mod;
-  let cells = [];
-  function rnd(){ h ^= h<<13; h ^= h>>>17; h ^= h<<5; return (h>>>0)/4294967295; }
-
-  function isFinder(x,y){
-    const fp = (ox,oy)=>{
-      const dx=x-ox, dy=y-oy;
-      if(dx<0||dy<0||dx>6||dy>6) return false;
-      const onEdge = dx===0||dy===0||dx===6||dy===6;
-      const inner = dx>=2&&dx<=4&&dy>=2&&dy<=4;
-      const midEdge = dx===1||dy===1||dx===5||dy===5;
-      return onEdge || inner || !midEdge;
-    };
-    return fp(0,0)||fp(size-7,0)||fp(0,size-7);
-  }
-
-  for(let y=0;y<size;y++){
-    for(let x=0;x<size;x++){
-      let on = false;
-      if(isFinder(x,y)){ on = true; }
-      else{
-        const r = rnd();
-        on = r>0.55;
-      }
-      cells.push(on ? `<rect x="${x*mod}" y="${y*mod}" width="${mod}" height="${mod}" fill="#000"/>` : "");
-    }
-  }
-  return `<svg viewBox="0 0 ${w} ${w}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-    <rect width="${w}" height="${w}" fill="#fff"/>
-    ${cells.join("")}
-  </svg>`;
-}
-
-/* -------------------- UTIL -------------------- */
-function escapeHtml(s){
-  return String(s??"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
-}
 
 /* -------------------- RENDER ALL -------------------- */
 function renderAll(){
@@ -1587,23 +1588,16 @@ function renderAll(){
   fillPickers();
   loadSettings();
 
-  // Default MHD +6 Monate
   if(!state.current.recipe.mhd){
     const d = new Date();
     d.setMonth(d.getMonth()+6);
     state.current.recipe.mhd = d.toISOString().slice(0,10);
     saveState();
   }
-
-  // if settings missing EANs, set defaults you gave
-  if(!state.settings.ean170) state.settings.ean170 = "4170000057765";
-  if(!state.settings.ean750) state.settings.ean750 = "4170000057949";
-  saveState();
-
   setRecipeFromCurrent();
   renderAll();
   resetIngForm();
 })();
 </script>
 </body>
-</html>
+  </html>
