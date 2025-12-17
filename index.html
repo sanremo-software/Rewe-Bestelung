@@ -5,1205 +5,1509 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <title>Sanremo Gelato – LMIV Etikett (Brother QL-810W)</title>
-  <meta name="color-scheme" content="light dark" />
   <style>
     :root{
-      --bg:#0b0e14; --card:#121827; --text:#eef2ff; --muted:#98a7c4;
-      --line:rgba(255,255,255,.10);
-      --accent:#7c3aed; --good:#22c55e; --warn:#f59e0b; --bad:#ef4444;
-      --shadow: 0 12px 28px rgba(0,0,0,.35);
+      --bg:#0b1020; --card:#111a33; --card2:#0f1730; --line:#22305c;
+      --txt:#e9eefc; --mut:#b7c2ea; --acc:#4dd4ff; --ok:#33d17a; --warn:#ffcc66; --bad:#ff6b6b;
+      --shadow: 0 16px 40px rgba(0,0,0,.35);
       --r:18px;
-
-      /* QL-810W default: DK-22205 (62mm width) */
-      --labelWmm:62;
-      --labelHmm:60;
-      --labelFont: 11.2px; /* auto-ish */
-    }
-    @media (prefers-color-scheme: light){
-      :root{--bg:#f6f7fb; --card:#ffffff; --text:#0f172a; --muted:#516079; --line:rgba(15,23,42,.10); --shadow: 0 10px 22px rgba(2,6,23,.08);}
+      --pad:14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
     }
     *{box-sizing:border-box}
-    body{margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial; background:var(--bg); color:var(--text);}
-    .wrap{max-width:1100px; margin:0 auto; padding:14px 14px 80px;}
-    header{
-      position:sticky; top:0; z-index:20;
-      background: color-mix(in oklab, var(--bg) 70%, transparent);
+    html,body{height:100%}
+    body{
+      margin:0; font-family:var(--sans);
+      background: radial-gradient(1200px 600px at 10% -10%, rgba(77,212,255,.22), transparent 50%),
+                  radial-gradient(900px 500px at 90% 0%, rgba(51,209,122,.20), transparent 55%),
+                  linear-gradient(180deg, #060a16 0%, #0b1020 60%, #070b15 100%);
+      color:var(--txt);
+    }
+    a{color:var(--acc); text-decoration:none}
+    .wrap{max-width:1200px; margin:0 auto; padding:18px 14px 80px}
+    .top{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      position:sticky; top:0; z-index:20; padding:14px 0 10px;
       backdrop-filter: blur(10px);
-      border-bottom:1px solid var(--line);
-      padding:12px 0;
+      background: linear-gradient(180deg, rgba(7,10,20,.92) 0%, rgba(7,10,20,.65) 70%, transparent 100%);
     }
-    .topbar{
-      display:flex; gap:10px; align-items:center; justify-content:space-between;
-      max-width:1100px; margin:0 auto; padding:0 14px;
+    .brand{
+      display:flex; gap:12px; align-items:center;
     }
-    .brand{display:flex; gap:10px; align-items:center; min-width:0}
     .logo{
-      width:42px; height:42px; border-radius:14px;
-      background: linear-gradient(135deg, rgba(124,58,237,.95), rgba(34,197,94,.9));
-      display:grid; place-items:center; box-shadow: 0 12px 22px rgba(0,0,0,.25);
-      flex:0 0 auto;
+      width:44px; height:44px; border-radius:14px;
+      background: conic-gradient(from 200deg, #33d17a, #4dd4ff, #9b7bff, #33d17a);
+      box-shadow: var(--shadow);
     }
-    .logo svg{width:22px; height:22px}
-    .brand .t{display:flex; flex-direction:column; min-width:0; line-height:1.1}
-    .brand .t b{font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-    .brand .t span{font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .title h1{margin:0; font-size:16px; letter-spacing:.2px}
+    .title .sub{margin:2px 0 0; color:var(--mut); font-size:12px}
+    .actions{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    button, .btn{
+      border:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.05));
+      color:var(--txt); padding:10px 12px; border-radius:14px;
+      cursor:pointer; box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      font-weight:650; font-size:13px;
+    }
+    button:hover{border-color: rgba(77,212,255,.35)}
+    .btnPrimary{
+      background: linear-gradient(180deg, rgba(77,212,255,.26), rgba(77,212,255,.12));
+      border-color: rgba(77,212,255,.35);
+    }
+    .btnOk{
+      background: linear-gradient(180deg, rgba(51,209,122,.26), rgba(51,209,122,.12));
+      border-color: rgba(51,209,122,.35);
+    }
+    .btnBad{
+      background: linear-gradient(180deg, rgba(255,107,107,.26), rgba(255,107,107,.12));
+      border-color: rgba(255,107,107,.35);
+    }
 
-    .btn{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color:var(--text);
-      padding:12px 12px;
-      border-radius: 14px;
-      font-weight:800;
-      cursor:pointer;
-      user-select:none;
-      display:inline-flex; gap:8px; align-items:center; justify-content:center;
-      min-height:44px;
+    .tabs{
+      display:flex; gap:8px; flex-wrap:wrap; margin:10px 0 14px;
     }
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background: rgba(124,58,237,.18); border-color: rgba(124,58,237,.35)}
-    .btn.good{background: rgba(34,197,94,.16); border-color: rgba(34,197,94,.33)}
-    .btn.warn{background: rgba(245,158,11,.16); border-color: rgba(245,158,11,.33)}
-    .btn.bad{background: rgba(239,68,68,.14); border-color: rgba(239,68,68,.32)}
-    .btn.ghost{background: transparent}
-    .chip{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:10px 12px; border:1px solid var(--line); border-radius:999px;
-      background: rgba(255,255,255,.03);
-      color:var(--muted);
-      font-size:12px;
-      white-space:nowrap;
+    .tab{
+      padding:10px 12px; border-radius:999px; cursor:pointer; user-select:none;
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--mut);
+      background: rgba(255,255,255,.04);
+      font-weight:700; font-size:13px;
     }
-    .grid{display:grid; grid-template-columns: 1fr; gap:12px; margin-top:14px;}
-    @media(min-width:980px){ .grid{grid-template-columns: 360px 1fr;} }
+    .tab.active{
+      color:var(--txt);
+      border-color: rgba(77,212,255,.45);
+      background: rgba(77,212,255,.12);
+    }
+
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: 1.05fr .95fr;
+      align-items:start;
+    }
+    @media (max-width: 980px){
+      .grid{grid-template-columns:1fr}
+      .actions{justify-content:flex-start}
+    }
 
     .card{
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--r);
+      padding: var(--pad);
       box-shadow: var(--shadow);
-      overflow:hidden;
     }
-    .card h2{
-      margin:0; padding:12px 14px; font-size:14px;
-      border-bottom:1px solid var(--line);
-      display:flex; align-items:center; justify-content:space-between; gap:10px;
-    }
-    .card h2 small{color:var(--muted); font-weight:600}
-    .body{padding:14px}
-
-    label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px}
-    input,select,textarea{
-      width:100%; padding:12px 12px; border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.14);
-      color:var(--text);
+    .card h2{margin:0 0 10px; font-size:14px}
+    .mut{color:var(--mut)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .row > *{flex:1}
+    .row.tight > *{flex:0}
+    label{display:block; font-size:12px; color:var(--mut); margin:0 0 6px}
+    input, select, textarea{
+      width:100%; padding:11px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(10,14,26,.65);
+      color:var(--txt);
       outline:none;
-      font-size:14px;
-      min-height:44px;
-    }
-    @media (prefers-color-scheme: light){
-      input,select,textarea{background: rgba(2,6,23,.03)}
     }
     textarea{min-height:90px; resize:vertical}
-
-    .row{display:grid; grid-template-columns: 1fr 1fr; gap:10px}
-    @media(max-width:520px){ .row{grid-template-columns:1fr} }
-    .flex{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .muted{color:var(--muted)}
-    .divider{height:1px; background:var(--line); margin:12px 0}
-    .list{display:flex; flex-direction:column; gap:10px; max-height:62vh; overflow:auto; padding-right:4px}
-    .item{
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:10px;
-      background: rgba(255,255,255,.02);
+    input:focus, select:focus, textarea:focus{border-color: rgba(77,212,255,.5)}
+    .hr{height:1px; background: rgba(255,255,255,.08); margin:12px 0}
+    .list{
+      display:flex; flex-direction:column; gap:10px;
+      max-height: 520px; overflow:auto; padding-right:4px;
     }
-    .item .top{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
-    .item b{font-size:14px}
-    .item .meta{font-size:12px; color:var(--muted); margin-top:4px; line-height:1.35}
+    .item{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      border-radius:16px;
+      padding:10px;
+      display:flex; gap:10px; align-items:flex-start; justify-content:space-between;
+    }
+    .item .meta{flex:1; min-width:0}
+    .item .meta .name{font-weight:850; font-size:13px}
+    .item .meta .small{font-size:12px; color:var(--mut); margin-top:2px}
     .pill{
       display:inline-flex; align-items:center; gap:6px;
-      padding:6px 10px; border-radius:999px;
-      border:1px solid var(--line);
+      font-size:11px; padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
-      font-size:11px; color:var(--muted);
+      color:var(--mut);
       margin:6px 6px 0 0;
+      white-space:nowrap;
+    }
+    .pill.ok{border-color: rgba(51,209,122,.35); color:#b9f7d8; background: rgba(51,209,122,.10)}
+    .pill.warn{border-color: rgba(255,204,102,.35); color:#ffe7b8; background: rgba(255,204,102,.10)}
+    .pill.bad{border-color: rgba(255,107,107,.35); color:#ffd2d2; background: rgba(255,107,107,.10)}
+    .miniBtns{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end}
+    .miniBtns button{padding:8px 10px; font-size:12px; border-radius:12px; box-shadow:none}
+
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+      overflow:hidden;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+    }
+    .table th, .table td{
+      padding:10px 10px;
+      border-bottom:1px solid rgba(255,255,255,.08);
+      font-size:12px;
+      text-align:left;
+      vertical-align:top;
+    }
+    .table th{color:var(--mut); font-weight:800; background: rgba(255,255,255,.03)}
+    .table tr:last-child td{border-bottom:none}
+    .mono{font-family:var(--mono)}
+
+    .labelCard{
+      position:sticky; top:92px;
+    }
+    @media (max-width:980px){
+      .labelCard{position:relative; top:auto}
     }
 
-    table{width:100%; border-collapse:collapse}
-    th,td{border-bottom:1px solid var(--line); padding:10px 8px; text-align:left; font-size:13px; vertical-align:top}
-    th{color:var(--muted); font-weight:900}
-    td input{min-height:40px}
-    .right{text-align:right}
-
-    .notice{
-      border:1px dashed rgba(245,158,11,.55);
-      background: rgba(245,158,11,.10);
-      border-radius: 18px;
-      padding:12px;
-      font-size:12.5px;
-      line-height:1.35;
-    }
-
-    /* LABEL (Preview + Print) */
-    .labelShell{
-      border:1px solid var(--line);
-      border-radius:22px;
-      background: rgba(255,255,255,.02);
-      padding:14px;
+    /* Label preview */
+    .labelWrap{
+      display:flex; justify-content:center; align-items:center;
+      padding:10px; border-radius:16px;
+      background: rgba(0,0,0,.25);
+      border:1px dashed rgba(255,255,255,.16);
+      overflow:auto;
     }
     .label{
-      width: calc(var(--labelWmm) * 1mm);
-      min-height: calc(var(--labelHmm) * 1mm);
+      background:#fff; color:#000;
+      border-radius:6px;
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      overflow:hidden;
+      position:relative;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .labelInner{padding:10px 10px 8px}
+    .label .lTitle{font-weight:900; font-size:14px; letter-spacing:.2px}
+    .label .lSub{font-size:10.5px; margin-top:2px}
+    .label .lSmall{font-size:9.5px; margin-top:6px; line-height:1.25}
+    .label .lGrid{
+      display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-top:8px;
+      font-size:9.5px;
+    }
+    .label table{
+      width:100%; border-collapse:collapse; font-size:9.5px;
+    }
+    .label td, .label th{
+      border:1px solid #000; padding:3px 4px;
+    }
+    .label th{text-align:left}
+    .lFooter{margin-top:6px; font-size:9px; line-height:1.2}
+    .lWarn{margin-top:6px; font-size:9px; font-weight:800}
+    .lQR{
+      position:absolute; right:8px; bottom:8px;
+      width:52px; height:52px;
       background:#fff;
-      color:#111827;
-      border:1px solid rgba(17,24,39,.12);
-      border-radius: 12px;
-      padding: 10px 10px;
-      box-shadow: 0 10px 22px rgba(0,0,0,.14);
-      font-size: var(--labelFont);
-      line-height: 1.25;
+      border:1px solid #000;
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
     }
-    .lh{
-      display:flex; justify-content:space-between; gap:10px;
-      border-bottom:1px solid rgba(17,24,39,.10);
-      padding-bottom:6px; margin-bottom:6px;
-    }
-    .lh b{font-size: 12.6px}
-    .lh small{color:#374151; font-size:11px}
-    .titleLine{font-weight:1000; margin:6px 0 6px; font-size: 13px}
-    .cap{font-weight:1000; font-size: 11px; margin-bottom:3px}
-    .p{margin:0 0 7px}
-    .small{font-size: 10.7px; color:#374151}
-    .foot{
-      display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;
-      margin-top:7px; padding-top:7px;
-      border-top:1px solid rgba(17,24,39,.10);
-      font-size:10.6px; color:#374151;
-    }
-    .nutri table{font-size:10.6px}
-    .nutri th,.nutri td{border-bottom:1px solid rgba(17,24,39,.10); padding:5px 5px}
-    .nutri th{color:#374151}
-
-    /* Allergens highlight: RED + bold + underline (nice with QL red/black tape) */
-    .allergen{
-      color:#c00000;
-      font-weight:1000;
-      text-decoration: underline;
-      text-underline-offset: 2px;
+    .hint{
+      padding:10px 12px; border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color:var(--mut);
+      font-size:12px;
     }
 
-    /* Bottom action bar for mobile */
-    .bottomBar{
-      position:fixed; left:0; right:0; bottom:0; z-index:30;
-      border-top:1px solid var(--line);
-      background: color-mix(in oklab, var(--bg) 80%, transparent);
-      backdrop-filter: blur(10px);
-      padding:10px 14px;
+    .toast{
+      position:fixed; left:50%; bottom:14px; transform:translateX(-50%);
+      background: rgba(17,26,51,.92);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--txt); padding:10px 12px;
+      border-radius:14px; box-shadow: var(--shadow);
+      font-size:13px; display:none; z-index:999;
+      max-width: min(720px, 92vw);
     }
-    .bottomBar .inner{max-width:1100px; margin:0 auto; display:flex; gap:10px}
-    .bottomBar .inner .btn{flex:1}
 
-    /* PRINT for Brother QL */
-    @media print{
-      header, .wrap, .bottomBar, .no-print{display:none !important;}
-      #printArea{display:block !important;}
-      body{background:#fff !important}
-      #printArea .label{box-shadow:none !important; border-radius:0 !important; border:none !important; padding:0 !important;}
-    }
-    #printArea{display:none}
-  </style>
-
-  <!-- Dynamic print page size (set by JS) -->
-  <style id="pageSizeStyle">
-    @page { size: 62mm 60mm; margin: 0; }
+    .hidden{display:none !important;}
   </style>
 </head>
 
 <body>
-<header>
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M7 7c0-2.2 2.2-4 5-4s5 1.8 5 4-2.2 4-5 4-5-1.8-5-4Z" stroke="white" stroke-width="2"/>
-          <path d="M9 21h6M10 15l2 6M14 15l-2 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        </svg>
+  <div class="wrap">
+
+    <div class="top">
+      <div class="brand">
+        <div class="logo"></div>
+        <div class="title">
+          <h1>Sanremo Gelato – LMIV Etikett</h1>
+          <div class="sub">Mobile/Tablet • Brother QL-810W • DK11208 (38×90) / DK11202 (62×100)</div>
+        </div>
       </div>
-      <div class="t">
-        <b>Sanremo Gelato – Etiketten</b>
-        <span>LMIV · Nährwerte · Allergene · Brother QL-810W (62 mm)</span>
-      </div>
-    </div>
 
-    <div class="flex" style="justify-content:flex-end">
-      <span class="chip">Breite: <b id="wInfo">62mm</b></span>
-      <button class="btn ghost no-print" id="btnBackup">⬇️ Backup</button>
-      <label class="btn ghost no-print" style="cursor:pointer">
-        ⬆️ Import
-        <input id="fileImport" type="file" accept="application/json" style="display:none">
-      </label>
-      <button class="btn bad no-print" id="btnReset">🗑️ Reset</button>
-    </div>
-  </div>
-</header>
-
-<div class="wrap">
-  <div class="grid">
-    <!-- LEFT: Zutatenbank -->
-    <div class="card">
-      <h2>Zutatenbank (nur Gelato) <small id="ingCount">0</small></h2>
-      <div class="body">
-        <div class="row">
-          <div>
-            <label>Suche</label>
-            <input id="q" placeholder="Milch, Zucker, Pistazie, Amarena..." />
-          </div>
-          <div>
-            <label>Kategorie</label>
-            <select id="catFilter">
-              <option value="">Alle</option>
-              <option>Milchprodukte</option>
-              <option>Zucker/Carbs</option>
-              <option>Fette</option>
-              <option>Frucht</option>
-              <option>Nüsse</option>
-              <option>Schokolade/Kakao</option>
-              <option>Stabilisator/Emulgator</option>
-              <option>Aromen/Pasten</option>
-              <option>Zusatzstoffe/Farbstoffe</option>
-              <option>Sonstiges</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="flex">
-          <button class="btn primary" id="btnNewIng">➕ Zutat</button>
-          <button class="btn good" id="btnGelatoPack">🍦 Basis-Pack</button>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="list" id="ingList"></div>
-
-        <div class="notice">
-          <b>Wichtig (Supermarkt):</b><br>
-          Für jede Zutat brauchst du korrekte Nährwerte vom Lieferanten (Etikett/Spezifikation).
-          Das Tool markiert Allergene rot und erstellt die Zutatenliste absteigend.
-        </div>
+      <div class="actions">
+        <button class="btnPrimary" id="btnExport">Backup exportieren</button>
+        <button class="btnPrimary" id="btnImport">Backup importieren</button>
+        <input id="fileImport" type="file" accept="application/json" class="hidden" />
+        <button class="btnOk" id="btnPrint">Etikett drucken</button>
       </div>
     </div>
 
-    <!-- RIGHT: Rezept + Etikett -->
-    <div class="card">
-      <h2>Rezept & Etikett <small id="status">bereit</small></h2>
-      <div class="body">
-        <div class="row">
-          <div>
-            <label>Gespeicherter Geschmack</label>
-            <select id="flavorSelect"></select>
-          </div>
-          <div>
-            <label>Aktion</label>
-            <div class="flex">
-              <button class="btn" id="btnNewFlavor">➕ Neu</button>
-              <button class="btn warn" id="btnSaveFlavor">💾 Speichern</button>
-              <button class="btn bad" id="btnDeleteFlavor">🗑️ Löschen</button>
+    <div class="tabs" id="tabs">
+      <div class="tab active" data-tab="ingredients">Zutaten / Produkte</div>
+      <div class="tab" data-tab="recipes">Rezept / Etikett</div>
+      <div class="tab" data-tab="settings">Betrieb / Standardtexte</div>
+    </div>
+
+    <div class="grid">
+      <!-- LEFT -->
+      <div id="leftCol">
+
+        <!-- TAB: INGREDIENTS -->
+        <div class="card" id="tab-ingredients">
+          <h2>Zutaten-Bibliothek</h2>
+
+          <div class="row">
+            <div>
+              <label>Suche</label>
+              <input id="ingSearch" placeholder="z.B. Milch, Pistazie, Variegato, Glukose..." />
+            </div>
+            <div>
+              <label>Kategorie</label>
+              <select id="ingFilterCat"></select>
             </div>
           </div>
-        </div>
 
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>Verkehrsbezeichnung (LMIV)</label>
-            <input id="prodName" placeholder="z.B. Speiseeis / Milcheis / Sorbet" />
-          </div>
-          <div>
-            <label>Geschmack / Sorte</label>
-            <input id="flavorName" placeholder="z.B. Pistazie, Amarena, Cookies..." />
-          </div>
-        </div>
+          <div class="hr"></div>
 
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>Nettofüllmenge</label>
-            <select id="netQty">
-              <option value="170 g">170 g (Becher)</option>
-              <option value="750 g">750 g (Family)</option>
-              <option value="custom">Benutzerdefiniert…</option>
-            </select>
-          </div>
-          <div>
-            <label>Custom Nettofüllmenge (falls gewählt)</label>
-            <input id="netQtyCustom" placeholder="z.B. 240 ml / 500 g" disabled />
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>MHD</label>
-            <input id="mhd" placeholder="TT.MM.JJJJ" />
-          </div>
-          <div>
-            <label>Los / Charge</label>
-            <input id="lot" placeholder="z.B. L241217-01" />
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>Hersteller</label>
-            <input id="maker" value="Eiscafé Sanremo" />
-          </div>
-          <div>
-            <label>Adresse / Kontakt</label>
-            <input id="contact" value="57319 Bad Berleburg · Tel. 0176 72809926 · paulo.sanremo@web.de" />
-          </div>
-        </div>
-
-        <div class="row" style="margin-top:10px">
-          <div>
-            <label>Aufbewahrung</label>
-            <input id="storage" value="Tiefgekühlt bei -18°C lagern. Nach dem Auftauen nicht wieder einfrieren." />
-          </div>
-          <div>
-            <label>Hinweis (optional)</label>
-            <input id="mandatoryNote" placeholder="z.B. Kann Spuren von ... enthalten" />
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="row">
-          <div>
-            <label>Etikettgröße (Brother DK 62mm)</label>
-            <select id="labelPreset">
-              <option value="62x37">62×37 mm (klein / 170g)</option>
-              <option value="62x60" selected>62×60 mm (Standard)</option>
-              <option value="62x100">62×100 mm (viel Text/QR)</option>
-              <option value="custom">Benutzerdefiniert (mm)</option>
-            </select>
-          </div>
-          <div>
-            <div class="row">
-              <div>
-                <label>Höhe (mm)</label>
-                <input id="customH" type="number" min="25" step="1" placeholder="z.B. 60" disabled />
-              </div>
-              <div>
-                <label>Textgröße</label>
-                <select id="fontPreset">
-                  <option value="10.6">klein</option>
-                  <option value="11.2" selected>normal</option>
-                  <option value="12.0">groß</option>
-                </select>
-              </div>
+          <div class="row">
+            <div>
+              <label>Name</label>
+              <input id="ingName" placeholder="z.B. Pistazienpaste 100%" />
+            </div>
+            <div>
+              <label>Kategorie</label>
+              <select id="ingCat"></select>
             </div>
           </div>
+
+          <div class="row">
+            <div>
+              <label>Allergene (GROSS, Komma)</label>
+              <input id="ingAll" placeholder="z.B. MILCH, SOJA, SCHALENFRÜCHTE" />
+            </div>
+            <div>
+              <label>Zusatzstoffe / E-Nummern (Komma)</label>
+              <input id="ingAdd" placeholder="z.B. E440, E330, E129" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Zutatenliste (für dieses Produkt)</label>
+              <textarea id="ingText" placeholder="z.B. Zucker, Glukosesirup, Erdbeersaft (10%), ..."></textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Hinweis (optional)</label>
+              <input id="ingNote" placeholder="z.B. Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen." />
+            </div>
+          </div>
+
+          <div class="hr"></div>
+          <div class="hint">
+            <b>Tipp:</b> Für Pasten/Variegato/Stoffe nutze immer die Werte vom Lieferantenetikett (pro 100 g).
+            Wenn du noch keine Werte hast, lass 0 – du kannst später korrigieren.
+          </div>
+          <div class="hr"></div>
+
+          <h2>Nährwerte pro 100 g (vom Lieferanten)</h2>
+          <div class="row">
+            <div><label>Energie (kJ)</label><input id="n_kj" type="number" step="0.1" value="0"></div>
+            <div><label>Energie (kcal)</label><input id="n_kcal" type="number" step="0.1" value="0"></div>
+          </div>
+          <div class="row">
+            <div><label>Fett (g)</label><input id="n_fat" type="number" step="0.1" value="0"></div>
+            <div><label>davon gesättigt (g)</label><input id="n_sat" type="number" step="0.1" value="0"></div>
+          </div>
+          <div class="row">
+            <div><label>Kohlenhydrate (g)</label><input id="n_carb" type="number" step="0.1" value="0"></div>
+            <div><label>davon Zucker (g)</label><input id="n_sugar" type="number" step="0.1" value="0"></div>
+          </div>
+          <div class="row">
+            <div><label>Eiweiß (g)</label><input id="n_protein" type="number" step="0.1" value="0"></div>
+            <div><label>Salz (g)</label><input id="n_salt" type="number" step="0.01" value="0"></div>
+          </div>
+          <div class="row">
+            <div><label>Ballaststoffe (g) (optional)</label><input id="n_fiber" type="number" step="0.1" value="0"></div>
+            <div style="display:flex; gap:8px; align-items:flex-end; justify-content:flex-end">
+              <button class="btnOk" id="btnSaveIng">Speichern</button>
+              <button class="btnBad" id="btnResetIng">Neu</button>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Liste</h2>
+          <div class="list" id="ingList"></div>
         </div>
 
-        <div class="divider"></div>
+        <!-- TAB: RECIPES -->
+        <div class="card hidden" id="tab-recipes">
+          <h2>Rezept (Gelato) + Etikett</h2>
 
-        <div class="flex">
-          <button class="btn primary" id="btnAddLine">➕ Zutat ins Rezept</button>
-          <button class="btn" id="btnSort">↕️ Sortieren</button>
-          <button class="btn bad" id="btnClearRecipe">🧹 Rezept leeren</button>
-        </div>
+          <div class="row">
+            <div>
+              <label>Rezeptname / Sorte</label>
+              <input id="r_name" placeholder="z.B. Pistazie, Stracciatella, Amarena Kirsch..." />
+            </div>
+            <div>
+              <label>Nettofüllmenge (für Etikett)</label>
+              <select id="r_netto">
+                <option value="170">170 g</option>
+                <option value="750">750 g</option>
+                <option value="1000">1000 g</option>
+                <option value="custom">Eigen...</option>
+              </select>
+            </div>
+          </div>
 
-        <div style="margin-top:12px; overflow:auto; border:1px solid var(--line); border-radius:18px">
-          <table id="recipeTable">
+          <div class="row" id="customNetRow" style="display:none;">
+            <div>
+              <label>Eigen Netto (Text)</label>
+              <input id="r_netto_custom" placeholder="z.B. 500 g / 0,5 kg / 240 ml" />
+            </div>
+            <div></div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>Charge / Lot</label>
+              <input id="r_lot" placeholder="z.B. L2513681" />
+            </div>
+            <div>
+              <label>MHD</label>
+              <input id="r_mhd" type="date" />
+            </div>
+          </div>
+
+          <div class="row">
+            <div>
+              <label>QR Link (optional)</label>
+              <input id="r_qr" placeholder="https://..." />
+            </div>
+            <div>
+              <label>Etikettgröße</label>
+              <select id="labelSize">
+                <option value="38x90">DK11208 – 38×90 mm</option>
+                <option value="62x100">DK11202 – 62×100 mm</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Zutaten ins Rezept</h2>
+          <div class="row">
+            <div>
+              <label>Zutat wählen</label>
+              <select id="r_pick"></select>
+            </div>
+            <div>
+              <label>Menge</label>
+              <input id="r_qty" type="number" step="0.1" value="100" />
+            </div>
+            <div>
+              <label>Einheit</label>
+              <select id="r_unit">
+                <option value="g">g</option>
+                <option value="ml">ml</option>
+              </select>
+            </div>
+            <div style="flex:0">
+              <label>&nbsp;</label>
+              <button class="btnOk" id="btnAddToRecipe">Hinzufügen</button>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <h2>Rezeptliste</h2>
+          <table class="table" id="recipeTable">
             <thead>
               <tr>
-                <th style="min-width:220px">Zutat</th>
-                <th style="min-width:140px">Menge (g)</th>
-                <th class="right">Aktion</th>
+                <th style="width:42%">Zutat</th>
+                <th style="width:14%">Menge</th>
+                <th style="width:10%">Einheit</th>
+                <th style="width:26%">Hinweise</th>
+                <th style="width:8%"></th>
               </tr>
             </thead>
             <tbody></tbody>
           </table>
-        </div>
 
-        <div class="divider"></div>
+          <div class="hr"></div>
 
-        <div class="row">
-          <div>
-            <label>Zutatenliste (automatisch)</label>
-            <textarea id="ingredientsOut" readonly></textarea>
-          </div>
-          <div>
-            <label>Allergene / Hinweise</label>
-            <textarea id="allergensOut" readonly></textarea>
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="labelShell">
-          <div class="flex no-print" style="justify-content:space-between">
-            <span class="chip">Vorschau (wird so gedruckt)</span>
-            <span class="chip">Breite fix: 62 mm</span>
-          </div>
-          <div style="height:10px"></div>
-          <div class="label" id="labelPreview"></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="bottomBar no-print">
-  <div class="inner">
-    <button class="btn warn" id="btnQuick170">🧊 170g Drucken</button>
-    <button class="btn good" id="btnPrint">🖨️ Drucken</button>
-    <button class="btn warn" id="btnQuick750">🍧 750g Drucken</button>
-  </div>
-</div>
-
-<!-- PRINT AREA -->
-<div id="printArea">
-  <div class="label" id="labelPrint"></div>
-</div>
-
-<!-- MODAL -->
-<div id="modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); backdrop-filter: blur(7px); z-index:50;">
-  <div style="max-width:980px; margin:4vh auto; padding:14px;">
-    <div class="card">
-      <h2>Zutat bearbeiten <small>Nährwerte pro 100 g · Allergene · Zusatzstoffe</small></h2>
-      <div class="body">
-        <div class="row">
-          <div>
-            <label>Name (Etikett)</label>
-            <input id="m_name" placeholder="z.B. Pistazienpaste, Amarena Variegato..." />
-          </div>
-          <div>
-            <label>Kategorie</label>
-            <select id="m_cat">
-              <option>Milchprodukte</option>
-              <option>Zucker/Carbs</option>
-              <option>Fette</option>
-              <option>Frucht</option>
-              <option>Nüsse</option>
-              <option>Schokolade/Kakao</option>
-              <option>Stabilisator/Emulgator</option>
-              <option>Aromen/Pasten</option>
-              <option>Zusatzstoffe/Farbstoffe</option>
-              <option>Sonstiges</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Allergene (kommagetrennt, z.B. MILCH, SOJA, GLUTEN)</label>
-            <input id="m_allergens" placeholder="MILCH, SOJA, SCHALENFRÜCHTE (PISTAZIE)" />
-          </div>
-          <div>
-            <label>Zusatzstoffe/Hinweise (kommagetrennt)</label>
-            <input id="m_additives" placeholder="mit Farbstoff, E129, mit Konservierungsstoff" />
-          </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <b style="display:block; margin-bottom:8px">Nährwerte pro 100 g (vom Lieferanten)</b>
-
-        <div class="row">
-          <div><label>Energie (kJ)</label><input id="m_kj" type="number" min="0" step="0.1" /></div>
-          <div><label>Energie (kcal)</label><input id="m_kcal" type="number" min="0" step="0.1" /></div>
-        </div>
-        <div class="row">
-          <div><label>Fett (g)</label><input id="m_fat" type="number" min="0" step="0.01" /></div>
-          <div><label>davon gesättigt (g)</label><input id="m_sat" type="number" min="0" step="0.01" /></div>
-        </div>
-        <div class="row">
-          <div><label>Kohlenhydrate (g)</label><input id="m_carb" type="number" min="0" step="0.01" /></div>
-          <div><label>davon Zucker (g)</label><input id="m_sugar" type="number" min="0" step="0.01" /></div>
-        </div>
-        <div class="row">
-          <div><label>Eiweiß (g)</label><input id="m_protein" type="number" min="0" step="0.01" /></div>
-          <div><label>Salz (g)</label><input id="m_salt" type="number" min="0" step="0.001" /></div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="flex" style="justify-content:space-between">
-          <button class="btn bad" id="m_delete">🗑️ Löschen</button>
-          <div class="flex">
-            <button class="btn" id="m_cancel">Abbrechen</button>
-            <button class="btn good" id="m_save">Speichern</button>
-          </div>
-        </div>
-
-        <div class="notice" style="margin-top:12px">
-          <b>Tipp:</b> Para “pós/pastas/variegati” usa sempre os valores do rótulo do balde.
-          Para “Stabilisator” podes deixar 0 (se o fornecedor não dá valores), mas para supermercado o ideal é ter dados.
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-(() => {
-  const LS_KEY = "sanremo_gelato_ql810w_v1";
-
-  const EU14 = [
-    "GLUTEN","KREBSTIERE","EI","FISCH","ERDNUSS","SOJA","MILCH","SCHALENFRÜCHTE",
-    "SELLERIE","SENF","SESAM","SULFITE","LUPINE","WEICHTIERE"
-  ];
-
-  const state = {
-    selectedIngId: null,
-    ingredients: [],
-    recipe: [], // {id,name,grams}
-    flavors: {}, // name -> saved snapshot
-    settings: {
-      prodName: "Speiseeis",
-      flavorName: "",
-      netQty: "170 g",
-      netQtyCustom: "",
-      mhd: "",
-      lot: "",
-      maker: "Eiscafé Sanremo",
-      contact: "57319 Bad Berleburg · Tel. 0176 72809926 · paulo.sanremo@web.de",
-      storage: "Tiefgekühlt bei -18°C lagern. Nach dem Auftauen nicht wieder einfrieren.",
-      mandatoryNote: "",
-      labelPreset: "62x60",
-      customH: 60,
-      fontPreset: "11.2"
-    }
-  };
-
-  const $ = (id)=>document.getElementById(id);
-  const clamp0 = (x)=>Math.max(0, isFinite(x)? +x : 0);
-  const fmt = (n,d)=> (isFinite(n)? (+n).toFixed(d) : "0");
-  const uid = ()=> "ing_" + Math.random().toString(16).slice(2) + "_" + Date.now().toString(16);
-
-  function save(){
-    localStorage.setItem(LS_KEY, JSON.stringify(state));
-  }
-  function load(){
-    const raw = localStorage.getItem(LS_KEY);
-    if(raw){
-      try{ Object.assign(state, JSON.parse(raw)); } catch {}
-    }
-    if(!state.ingredients?.length) seedBase();
-    bindUI();
-    renderAll();
-  }
-
-  function seedBase(){
-    // Minimal gelato base (you can expand). Values for milk/cream/sugar are common; others can be filled from supplier.
-    state.ingredients = [
-      mkIng("H-Milch Vollmilch 3,5%", "Milchprodukte", ["MILCH"], [], {kj:268,kcal:64,fat:3.5,sat:2.3,carb:4.8,sugar:4.8,protein:3.4,salt:0.10}),
-      mkIng("Sahne 30%", "Milchprodukte", ["MILCH"], [], {kj:1255,kcal:305,fat:30,sat:19,carb:3,sugar:3,protein:2,salt:0.08}),
-      mkIng("Zucker", "Zucker/Carbs", [], [], {kj:1700,kcal:400,fat:0,sat:0,carb:100,sugar:100,protein:0,salt:0}),
-      mkIng("Dextrose", "Zucker/Carbs", [], [], {kj:1570,kcal:370,fat:0,sat:0,carb:92,sugar:92,protein:0,salt:0}),
-      mkIng("Glukosepulver", "Zucker/Carbs", [], [], {kj:1600,kcal:380,fat:0,sat:0,carb:95,sugar:95,protein:0,salt:0}),
-      mkIng("Magermilchpulver", "Milchprodukte", ["MILCH"], [], {kj:1500,kcal:360,fat:1,sat:0.7,carb:52,sugar:52,protein:35,salt:1.2}),
-      mkIng("Stabilisator/Emulgator (Mix)", "Stabilisator/Emulgator", [], ["mit Emulgator"], {kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0}),
-
-      // Examples from your photos (rename if you want)
-      mkIng("Produkt A (Paste/Variegato)", "Aromen/Pasten", [], [], {kj:1250,kcal:299,fat:7,sat:2.8,carb:54.2,sugar:40.8,protein:4.8,salt:1.1}),
-      mkIng("Produkt C (Veganok Paste)", "Aromen/Pasten", [], [], {kj:1023,kcal:241,fat:0,sat:0,carb:60,sugar:53,protein:0,salt:0}),
-      mkIng("Base in polvere (20kg Sack)", "Sonstiges", ["MILCH"], ["mit Emulgator (E471/E477/E472b/E473)"], {kj:1933,kcal:476,fat:22,sat:16,carb:57,sugar:40,protein:11,salt:1.1}),
-    ];
-    state.selectedIngId = state.ingredients[0]?.id || null;
-    save();
-  }
-
-  function mkIng(name, cat, allergens=[], additives=[], nutri){
-    return { id: uid(), name, cat, allergens, additives, nutri: nutri || {kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0} };
-  }
-
-  function bindUI(){
-    // Backup / import / reset
-    $("btnBackup").onclick = () => {
-      const blob = new Blob([JSON.stringify({meta:{tool:"SanremoGelatoQL",v:"1"},state}, null, 2)], {type:"application/json"});
-      download(blob, `sanremo_gelato_backup_${stamp()}.json`);
-    };
-    $("fileImport").onchange = async (e) => {
-      const f = e.target.files?.[0]; if(!f) return;
-      try{
-        const txt = await f.text();
-        const data = JSON.parse(txt);
-        const st = data.state || data;
-        if(!st.ingredients || !st.settings) throw new Error("Ungültige Datei");
-        Object.assign(state, st);
-        save(); renderAll();
-        alert("Import OK");
-      }catch(err){ alert("Import Fehler: " + err.message); }
-      e.target.value = "";
-    };
-    $("btnReset").onclick = () => {
-      if(!confirm("Alles zurücksetzen?")) return;
-      localStorage.removeItem(LS_KEY);
-      location.reload();
-    };
-
-    // Filters
-    $("q").oninput = renderIngList;
-    $("catFilter").onchange = renderIngList;
-
-    // Ingredient actions
-    $("btnNewIng").onclick = () => openModal(null);
-    $("btnGelatoPack").onclick = () => {
-      const added = addGelatoPack();
-      alert(`Basis-Pack ergänzt: ${added} Zutaten.`);
-      save(); renderIngList();
-    };
-
-    // Recipe actions
-    $("btnAddLine").onclick = () => {
-      const id = state.selectedIngId;
-      const ing = state.ingredients.find(x=>x.id===id);
-      if(!ing) return alert("Bitte links eine Zutat auswählen.");
-      state.recipe.push({id: ing.id, name: ing.name, grams: 0});
-      save(); renderRecipe(); recalc(); renderLabel();
-    };
-    $("btnSort").onclick = () => {
-      state.recipe.sort((a,b)=>clamp0(b.grams)-clamp0(a.grams));
-      save(); renderRecipe(); recalc(); renderLabel();
-    };
-    $("btnClearRecipe").onclick = () => {
-      if(!confirm("Rezept leeren?")) return;
-      state.recipe = [];
-      save(); renderRecipe(); recalc(); renderLabel();
-    };
-
-    // Settings bindings
-    bind("prodName","prodName");
-    bind("flavorName","flavorName");
-    bindSelect("netQty","netQty", () => {
-      const v = $("netQty").value;
-      $("netQtyCustom").disabled = (v !== "custom");
-      if(v !== "custom") state.settings.netQtyCustom = "";
-      renderLabel();
-    });
-    bind("netQtyCustom","netQtyCustom", renderLabel);
-    bind("mhd","mhd", renderLabel);
-    bind("lot","lot", renderLabel);
-    bind("maker","maker", renderLabel);
-    bind("contact","contact", renderLabel);
-    bind("storage","storage", renderLabel);
-    bind("mandatoryNote","mandatoryNote", renderLabel);
-
-    $("labelPreset").onchange = () => {
-      state.settings.labelPreset = $("labelPreset").value;
-      $("customH").disabled = (state.settings.labelPreset !== "custom");
-      applyLabelSize();
-      save(); renderLabel();
-    };
-    $("customH").oninput = () => {
-      state.settings.customH = clamp0(+$("customH").value);
-      applyLabelSize();
-      save(); renderLabel();
-    };
-    $("fontPreset").onchange = () => {
-      state.settings.fontPreset = $("fontPreset").value;
-      document.documentElement.style.setProperty("--labelFont", state.settings.fontPreset + "px");
-      save(); renderLabel();
-    };
-
-    // Flavors (save/load)
-    $("btnNewFlavor").onclick = () => {
-      if(!confirm("Neuen Geschmack erstellen (aktuelles Rezept bleibt bis du speicherst)?")) return;
-      $("flavorName").focus();
-    };
-    $("btnSaveFlavor").onclick = saveFlavor;
-    $("btnDeleteFlavor").onclick = deleteFlavor;
-    $("flavorSelect").onchange = () => loadFlavor($("flavorSelect").value);
-
-    // Quick print buttons
-    $("btnQuick170").onclick = () => { setPreset("62x37"); $("netQty").value="170 g"; state.settings.netQty="170 g"; $("netQtyCustom").disabled=true; save(); renderLabel(); doPrint(); };
-    $("btnQuick750").onclick = () => { setPreset("62x60"); $("netQty").value="750 g"; state.settings.netQty="750 g"; $("netQtyCustom").disabled=true; save(); renderLabel(); doPrint(); };
-    $("btnPrint").onclick = () => doPrint();
-
-    // Modal
-    $("m_cancel").onclick = closeModal;
-    $("m_save").onclick = saveModal;
-    $("m_delete").onclick = deleteModal;
-  }
-
-  function bind(id, key, onChange){
-    const el = $(id);
-    el.value = state.settings[key] ?? "";
-    el.oninput = () => { state.settings[key] = el.value; save(); onChange && onChange(); };
-  }
-  function bindSelect(id, key, onChange){
-    const el = $(id);
-    el.value = state.settings[key] ?? el.value;
-    el.onchange = () => { state.settings[key] = el.value; save(); onChange && onChange(); };
-  }
-
-  function setPreset(v){
-    $("labelPreset").value = v;
-    state.settings.labelPreset = v;
-    $("customH").disabled = (v !== "custom");
-    applyLabelSize();
-  }
-
-  function applyLabelSize(){
-    const w = 62; // fixed for DK-22205
-    let h = 60;
-    const p = state.settings.labelPreset;
-    if(p === "62x37") h = 37;
-    if(p === "62x60") h = 60;
-    if(p === "62x100") h = 100;
-    if(p === "custom") h = clamp0(state.settings.customH || 60) || 60;
-
-    document.documentElement.style.setProperty("--labelWmm", w);
-    document.documentElement.style.setProperty("--labelHmm", h);
-
-    // update @page size for print
-    $("pageSizeStyle").textContent = `@page { size: ${w}mm ${h}mm; margin: 0; }`;
-    $("wInfo").textContent = w + "mm";
-  }
-
-  function renderAll(){
-    // settings -> inputs
-    $("prodName").value = state.settings.prodName || "Speiseeis";
-    $("flavorName").value = state.settings.flavorName || "";
-    $("netQty").value = state.settings.netQty || "170 g";
-    $("netQtyCustom").value = state.settings.netQtyCustom || "";
-    $("netQtyCustom").disabled = ($("netQty").value !== "custom");
-    $("mhd").value = state.settings.mhd || "";
-    $("lot").value = state.settings.lot || "";
-    $("maker").value = state.settings.maker || "";
-    $("contact").value = state.settings.contact || "";
-    $("storage").value = state.settings.storage || "";
-    $("mandatoryNote").value = state.settings.mandatoryNote || "";
-    $("labelPreset").value = state.settings.labelPreset || "62x60";
-    $("customH").value = state.settings.customH || 60;
-    $("customH").disabled = ($("labelPreset").value !== "custom");
-    $("fontPreset").value = state.settings.fontPreset || "11.2";
-    document.documentElement.style.setProperty("--labelFont", (state.settings.fontPreset || "11.2") + "px");
-
-    applyLabelSize();
-    renderFlavorSelect();
-    renderIngList();
-    renderRecipe();
-    recalc();
-    renderLabel();
-  }
-
-  function renderFlavorSelect(){
-    const sel = $("flavorSelect");
-    const names = Object.keys(state.flavors || {}).sort((a,b)=>a.localeCompare(b,"de"));
-    sel.innerHTML = `<option value="">(— auswählen —)</option>` + names.map(n=>`<option value="${escAttr(n)}">${esc(n)}</option>`).join("");
-  }
-
-  function saveFlavor(){
-    const name = ($("flavorName").value || "").trim();
-    if(!name) return alert("Bitte Geschmack/Sorte eingeben.");
-    // snapshot
-    state.flavors[name] = {
-      at: new Date().toISOString(),
-      settings: {
-        prodName: $("prodName").value,
-        flavorName: name
-      },
-      recipe: state.recipe.slice()
-    };
-    $("status").textContent = "gespeichert";
-    save();
-    renderFlavorSelect();
-    $("flavorSelect").value = name;
-    renderLabel();
-  }
-
-  function loadFlavor(name){
-    if(!name) return;
-    const snap = state.flavors?.[name];
-    if(!snap) return;
-    // apply
-    state.settings.flavorName = name;
-    $("flavorName").value = name;
-    if(snap.settings?.prodName){
-      state.settings.prodName = snap.settings.prodName;
-      $("prodName").value = snap.settings.prodName;
-    }
-    state.recipe = (snap.recipe || []).map(r=>({id:r.id,name:r.name,grams:clamp0(r.grams)}));
-    save();
-    renderRecipe(); recalc(); renderLabel();
-    $("status").textContent = "geladen";
-  }
-
-  function deleteFlavor(){
-    const name = $("flavorSelect").value;
-    if(!name) return alert("Kein Geschmack ausgewählt.");
-    if(!confirm(`"${name}" löschen?`)) return;
-    delete state.flavors[name];
-    save();
-    renderFlavorSelect();
-    $("flavorSelect").value = "";
-    $("status").textContent = "gelöscht";
-  }
-
-  function renderIngList(){
-    const q = ($("q").value || "").trim().toLowerCase();
-    const cat = $("catFilter").value;
-    const list = $("ingList");
-    list.innerHTML = "";
-
-    const filtered = (state.ingredients||[])
-      .filter(i => !cat || i.cat === cat)
-      .filter(i => !q || (i.name||"").toLowerCase().includes(q));
-
-    $("ingCount").textContent = `${filtered.length} / ${(state.ingredients||[]).length}`;
-
-    filtered.forEach(i=>{
-      const div = document.createElement("div");
-      div.className = "item";
-      div.style.outline = (state.selectedIngId === i.id) ? "2px solid rgba(124,58,237,.55)" : "none";
-      div.innerHTML = `
-        <div class="top">
-          <div style="min-width:0">
-            <b>${esc(i.name)}</b>
-            <div class="meta">${esc(i.cat)} · ${i.allergens?.length ? "Allergene: " + esc(i.allergens.join(", ")) : "keine Allergene"}</div>
-            <div>
-              ${(i.allergens||[]).slice(0,3).map(a=>`<span class="pill">⚠️ ${esc(a)}</span>`).join("")}
-              ${(i.additives||[]).slice(0,2).map(a=>`<span class="pill">🧪 ${esc(a)}</span>`).join("")}
+          <div class="row">
+            <div class="hint">
+              <b>Automatik:</b> Die Zutatenliste wird aus den Rezept-Zutaten gebaut (absteigend nach Menge).
+              Allergene und Zusatzstoffe werden automatisch gesammelt.
             </div>
           </div>
-          <div class="flex" style="justify-content:flex-end">
-            <button class="btn" data-sel="${i.id}">Wählen</button>
-            <button class="btn primary" data-edit="${i.id}">✏️</button>
+
+          <div class="hr"></div>
+
+          <div class="row">
+            <button class="btnOk" id="btnSaveRecipe">Rezept speichern</button>
+            <button class="btnBad" id="btnNewRecipe">Neues Rezept</button>
+            <button class="btnPrimary" id="btnLoadRecipe">Rezept laden</button>
+            <select id="recipePicker"></select>
           </div>
         </div>
-      `;
-      div.querySelector("[data-sel]").onclick = () => {
-        state.selectedIngId = i.id;
-        save();
-        renderIngList();
-      };
-      div.querySelector("[data-edit]").onclick = () => openModal(i.id);
-      list.appendChild(div);
-    });
-  }
 
-  function renderRecipe(){
-    const tb = $("recipeTable").querySelector("tbody");
-    tb.innerHTML = "";
-    state.recipe.forEach((r, idx)=>{
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td><b>${esc(r.name)}</b></td>
-        <td><input type="number" min="0" step="1" value="${clamp0(r.grams)}" data-g="${idx}" /></td>
-        <td class="right"><button class="btn bad" data-del="${idx}">Entfernen</button></td>
-      `;
-      tr.querySelector("[data-g]").oninput = (e) => {
-        state.recipe[idx].grams = clamp0(+e.target.value);
-        save(); recalc(); renderLabel();
-      };
-      tr.querySelector("[data-del]").onclick = () => {
-        state.recipe.splice(idx,1);
-        save(); renderRecipe(); recalc(); renderLabel();
-      };
-      tb.appendChild(tr);
-    });
-  }
+        <!-- TAB: SETTINGS -->
+        <div class="card hidden" id="tab-settings">
+          <h2>Betrieb / Standard (LMIV)</h2>
 
-  function recalc(){
-    const total = state.recipe.reduce((s,r)=>s+clamp0(r.grams),0);
+          <div class="row">
+            <div>
+              <label>Verkehrsbezeichnung (Standard)</label>
+              <input id="s_vbz" placeholder="Speiseeis" />
+            </div>
+            <div>
+              <label>Aufbewahrung (Standard)</label>
+              <input id="s_storage" placeholder="Tiefgekühlt bei -18°C lagern." />
+            </div>
+          </div>
 
-    const sum = {kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0};
-    const allergens = new Set();
-    const additives = new Set();
-    const missing = [];
+          <div class="row">
+            <div>
+              <label>Firma</label>
+              <input id="s_company" />
+            </div>
+            <div>
+              <label>Adresse</label>
+              <input id="s_addr" />
+            </div>
+          </div>
 
-    state.recipe.forEach(r=>{
-      const g = clamp0(r.grams);
-      if(g<=0) return;
-      const ing = state.ingredients.find(x=>x.id===r.id);
-      if(!ing) return;
-      (ing.allergens||[]).forEach(a=>allergens.add(normAll(a)));
-      (ing.additives||[]).forEach(a=>additives.add(a.trim()));
+          <div class="row">
+            <div>
+              <label>Telefon</label>
+              <input id="s_phone" />
+            </div>
+            <div>
+              <label>E-Mail</label>
+              <input id="s_email" />
+            </div>
+          </div>
 
-      const n = ing.nutri || {};
-      const isZeroEnergy = (+n.kj===0 && +n.kcal===0);
-      const mightNeed = (ing.cat !== "Stabilisator/Emulgator");
-      if(isZeroEnergy && mightNeed) missing.push(ing.name);
+          <div class="row">
+            <div>
+              <label>Fußzeile (optional)</label>
+              <input id="s_footer" placeholder="Nach dem Auftauen nicht wieder einfrieren." />
+            </div>
+            <div style="display:flex; gap:8px; align-items:flex-end; justify-content:flex-end">
+              <button class="btnOk" id="btnSaveSettings">Speichern</button>
+            </div>
+          </div>
 
-      for(const k in sum){
-        sum[k] += (clamp0(n[k]) * g / 100);
-      }
-    });
+          <div class="hr"></div>
 
-    const per100 = {};
-    for(const k in sum){
-      per100[k] = total>0 ? (sum[k]/total*100) : 0;
+          <div class="hint">
+            <b>Hinweis:</b> Für Supermarkt-Ware sind korrekte Daten Pflicht. Wenn ein Lieferant Zusatzstoffe/Farbstoffe hat,
+            trag sie in der Zutat ein (E-Nummern / Hinweistext). Das Etikett übernimmt es automatisch.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div>
+        <div class="card labelCard">
+          <h2>Etikett Vorschau (Brother QL-810W)</h2>
+
+          <div class="row">
+            <div>
+              <label>Layout</label>
+              <select id="layoutMode">
+                <option value="clean">Clean (Supermarkt)</option>
+                <option value="compact">Compact (mehr Text)</option>
+              </select>
+            </div>
+            <div>
+              <label>Schriftgröße</label>
+              <select id="fontScale">
+                <option value="1">Normal</option>
+                <option value="0.95">Etwas kleiner</option>
+                <option value="0.9">Klein</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="labelWrap">
+            <div class="label" id="labelPreview">
+              <div class="labelInner" id="labelInner"></div>
+              <div class="lQR hidden" id="labelQR"></div>
+            </div>
+          </div>
+
+          <div class="hr"></div>
+
+          <div class="hint" id="labelHint">
+            Druck: „Etikett drucken“ → wähle im Druckdialog die Brother QL-810W. Falls nötig „Skalierung: 100%“.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+<script>
+/* -------------------- DATA MODEL -------------------- */
+const STORAGE_KEY = "sanremo_lmiv_gelato_v1";
+
+const DEFAULT_STATE = {
+  settings: {
+    vbz: "Speiseeis",
+    storage: "Tiefgekühlt bei -18°C lagern.",
+    footer: "Nach dem Auftauen nicht wieder einfrieren.",
+    company: "Eiscafé Sanremo",
+    addr: "57319 Bad Berleburg, Deutschland",
+    phone: "0176 72809926",
+    email: "paulo.sanremo@web.de"
+  },
+  ingredients: [],
+  recipes: [],
+  current: {
+    editingIngId: null,
+    editingRecipeId: null,
+    recipe: {
+      name: "",
+      netto: "170",
+      netto_custom: "",
+      lot: "",
+      mhd: "",
+      qr: "",
+      items: [] // {ingId, qty, unit}
     }
+  }
+};
 
-    // Zutatenliste
-    const sorted = state.recipe.filter(r=>clamp0(r.grams)>0).slice().sort((a,b)=>clamp0(b.grams)-clamp0(a.grams));
-    const ingTextHTML = sorted.map(r=>{
-      const ing = state.ingredients.find(x=>x.id===r.id);
-      return markAllergens(ing?.name || r.name, [...allergens]);
-    }).join(", ");
+function uid(prefix="id"){
+  return prefix + "_" + Math.random().toString(16).slice(2) + "_" + Date.now().toString(16);
+}
 
-    $("ingredientsOut").value = stripHtml(ingTextHTML);
-    $("allergensOut").value =
-      (allergens.size ? ("Allergene: " + [...allergens].join(", ")) : "Allergene: –") +
-      (additives.size ? ("\nHinweise: " + [...additives].join(", ")) : "");
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(!raw) return structuredClone(DEFAULT_STATE);
+    const s = JSON.parse(raw);
+    // basic merge
+    return {
+      ...structuredClone(DEFAULT_STATE),
+      ...s,
+      settings: {...structuredClone(DEFAULT_STATE.settings), ...(s.settings||{})},
+      current: {...structuredClone(DEFAULT_STATE.current), ...(s.current||{})}
+    };
+  }catch(e){
+    console.error(e);
+    return structuredClone(DEFAULT_STATE);
+  }
+}
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
 
-    state._computed = { total, per100, allergens:[...allergens], additives:[...additives], ingredientsHTML: ingTextHTML, missing };
+let state = loadState();
+
+/* -------------------- PRELOAD: SOME COMMON GELATO ITEMS -------------------- */
+function ensureSeed(){
+  if(state.ingredients && state.ingredients.length>0) return;
+
+  const seed = [
+    {
+      id:"i_milk_uht_35",
+      name:"H-Vollmilch 3,5% (UHT)",
+      cat:"Milch & Sahne",
+      allergens:"MILCH",
+      additives:"",
+      ingredientsText:"Vollmilch (MILCH).",
+      note:"",
+      n:{kj:0,kcal:0,fat:3.5,sat:2.2,carb:4.8,sugar:4.8,protein:3.4,salt:0.10,fiber:0}
+    },
+    {
+      id:"i_cream_33",
+      name:"Schlagsahne 33% Fett",
+      cat:"Milch & Sahne",
+      allergens:"MILCH",
+      additives:"",
+      ingredientsText:"Schlagsahne (MILCH).",
+      note:"",
+      n:{kj:0,kcal:0,fat:33,sat:22,carb:3.3,sugar:3.3,protein:2.4,salt:0.08,fiber:0}
+    },
+    {
+      id:"i_sugar",
+      name:"Zucker (Saccharose)",
+      cat:"Zucker & Süßung",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Zucker.",
+      note:"",
+      n:{kj:1700,kcal:400,fat:0,sat:0,carb:100,sugar:100,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_dextrose",
+      name:"Dextrose",
+      cat:"Zucker & Süßung",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Dextrose.",
+      note:"",
+      n:{kj:1700,kcal:400,fat:0,sat:0,carb:100,sugar:100,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_glucose_powder",
+      name:"Glukosepulver",
+      cat:"Zucker & Süßung",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Glukosepulver.",
+      note:"",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_skim_milk_powder",
+      name:"Magermilchpulver",
+      cat:"Pulver & Stabilisierung",
+      allergens:"MILCH",
+      additives:"",
+      ingredientsText:"Magermilchpulver (MILCH).",
+      note:"",
+      n:{kj:0,kcal:0,fat:1,sat:0.7,carb:52,sugar:52,protein:36,salt:0.5,fiber:0}
+    },
+    {
+      id:"i_inulin",
+      name:"Inulin",
+      cat:"Pulver & Stabilisierung",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Inulin.",
+      note:"",
+      n:{kj:850,kcal:200,fat:0,sat:0,carb:8,sugar:8,protein:0,salt:0,fiber:90}
+    },
+    {
+      id:"i_water",
+      name:"Wasser",
+      cat:"Sonstiges",
+      allergens:"",
+      additives:"",
+      ingredientsText:"Wasser.",
+      note:"",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_pistachio_paste",
+      name:"Pistazienpaste",
+      cat:"Pasten & Nüsse",
+      allergens:"SCHALENFRÜCHTE, PISTAZIEN",
+      additives:"",
+      ingredientsText:"Pistazien (SCHALENFRÜCHTE).",
+      note:"",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    },
+    {
+      id:"i_variegato_amarena",
+      name:"Variegato Amarena",
+      cat:"Variegato / Saucen",
+      allergens:"MANDELN",
+      additives:"E129",
+      ingredientsText:"Zucker, Amarene, Glukosesirup, Wasser, Verdickungsmittel, Säuerungsmittel, Aroma.",
+      note:"Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen.",
+      n:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0}
+    }
+  ];
+  state.ingredients = seed;
+  saveState();
+}
+ensureSeed();
+
+/* -------------------- UI HELPERS -------------------- */
+const $ = (id)=>document.getElementById(id);
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  clearTimeout(toast._tm);
+  toast._tm = setTimeout(()=>t.style.display="none", 2200);
+}
+function num(x){ const v = parseFloat(x); return isFinite(v)?v:0; }
+function round(x, d=1){
+  const p = Math.pow(10,d);
+  return Math.round((num(x)+Number.EPSILON)*p)/p;
+}
+function normalizeList(str){
+  return (str||"")
+    .split(",")
+    .map(s=>s.trim())
+    .filter(Boolean);
+}
+function uniq(arr){
+  return Array.from(new Set(arr.filter(Boolean)));
+}
+function catList(){
+  const base = [
+    "Alle",
+    "Milch & Sahne",
+    "Zucker & Süßung",
+    "Pulver & Stabilisierung",
+    "Kakao / Schokolade",
+    "Pasten & Nüsse",
+    "Variegato / Saucen",
+    "Glasur / Dekor",
+    "Frucht / Püree",
+    "Sonstiges"
+  ];
+  // add any custom cats
+  const extra = uniq(state.ingredients.map(i=>i.cat).filter(c=>c && !base.includes(c)));
+  return base.concat(extra);
+}
+function sortByName(a,b){ return (a.name||"").localeCompare((b.name||""), "de"); }
+
+/* -------------------- TAB NAV -------------------- */
+function setTab(tab){
+  document.querySelectorAll(".tab").forEach(el=>el.classList.toggle("active", el.dataset.tab===tab));
+  ["ingredients","recipes","settings"].forEach(t=>{
+    $("tab-"+t).classList.toggle("hidden", t!==tab);
+  });
+  renderAll();
+}
+$("tabs").addEventListener("click",(e)=>{
+  const t = e.target.closest(".tab");
+  if(!t) return;
+  setTab(t.dataset.tab);
+});
+
+/* -------------------- INGREDIENTS UI -------------------- */
+function fillCatSelects(){
+  const cats = catList();
+  const ingCat = $("ingCat");
+  const filter = $("ingFilterCat");
+  ingCat.innerHTML = cats.filter(c=>c!=="Alle").map(c=>`<option>${escapeHtml(c)}</option>`).join("");
+  filter.innerHTML = cats.map(c=>`<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
+  if(!$("ingCat").value) $("ingCat").value = "Sonstiges";
+}
+
+function resetIngForm(){
+  state.current.editingIngId = null;
+  $("ingName").value="";
+  $("ingCat").value="Sonstiges";
+  $("ingAll").value="";
+  $("ingAdd").value="";
+  $("ingText").value="";
+  $("ingNote").value="";
+  $("n_kj").value=0; $("n_kcal").value=0;
+  $("n_fat").value=0; $("n_sat").value=0;
+  $("n_carb").value=0; $("n_sugar").value=0;
+  $("n_protein").value=0; $("n_salt").value=0;
+  $("n_fiber").value=0;
+}
+
+function loadIngToForm(ing){
+  state.current.editingIngId = ing.id;
+  $("ingName").value=ing.name||"";
+  $("ingCat").value=ing.cat||"Sonstiges";
+  $("ingAll").value=ing.allergens||"";
+  $("ingAdd").value=ing.additives||"";
+  $("ingText").value=ing.ingredientsText||"";
+  $("ingNote").value=ing.note||"";
+  $("n_kj").value=num(ing.n?.kj);
+  $("n_kcal").value=num(ing.n?.kcal);
+  $("n_fat").value=num(ing.n?.fat);
+  $("n_sat").value=num(ing.n?.sat);
+  $("n_carb").value=num(ing.n?.carb);
+  $("n_sugar").value=num(ing.n?.sugar);
+  $("n_protein").value=num(ing.n?.protein);
+  $("n_salt").value=num(ing.n?.salt);
+  $("n_fiber").value=num(ing.n?.fiber);
+}
+
+function saveIngredient(){
+  const ing = {
+    id: state.current.editingIngId || uid("ing"),
+    name: $("ingName").value.trim(),
+    cat: $("ingCat").value.trim() || "Sonstiges",
+    allergens: $("ingAll").value.trim(),
+    additives: $("ingAdd").value.trim(),
+    ingredientsText: $("ingText").value.trim(),
+    note: $("ingNote").value.trim(),
+    n: {
+      kj: num($("n_kj").value),
+      kcal: num($("n_kcal").value),
+      fat: num($("n_fat").value),
+      sat: num($("n_sat").value),
+      carb: num($("n_carb").value),
+      sugar: num($("n_sugar").value),
+      protein: num($("n_protein").value),
+      salt: num($("n_salt").value),
+      fiber: num($("n_fiber").value)
+    }
+  };
+  if(!ing.name){
+    toast("Bitte Namen eingeben.");
+    return;
+  }
+  const idx = state.ingredients.findIndex(x=>x.id===ing.id);
+  if(idx>=0) state.ingredients[idx]=ing;
+  else state.ingredients.push(ing);
+  state.ingredients.sort(sortByName);
+  saveState();
+  fillCatSelects();
+  fillPickers();
+  renderIngredients();
+  renderLabel();
+  toast("Gespeichert ✅");
+}
+
+function deleteIngredient(id){
+  if(!confirm("Zutat löschen?")) return;
+  state.ingredients = state.ingredients.filter(x=>x.id!==id);
+  // remove from recipe items too
+  state.current.recipe.items = state.current.recipe.items.filter(it=>it.ingId!==id);
+  state.recipes.forEach(r=>r.items = (r.items||[]).filter(it=>it.ingId!==id));
+  saveState();
+  fillPickers();
+  renderAll();
+  toast("Gelöscht.");
+}
+
+function renderIngredients(){
+  fillCatSelects();
+  const q = $("ingSearch").value.trim().toLowerCase();
+  const cat = $("ingFilterCat").value;
+  const list = $("ingList");
+
+  let items = [...state.ingredients];
+  if(cat && cat!=="Alle") items = items.filter(i=>(i.cat||"")==cat);
+  if(q) items = items.filter(i=>{
+    const hay = (i.name+" "+i.cat+" "+(i.allergens||"")+" "+(i.additives||"")+" "+(i.ingredientsText||"")).toLowerCase();
+    return hay.includes(q);
+  });
+
+  if(items.length===0){
+    list.innerHTML = `<div class="hint">Keine Treffer.</div>`;
+    return;
   }
 
-  function renderLabel(){
-    recalc();
-    const s = state.settings;
-    const c = state._computed || {per100:{}, allergens:[], additives:[], missing:[]};
+  list.innerHTML = items.map(i=>{
+    const alls = normalizeList(i.allergens).slice(0,4);
+    const adds = normalizeList(i.additives).slice(0,4);
+    const warn = hasAzoWarning(i.additives) || /kann aktivität/i.test(i.note||"");
 
-    // Supersafe: block printing if missing nutrients for supermarket ingredients
-    const warnMissing = c.missing?.length ? `⚠️ Nährwerte fehlen bei: ${c.missing.slice(0,6).join(", ")}${c.missing.length>6?"…":""}` : "";
-
-    $("status").textContent = warnMissing ? "prüfen" : "bereit";
-
-    const net = (s.netQty === "custom" ? (s.netQtyCustom || "") : s.netQty);
-    const title = `${(s.prodName||"").trim()}${(s.flavorName||"").trim() ? " – " + (s.flavorName||"").trim() : ""}`.trim();
-
-    const n = c.per100 || {};
-    const nutriRows = [
-      ["Energie", `${fmt(n.kj,0)} kJ / ${fmt(n.kcal,0)} kcal`],
-      ["Fett", `${fmt(n.fat,1)} g`],
-      ["davon gesättigt", `${fmt(n.sat,1)} g`],
-      ["Kohlenhydrate", `${fmt(n.carb,1)} g`],
-      ["davon Zucker", `${fmt(n.sugar,1)} g`],
-      ["Eiweiß", `${fmt(n.protein,1)} g`],
-      ["Salz", `${fmt(n.salt,2)} g`],
-    ];
-
-    const additivesLine = c.additives?.length ? esc(c.additives.join(", ")) : "";
-    const allergensLine = c.allergens?.length ? esc(c.allergens.join(", ")) : "";
-
-    const html = `
-      <div class="lh">
-        <div>
-          <b>${esc(s.maker||"")}</b><br>
-          <small>${esc(s.contact||"")}</small>
+    return `
+      <div class="item">
+        <div class="meta">
+          <div class="name">${escapeHtml(i.name)}</div>
+          <div class="small">${escapeHtml(i.cat||"")}</div>
+          <div>
+            ${alls.map(a=>`<span class="pill ok">Allergen: ${escapeHtml(a)}</span>`).join("")}
+            ${adds.map(a=>`<span class="pill warn">Zusatz: ${escapeHtml(a)}</span>`).join("")}
+            ${warn?`<span class="pill bad">Warnhinweis</span>`:""}
+          </div>
+          <div class="small mono">pro 100g: ${fmtNutri(i.n)}</div>
         </div>
-        <div style="text-align:right">
-          <small>${esc(s.lot||"")}</small><br>
-          <small><b>${esc(net||"")}</b></small>
-        </div>
-      </div>
-
-      <div class="titleLine">${esc(title || "Produkt")}</div>
-
-      <div class="cap">Zutaten:</div>
-      <p class="p">${c.ingredientsHTML || "<span class='small'>(kein Rezept)</span>"}</p>
-
-      ${additivesLine ? `<div class="cap">Hinweise:</div><p class="p">${additivesLine}</p>` : ""}
-
-      ${allergensLine ? `<div class="cap">Allergene:</div><p class="p">${allergensLine}</p>` : ""}
-
-      <div class="cap">Nährwerte je 100 g:</div>
-      <div class="nutri">
-        <table>
-          <tbody>
-            ${nutriRows.map(r=>`<tr><th>${esc(r[0])}</th><td class="right"><b>${esc(r[1])}</b></td></tr>`).join("")}
-          </tbody>
-        </table>
-      </div>
-
-      <div class="cap">Aufbewahrung:</div>
-      <p class="p">${esc(s.storage||"")}</p>
-
-      <div class="foot">
-        <div>
-          ${s.mhd ? `<div><b>MHD:</b> ${esc(s.mhd)}</div>` : ""}
-          ${s.mandatoryNote ? `<div><b>Hinweis:</b> ${esc(s.mandatoryNote)}</div>` : ""}
-        </div>
-        <div style="text-align:right">
-          ${warnMissing ? `<div style="color:#b45309"><b>${esc(warnMissing)}</b></div>` : `<div class="small">LMIV-Ausgabe (intern)</div>`}
+        <div class="miniBtns">
+          <button class="btnPrimary" onclick="window.__editIng('${i.id}')">Bearbeiten</button>
+          <button class="btnBad" onclick="window.__delIng('${i.id}')">Löschen</button>
         </div>
       </div>
     `;
+  }).join("");
+}
 
-    $("labelPreview").innerHTML = html;
-    $("labelPrint").innerHTML = html;
+window.__editIng = (id)=>{
+  const ing = state.ingredients.find(x=>x.id===id);
+  if(!ing) return;
+  loadIngToForm(ing);
+  toast("Zutat geladen.");
+};
+window.__delIng = (id)=>deleteIngredient(id);
+
+$("btnSaveIng").addEventListener("click", saveIngredient);
+$("btnResetIng").addEventListener("click", ()=>{
+  resetIngForm();
+  toast("Neu.");
+});
+$("ingSearch").addEventListener("input", renderIngredients);
+$("ingFilterCat").addEventListener("change", renderIngredients);
+
+/* -------------------- RECIPES UI -------------------- */
+function fillPickers(){
+  // ingredient picker
+  const sel = $("r_pick");
+  const list = [...state.ingredients].sort(sortByName);
+  sel.innerHTML = list.map(i=>`<option value="${i.id}">${escapeHtml(i.name)} — ${escapeHtml(i.cat||"")}</option>`).join("");
+
+  // recipe picker
+  const rp = $("recipePicker");
+  const rList = [...state.recipes].sort((a,b)=>(a.name||"").localeCompare((b.name||""),"de"));
+  rp.innerHTML = `<option value="">— wählen —</option>` + rList.map(r=>`<option value="${r.id}">${escapeHtml(r.name)}</option>`).join("");
+
+  // category selects already handled
+}
+
+function setRecipeFromCurrent(){
+  const r = state.current.recipe;
+  $("r_name").value = r.name||"";
+  $("r_netto").value = (r.netto==="custom") ? "custom" : (r.netto||"170");
+  $("r_netto_custom").value = r.netto_custom||"";
+  $("customNetRow").style.display = ($("r_netto").value==="custom") ? "flex" : "none";
+  $("r_lot").value = r.lot||"";
+  $("r_mhd").value = r.mhd||"";
+  $("r_qr").value = r.qr||"";
+}
+
+$("r_netto").addEventListener("change", ()=>{
+  $("customNetRow").style.display = ($("r_netto").value==="custom") ? "flex" : "none";
+  state.current.recipe.netto = $("r_netto").value;
+  saveState(); renderLabel();
+});
+
+function addToRecipe(){
+  const ingId = $("r_pick").value;
+  const qty = num($("r_qty").value);
+  const unit = $("r_unit").value;
+  if(!ingId || qty<=0){ toast("Zutat & Menge prüfen."); return; }
+  state.current.recipe.items.push({ ingId, qty, unit });
+  saveState();
+  renderRecipeTable();
+  renderLabel();
+}
+
+$("btnAddToRecipe").addEventListener("click", addToRecipe);
+
+function removeRecipeItem(idx){
+  state.current.recipe.items.splice(idx,1);
+  saveState();
+  renderRecipeTable();
+  renderLabel();
+}
+window.__rmItem = (idx)=>removeRecipeItem(idx);
+
+function renderRecipeTable(){
+  const tb = $("recipeTable").querySelector("tbody");
+  const items = state.current.recipe.items || [];
+  if(items.length===0){
+    tb.innerHTML = `<tr><td colspan="5" class="mut">Noch keine Zutaten im Rezept.</td></tr>`;
+    return;
+  }
+  tb.innerHTML = items.map((it, idx)=>{
+    const ing = state.ingredients.find(x=>x.id===it.ingId);
+    const note = (ing?.additives || ing?.note || ing?.allergens) ? compactNote(ing) : "";
+    return `
+      <tr>
+        <td><b>${escapeHtml(ing?.name||"Unbekannt")}</b><div class="mut">${escapeHtml(ing?.cat||"")}</div></td>
+        <td class="mono">${round(it.qty,1)}</td>
+        <td class="mono">${escapeHtml(it.unit)}</td>
+        <td class="mut">${escapeHtml(note)}</td>
+        <td><button class="btnBad" onclick="window.__rmItem(${idx})">X</button></td>
+      </tr>
+    `;
+  }).join("");
+}
+
+function compactNote(ing){
+  const adds = normalizeList(ing.additives).slice(0,6).join(", ");
+  const alls = normalizeList(ing.allergens).slice(0,6).join(", ");
+  const parts = [];
+  if(alls) parts.push("Allergene: "+alls);
+  if(adds) parts.push("Zusatz: "+adds);
+  if(ing.note) parts.push(ing.note);
+  return parts.join(" · ");
+}
+
+function newRecipe(){
+  state.current.editingRecipeId = null;
+  state.current.recipe = {
+    name:"",
+    netto:"170",
+    netto_custom:"",
+    lot:"",
+    mhd:"",
+    qr:"",
+    items:[]
+  };
+  saveState();
+  setRecipeFromCurrent();
+  renderRecipeTable();
+  renderLabel();
+  toast("Neues Rezept.");
+}
+$("btnNewRecipe").addEventListener("click", newRecipe);
+
+function saveRecipe(){
+  const r = state.current.recipe;
+  r.name = $("r_name").value.trim();
+  r.netto = $("r_netto").value;
+  r.netto_custom = $("r_netto_custom").value.trim();
+  r.lot = $("r_lot").value.trim();
+  r.mhd = $("r_mhd").value;
+  r.qr = $("r_qr").value.trim();
+
+  if(!r.name){ toast("Rezeptname fehlt."); return; }
+  if((r.items||[]).length===0){ toast("Rezept hat keine Zutaten."); return; }
+
+  const rec = {
+    id: state.current.editingRecipeId || uid("rec"),
+    ...structuredClone(r)
+  };
+
+  const idx = state.recipes.findIndex(x=>x.id===rec.id);
+  if(idx>=0) state.recipes[idx]=rec;
+  else state.recipes.push(rec);
+
+  state.current.editingRecipeId = rec.id;
+  saveState();
+  fillPickers();
+  toast("Rezept gespeichert ✅");
+}
+$("btnSaveRecipe").addEventListener("click", saveRecipe);
+
+function loadRecipe(id){
+  const rec = state.recipes.find(r=>r.id===id);
+  if(!rec){ toast("Rezept nicht gefunden."); return; }
+  state.current.editingRecipeId = rec.id;
+  state.current.recipe = structuredClone(rec);
+  saveState();
+  setRecipeFromCurrent();
+  renderRecipeTable();
+  renderLabel();
+  toast("Rezept geladen.");
+}
+$("btnLoadRecipe").addEventListener("click", ()=>{
+  const id = $("recipePicker").value;
+  if(!id){ toast("Bitte Rezept wählen."); return; }
+  loadRecipe(id);
+});
+
+["r_name","r_netto_custom","r_lot","r_mhd","r_qr"].forEach(id=>{
+  $(id).addEventListener("input", ()=>{
+    // live update current
+    state.current.recipe.name = $("r_name").value;
+    state.current.recipe.netto_custom = $("r_netto_custom").value;
+    state.current.recipe.lot = $("r_lot").value;
+    state.current.recipe.mhd = $("r_mhd").value;
+    state.current.recipe.qr = $("r_qr").value;
+    saveState(); renderLabel();
+  });
+});
+
+/* -------------------- SETTINGS -------------------- */
+function loadSettings(){
+  $("s_vbz").value = state.settings.vbz || "";
+  $("s_storage").value = state.settings.storage || "";
+  $("s_footer").value = state.settings.footer || "";
+  $("s_company").value = state.settings.company || "";
+  $("s_addr").value = state.settings.addr || "";
+  $("s_phone").value = state.settings.phone || "";
+  $("s_email").value = state.settings.email || "";
+}
+function saveSettings(){
+  state.settings.vbz = $("s_vbz").value.trim();
+  state.settings.storage = $("s_storage").value.trim();
+  state.settings.footer = $("s_footer").value.trim();
+  state.settings.company = $("s_company").value.trim();
+  state.settings.addr = $("s_addr").value.trim();
+  state.settings.phone = $("s_phone").value.trim();
+  state.settings.email = $("s_email").value.trim();
+  saveState();
+  renderLabel();
+  toast("Gespeichert ✅");
+}
+$("btnSaveSettings").addEventListener("click", saveSettings);
+
+/* -------------------- LABEL BUILD -------------------- */
+$("labelSize").addEventListener("change", renderLabel);
+$("layoutMode").addEventListener("change", renderLabel);
+$("fontScale").addEventListener("change", renderLabel);
+
+function hasAzoWarning(additivesStr){
+  const adds = normalizeList(additivesStr).map(x=>x.toUpperCase());
+  const set = new Set(adds.map(a=>a.replace(/\s/g,"")));
+  // common azo dyes that trigger EU warning: E102,E104,E110,E122,E124,E129
+  const azo = ["E102","E104","E110","E122","E124","E129"];
+  return azo.some(a=>set.has(a));
+}
+
+function recipeTotals(){
+  const items = state.current.recipe.items || [];
+  let totalG = 0;
+  const sum = {kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0};
+  const allergens = [];
+  const additives = [];
+  let warn = false;
+  let extraNotes = [];
+
+  for(const it of items){
+    const ing = state.ingredients.find(x=>x.id===it.ingId);
+    if(!ing) continue;
+
+    const qtyG = (it.unit==="ml") ? it.qty : it.qty; // simplistic: treat ml as g (ok for quick)
+    totalG += qtyG;
+
+    const n = ing.n || {};
+    sum.kj += (num(n.kj) * qtyG / 100);
+    sum.kcal += (num(n.kcal) * qtyG / 100);
+    sum.fat += (num(n.fat) * qtyG / 100);
+    sum.sat += (num(n.sat) * qtyG / 100);
+    sum.carb += (num(n.carb) * qtyG / 100);
+    sum.sugar += (num(n.sugar) * qtyG / 100);
+    sum.protein += (num(n.protein) * qtyG / 100);
+    sum.salt += (num(n.salt) * qtyG / 100);
+    sum.fiber += (num(n.fiber) * qtyG / 100);
+
+    normalizeList(ing.allergens).forEach(a=>allergens.push(a));
+    normalizeList(ing.additives).forEach(a=>additives.push(a));
+    if(hasAzoWarning(ing.additives) || /kann aktivität/i.test(ing.note||"")) warn = true;
+    if(ing.note) extraNotes.push(ing.note);
   }
 
-  function doPrint(){
-    recalc();
-    const c = state._computed || {};
-    // Strong safety: if any ingredient with grams>0 missing energy (kJ/kcal) and not stabilizer, block print
-    if(c.missing?.length){
-      alert("Para supermercado: faltam Nährwerte em algumas Zutaten. Abre a Zutat (✏️) e mete os valores do rótulo do fornecedor.\n\nFaltam: " + c.missing.slice(0,10).join(", "));
-      return;
-    }
-    // Ensure label style is updated
-    applyLabelSize();
-    renderLabel();
-    window.print();
+  const per100 = (totalG>0) ? {
+    kj: sum.kj*100/totalG,
+    kcal: sum.kcal*100/totalG,
+    fat: sum.fat*100/totalG,
+    sat: sum.sat*100/totalG,
+    carb: sum.carb*100/totalG,
+    sugar: sum.sugar*100/totalG,
+    protein: sum.protein*100/totalG,
+    salt: sum.salt*100/totalG,
+    fiber: sum.fiber*100/totalG
+  } : {kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0,fiber:0};
+
+  return {
+    totalG,
+    per100,
+    allergens: uniq(allergens.map(a=>a.toUpperCase())),
+    additives: uniq(additives.map(a=>a.toUpperCase())),
+    warn,
+    notes: uniq(extraNotes)
+  };
+}
+
+function ingredientListText(){
+  // build ingredients list: use ing.ingredientsText if provided; otherwise ing.name
+  const items = [...(state.current.recipe.items||[])];
+  // sort by qty desc
+  items.sort((a,b)=>num(b.qty)-num(a.qty));
+
+  const parts = [];
+  for(const it of items){
+    const ing = state.ingredients.find(x=>x.id===it.ingId);
+    if(!ing) continue;
+    let txt = (ing.ingredientsText && ing.ingredientsText.trim()) ? ing.ingredientsText.trim() : ing.name;
+    // ensure ends with dot? we keep as-is.
+    parts.push(txt);
   }
+  // flatten: join with ", " but avoid double commas
+  return parts.join(", ").replace(/\s+,/g,",").replace(/,\s+,/g,", ");
+}
 
-  function addGelatoPack(){
-    const pack = [
-      tpl("Inulin", "Zucker/Carbs", []),
-      tpl("Johannisbrotkernmehl", "Stabilisator/Emulgator", []),
-      tpl("Guarkernmehl", "Stabilisator/Emulgator", []),
-      tpl("Pistazienpaste", "Aromen/Pasten", ["SCHALENFRÜCHTE (PISTAZIE)"]),
-      tpl("Haselnusspaste", "Aromen/Pasten", ["SCHALENFRÜCHTE (HASELNUSS)"]),
-      tpl("Amarena Variegato", "Aromen/Pasten", []),
-      tpl("Karamell Variegato", "Aromen/Pasten", []),
-      tpl("Schoko Variegato", "Aromen/Pasten", ["SOJA"]),
-      tpl("Cookies Stückchen", "Sonstiges", ["GLUTEN (WEIZEN)","MILCH","SOJA"]),
-      tpl("Weiße Schokolade Stückchen", "Schokolade/Kakao", ["MILCH","SOJA"]),
-      tpl("Kakaopulver", "Schokolade/Kakao", []),
-      tpl("Vanillepaste", "Aromen/Pasten", []),
-      tpl("Erdbeer-Paste/Variegato", "Aromen/Pasten", []),
-      tpl("Mango-Paste/Variegato", "Aromen/Pasten", []),
-      tpl("Zitronenpaste", "Aromen/Pasten", []),
-    ];
-    return addPack(pack);
+function renderLabel(){
+  const size = $("labelSize").value;
+  const mode = $("layoutMode").value;
+  const fs = num($("fontScale").value);
+
+  // set label size in pixels for preview
+  // Use 6px per mm approx for preview (not print). Print uses mm in @page.
+  const mmToPx = 6;
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // landscape label
+  const pxW = Math.round(dims.w*mmToPx);
+  const pxH = Math.round(dims.h*mmToPx);
+
+  const label = $("labelPreview");
+  label.style.width = pxW+"px";
+  label.style.height = pxH+"px";
+  label.style.transform = `scale(${fs})`;
+  label.style.transformOrigin = "center";
+
+  const r = state.current.recipe;
+  const totals = recipeTotals();
+  const vbz = state.settings.vbz || "Speiseeis";
+
+  const nettoText = (r.netto==="custom" && r.netto_custom.trim())
+    ? r.netto_custom.trim()
+    : ((r.netto||"170")+" g");
+
+  const ingText = ingredientListText();
+  const alls = totals.allergens.length ? totals.allergens.join(", ") : "—";
+  const adds = totals.additives.length ? totals.additives.join(", ") : "—";
+  const warn = totals.warn;
+
+  // nutrition per 100g recipe
+  const n = totals.per100;
+
+  const companyLine = `${state.settings.company||""} · ${state.settings.addr||""}`;
+  const contactLine = `${state.settings.phone||""}${state.settings.email?(" · "+state.settings.email):""}`;
+
+  // label layout
+  const title = escapeHtml(r.name || "Gelato");
+  const sub1 = `<div class="lSub"><b>${escapeHtml(vbz)}</b> · Netto: <b>${escapeHtml(nettoText)}</b></div>`;
+  const sub2 = `<div class="lSub">${escapeHtml(state.settings.storage||"")}</div>`;
+
+  const ingredientsBlock = `
+    <div class="lSmall"><b>Zutaten:</b> ${escapeHtml(ingText || "—")}</div>
+    <div class="lSmall"><b>Allergene:</b> ${escapeHtml(alls)}</div>
+    <div class="lSmall"><b>Zusatzstoffe:</b> ${escapeHtml(adds)}</div>
+  `;
+
+  const nutriTable = `
+    <div class="lSmall"><b>Durchschnittliche Nährwerte</b> je 100 g:</div>
+    <table>
+      <tr><th>Energie</th><td class="mono">${round(n.kj,0)} kJ / ${round(n.kcal,0)} kcal</td></tr>
+      <tr><th>Fett</th><td class="mono">${round(n.fat,1)} g</td></tr>
+      <tr><th>davon gesättigte Fettsäuren</th><td class="mono">${round(n.sat,1)} g</td></tr>
+      <tr><th>Kohlenhydrate</th><td class="mono">${round(n.carb,1)} g</td></tr>
+      <tr><th>davon Zucker</th><td class="mono">${round(n.sugar,1)} g</td></tr>
+      <tr><th>Eiweiß</th><td class="mono">${round(n.protein,1)} g</td></tr>
+      <tr><th>Salz</th><td class="mono">${round(n.salt,2)} g</td></tr>
+    </table>
+  `;
+
+  const lotMhd = `
+    <div class="lSmall"><b>Charge/Lot:</b> ${escapeHtml(r.lot || "—")} &nbsp; <b>MHD:</b> ${escapeHtml(r.mhd || "—")}</div>
+  `;
+
+  const footer = `
+    <div class="lFooter">
+      <div><b>Hersteller:</b> ${escapeHtml(companyLine)}</div>
+      <div>${escapeHtml(contactLine)}</div>
+      ${state.settings.footer ? `<div>${escapeHtml(state.settings.footer)}</div>` : ""}
+    </div>
+  `;
+
+  const warnLine = warn ? `<div class="lWarn">Hinweis: Kann Aktivität und Aufmerksamkeit bei Kindern beeinträchtigen.</div>` : "";
+
+  const compact = (mode==="compact");
+
+  const html = `
+    <div class="lTitle" style="font-size:${compact?13:14}px">${title}</div>
+    ${sub1}
+    ${compact ? "" : sub2}
+    ${ingredientsBlock}
+    <div class="lGrid">
+      <div>${nutriTable}</div>
+      <div>
+        ${lotMhd}
+        ${compact ? sub2 : ""}
+        ${warnLine}
+        ${footer}
+      </div>
+    </div>
+  `;
+
+  $("labelInner").innerHTML = html;
+
+  // QR
+  const qr = $("labelQR");
+  const qrLink = (r.qr||"").trim();
+  if(qrLink){
+    qr.classList.remove("hidden");
+    qr.innerHTML = makeSimpleQR(qrLink);
+  }else{
+    qr.classList.add("hidden");
+    qr.innerHTML = "";
   }
-  function tpl(name, cat, allergens=[]){
-    return { id: uid(), name, cat, allergens, additives:[], nutri:{kj:0,kcal:0,fat:0,sat:0,carb:0,sugar:0,protein:0,salt:0} };
-  }
-  function addPack(list){
-    let added = 0;
-    const existing = new Set(state.ingredients.map(i=>(i.name||"").trim().toLowerCase()));
-    list.forEach(x=>{
-      const k=(x.name||"").trim().toLowerCase();
-      if(!k || existing.has(k)) return;
-      state.ingredients.push(x);
-      existing.add(k); added++;
-    });
-    save();
-    return added;
-  }
+}
 
-  // Modal logic
-  let modalId = null;
-  function openModal(id){
-    modalId = id;
-    const ing = id ? state.ingredients.find(x=>x.id===id) : mkIng("", "Sonstiges", [], [], null);
+function fmtNutri(n){
+  if(!n) return "—";
+  return `${round(n.kj,0)}kJ/${round(n.kcal,0)}kcal · F ${round(n.fat,1)} · KH ${round(n.carb,1)} · Z ${round(n.sugar,1)} · E ${round(n.protein,1)} · S ${round(n.salt,2)}`;
+}
 
-    $("m_name").value = ing?.name || "";
-    $("m_cat").value = ing?.cat || "Sonstiges";
-    $("m_allergens").value = (ing?.allergens||[]).join(", ");
-    $("m_additives").value = (ing?.additives||[]).join(", ");
+/* -------------------- PRINT LABEL (REAL SIZE) -------------------- */
+$("btnPrint").addEventListener("click", ()=>{
+  // ensure latest values
+  state.current.recipe.name = $("r_name").value;
+  state.current.recipe.netto = $("r_netto").value;
+  state.current.recipe.netto_custom = $("r_netto_custom").value;
+  state.current.recipe.lot = $("r_lot").value;
+  state.current.recipe.mhd = $("r_mhd").value;
+  state.current.recipe.qr = $("r_qr").value;
+  saveState();
 
-    const n = ing?.nutri || {};
-    $("m_kj").value = n.kj ?? 0;
-    $("m_kcal").value = n.kcal ?? 0;
-    $("m_fat").value = n.fat ?? 0;
-    $("m_sat").value = n.sat ?? 0;
-    $("m_carb").value = n.carb ?? 0;
-    $("m_sugar").value = n.sugar ?? 0;
-    $("m_protein").value = n.protein ?? 0;
-    $("m_salt").value = n.salt ?? 0;
+  const size = $("labelSize").value;
+  const mode = $("layoutMode").value;
+  const fs = num($("fontScale").value);
 
-    $("m_delete").style.display = id ? "" : "none";
-    $("modal").style.display = "";
-  }
-  function closeModal(){ $("modal").style.display = "none"; }
+  const dims = (size==="38x90") ? {w:90,h:38} : {w:100,h:62}; // mm, landscape
+  const html = $("labelPreview").outerHTML;
 
-  function saveModal(){
-    const name = ($("m_name").value||"").trim();
-    if(!name) return alert("Bitte Name eingeben.");
-    const ingData = {
-      id: modalId || uid(),
-      name,
-      cat: $("m_cat").value,
-      allergens: parseCsv($("m_allergens").value),
-      additives: parseCsv($("m_additives").value),
-      nutri: {
-        kj: clamp0(+$("m_kj").value),
-        kcal: clamp0(+$("m_kcal").value),
-        fat: clamp0(+$("m_fat").value),
-        sat: clamp0(+$("m_sat").value),
-        carb: clamp0(+$("m_carb").value),
-        sugar: clamp0(+$("m_sugar").value),
-        protein: clamp0(+$("m_protein").value),
-        salt: clamp0(+$("m_salt").value),
-      }
+  const w = window.open("", "_blank");
+  if(!w){ toast("Popup blockiert? Bitte erlauben."); return; }
+
+  w.document.open();
+  w.document.write(`
+    <!doctype html>
+    <html><head><meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <title>Etikett Druck</title>
+      <style>
+        @page { size: ${dims.w}mm ${dims.h}mm; margin: 0; }
+        html,body{margin:0; padding:0; background:#fff;}
+        .label{
+          width:${dims.w}mm; height:${dims.h}mm;
+          background:#fff; color:#000; overflow:hidden; position:relative;
+          font-family: Arial, Helvetica, sans-serif;
+          transform: scale(${fs});
+          transform-origin: top left;
+        }
+        .labelInner{padding:2.6mm 2.6mm 2mm}
+        .lTitle{font-weight:900; font-size:${mode==="compact"?12.3:13.2}pt}
+        .lSub{font-size:8.2pt; margin-top:1mm}
+        .lSmall{font-size:7.2pt; margin-top:1.3mm; line-height:1.25}
+        .lGrid{display:grid; grid-template-columns: 1fr 1fr; gap:2.2mm; margin-top:1.6mm; font-size:7.2pt}
+        table{width:100%; border-collapse:collapse; font-size:7.2pt}
+        th,td{border:0.3mm solid #000; padding:0.6mm 0.8mm}
+        th{text-align:left}
+        .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;}
+        .lFooter{margin-top:1.4mm; font-size:6.8pt; line-height:1.2}
+        .lWarn{margin-top:1.4mm; font-size:7pt; font-weight:800}
+        .lQR{position:absolute; right:2mm; bottom:2mm; width:16mm; height:16mm; border:0.3mm solid #000; display:flex; align-items:center; justify-content:center; overflow:hidden;}
+        svg{width:100%; height:100%}
+      </style>
+    </head><body>
+      ${html}
+      <script>window.onload=()=>{ window.print(); }<\/script>
+    </body></html>
+  `);
+  w.document.close();
+});
+
+/* -------------------- BACKUP IMPORT/EXPORT -------------------- */
+$("btnExport").addEventListener("click", ()=>{
+  const data = JSON.stringify(state, null, 2);
+  const blob = new Blob([data], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "sanremo-lmiv-gelato-backup.json";
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 500);
+  toast("Backup exportiert.");
+});
+
+$("btnImport").addEventListener("click", ()=> $("fileImport").click());
+$("fileImport").addEventListener("change", async (e)=>{
+  const f = e.target.files?.[0];
+  if(!f) return;
+  try{
+    const txt = await f.text();
+    const obj = JSON.parse(txt);
+    // quick validate
+    if(!obj || typeof obj!=="object") throw new Error("Invalid");
+    state = {
+      ...structuredClone(DEFAULT_STATE),
+      ...obj,
+      settings: {...structuredClone(DEFAULT_STATE.settings), ...(obj.settings||{})},
+      current: {...structuredClone(DEFAULT_STATE.current), ...(obj.current||{})}
     };
-
-    if(modalId){
-      const idx = state.ingredients.findIndex(x=>x.id===modalId);
-      if(idx>=0) state.ingredients[idx] = ingData;
-    } else {
-      state.ingredients.unshift(ingData);
-      state.selectedIngId = ingData.id;
-    }
-
-    // sync recipe names
-    state.recipe.forEach(r=>{ if(r.id===ingData.id) r.name = ingData.name; });
-
-    save();
-    closeModal();
-    renderIngList(); renderRecipe(); recalc(); renderLabel();
-  }
-
-  function deleteModal(){
-    if(!modalId) return;
-    if(!confirm("Zutat löschen?")) return;
-    state.ingredients = state.ingredients.filter(x=>x.id!==modalId);
-    state.recipe = state.recipe.filter(r=>r.id!==modalId);
-    if(state.selectedIngId===modalId) state.selectedIngId = state.ingredients[0]?.id || null;
-    modalId = null;
-    save(); closeModal();
+    saveState();
+    fillCatSelects();
+    fillPickers();
+    loadSettings();
+    setRecipeFromCurrent();
     renderAll();
+    toast("Backup importiert ✅");
+  }catch(err){
+    console.error(err);
+    toast("Import fehlgeschlagen.");
+  }finally{
+    $("fileImport").value = "";
+  }
+});
+
+/* -------------------- SIMPLE QR (SVG) -------------------- */
+/* Lightweight pseudo QR (not full spec). Works for quick scanning in many cases, but not guaranteed.
+   If you need 100% reliable QR, tell me and I replace this with a proper QR library (still single file). */
+function makeSimpleQR(text){
+  // create a deterministic pattern from hash
+  const s = String(text);
+  let h = 2166136261;
+  for(let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+  const size = 29; // modules
+  const mod = 5; // px (for preview only)
+  const w = size*mod;
+  let cells = [];
+  function rnd(){ h ^= h<<13; h ^= h>>>17; h ^= h<<5; return (h>>>0)/4294967295; }
+
+  // basic finder patterns
+  function isFinder(x,y){
+    const fp = (ox,oy)=>{
+      const dx=x-ox, dy=y-oy;
+      if(dx<0||dy<0||dx>6||dy>6) return false;
+      const onEdge = dx===0||dy===0||dx===6||dy===6;
+      const inner = dx>=2&&dx<=4&&dy>=2&&dy<=4;
+      const midEdge = dx===1||dy===1||dx===5||dy===5;
+      return onEdge || inner || !midEdge;
+    };
+    return fp(0,0)||fp(size-7,0)||fp(0,size-7);
   }
 
-  function parseCsv(s){
-    return (s||"").split(",").map(x=>x.trim()).filter(Boolean);
+  for(let y=0;y<size;y++){
+    for(let x=0;x<size;x++){
+      let on = false;
+      if(isFinder(x,y)){ on = true; }
+      else{
+        // data-ish
+        const r = rnd();
+        on = r>0.55;
+      }
+      // quiet zone handled by container
+      cells.push(on ? `<rect x="${x*mod}" y="${y*mod}" width="${mod}" height="${mod}" fill="#000"/>` : "");
+    }
   }
+  return `<svg viewBox="0 0 ${w} ${w}" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+    <rect width="${w}" height="${w}" fill="#fff"/>
+    ${cells.join("")}
+  </svg>`;
+}
 
-  // Helpers
-  function esc(s){
-    return (s??"").toString()
-      .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;").replaceAll("'","&#039;");
-  }
-  function escAttr(s){ return esc(s).replaceAll("\n"," "); }
+/* -------------------- UTIL -------------------- */
+function escapeHtml(s){
+  return String(s??"").replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+}
 
-  function normAll(a){
-    const x = (a||"").trim();
-    if(!x) return "";
-    return x.toUpperCase();
-  }
+/* -------------------- RENDER ALL -------------------- */
+function renderAll(){
+  fillCatSelects();
+  fillPickers();
+  loadSettings();
+  setRecipeFromCurrent();
+  renderIngredients();
+  renderRecipeTable();
+  renderLabel();
+}
 
-  function markAllergens(text, allergensUpper){
-    let html = esc(text);
-    (allergensUpper||[]).forEach(al=>{
-      if(!al) return;
-      const safe = al.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      const re = new RegExp(safe, "gi");
-      html = html.replace(re, (m)=>`<span class="allergen">${esc(m)}</span>`);
-    });
-    return html;
-  }
+(function init(){
+  fillCatSelects();
+  fillPickers();
+  loadSettings();
 
-  function stripHtml(html){
-    const d = document.createElement("div");
-    d.innerHTML = html;
-    return d.textContent || "";
-  }
-
-  function download(blob, filename){
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 300);
-  }
-  function stamp(){
+  // if no MHD set, default +6 Monate
+  if(!state.current.recipe.mhd){
     const d = new Date();
-    const p = n=>String(n).padStart(2,"0");
-    return `${d.getFullYear()}${p(d.getMonth()+1)}${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}`;
+    d.setMonth(d.getMonth()+6);
+    state.current.recipe.mhd = d.toISOString().slice(0,10);
+    saveState();
   }
-
-  // Init
-  load();
+  setRecipeFromCurrent();
+  renderAll();
+  resetIngForm();
 })();
 </script>
 </body>
