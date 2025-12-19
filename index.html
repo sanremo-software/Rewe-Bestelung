@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="de">
 <head>
@@ -13,6 +12,7 @@
       --r:18px; --pad:14px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
       --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --previewScale: 1;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -141,6 +141,16 @@
       overflow:auto;
     }
 
+    /* IMPORTANT FIX:
+       scale ONLY in previewHost so PRINT is never scaled twice */
+    #previewHost{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      transform: scale(var(--previewScale, 1));
+      transform-origin: center;
+    }
+
     /* =========================
        SUPERMARKT LABEL ENGINE (NO OVERLAP)
        3 zones: Header / Body / Footer (fixed)
@@ -197,7 +207,8 @@
 
     /* Sizes */
     .lbl.big{width:100mm; height:62mm; --footerH: 13.8mm;}
-    .lbl.small{width:90mm; height:38mm; --footerH: 10.8mm;}
+    /* FIX: give more footer height on small to avoid any cut */
+    .lbl.small{width:90mm; height:38mm; --footerH: 11.8mm;}
     .lbl.small .bodyGrid{grid-template-columns: 46% 54%; gap:1.6mm;}
     .lbl.small table.nutri{font-size:7.0pt;}
     .lbl.small .blk{font-size:7.0pt;}
@@ -572,7 +583,7 @@
               </select>
             </div>
             <div>
-              <label>Schriftgröße</label>
+              <label>Schriftgröße (nur Vorschau)</label>
               <select id="fontScale">
                 <option value="1">Normal</option>
                 <option value="0.95">Etwas kleiner</option>
@@ -1203,10 +1214,7 @@ function nettoText(){
 
 function makeBarcodeSVG(ean){
   if(!ean) return "";
-  // Simple EAN-like bars (visual) – scanner in supermarket needs real EAN on packaging;
-  // Here we still show number + bars for print. For true scannability, use supplier-grade barcode font or library.
   const w = 54, h = 16; // mm in print css
-  // deterministic bars from digits
   const digits = String(ean).replace(/\D/g,"");
   let x = 0;
   const bars = [];
@@ -1224,7 +1232,6 @@ function makeBarcodeSVG(ean){
   </svg>`;
 }
 
-/* Simple QR (same as before; works often) */
 function makeSimpleQR(text){
   const s = String(text);
   let h = 2166136261;
@@ -1265,6 +1272,9 @@ function renderLabel(){
   const mode = $("layoutMode").value;
   const fs = num($("fontScale").value);
   const size = $("labelSize").value;
+
+  // Preview scale ONLY here (no transform in label itself)
+  host.style.setProperty("--previewScale", String(fs));
 
   const type = (r.type==="auto") ? autoProductType() : r.type;
   const netto = nettoText();
@@ -1344,7 +1354,7 @@ function renderLabel(){
   `;
 
   const html = `
-    <div class="${cls}" style="transform:scale(${fs}); transform-origin:center;">
+    <div class="${cls}">
       ${header}
       ${body}
       ${footer}
@@ -1355,10 +1365,9 @@ function renderLabel(){
 }
 
 /* =========================
-   PRINT (REAL SIZE)
+   PRINT (REAL SIZE)  ✅ NO SCALE (IMPORTANT FIX)
 ========================= */
 $("btnPrint").addEventListener("click", ()=>{
-  // sync current fields
   const r = state.current.recipe;
   r.name = $("r_name").value;
   r.type = $("r_type").value;
@@ -1374,7 +1383,6 @@ $("btnPrint").addEventListener("click", ()=>{
 
   const size = $("labelSize").value;
   const mode = $("layoutMode").value;
-  const fs = num($("fontScale").value);
 
   let dims = {w:100,h:62, shape:"rect"};
   if(size==="small") dims = {w:90,h:38, shape:"rect"};
@@ -1394,13 +1402,12 @@ $("btnPrint").addEventListener("click", ()=>{
       <style>
         @page { size: ${dims.w}mm ${dims.h}mm; margin: 0; }
         html,body{margin:0; padding:0; background:#fff;}
+
         .lbl{
           width:${dims.w}mm; height:${dims.h}mm;
           background:#fff; color:#000; overflow:hidden; position:relative;
           font-family: Arial, Helvetica, sans-serif;
           display:grid; grid-template-rows:auto 1fr var(--footerH);
-          transform: scale(${fs});
-          transform-origin: top left;
         }
         .lbl.round{border-radius:999px;}
         .lblHeader{padding:2.6mm 2.6mm 1.2mm;}
@@ -1432,10 +1439,10 @@ $("btnPrint").addEventListener("click", ()=>{
         .qrBox{width:16mm; height:16mm; border:0.3mm solid #000; display:flex; align-items:center; justify-content:center; overflow:hidden; background:#fff;}
         .qrBox svg{width:100%; height:100%;}
         .lbl.big{--footerH:13.8mm;}
-        .lbl.small{--footerH:10.8mm;}
+        .lbl.small{--footerH:11.8mm;}
         .lbl.round{--footerH:14mm;}
         svg{width:100%; height:auto;}
-        /* Round: hide nutri/spuren for safety */
+
         .lbl.round table.nutri{display:none;}
         .lbl.round .spuren{display:none;}
         .lbl.round .prodMeta2{display:none;}
